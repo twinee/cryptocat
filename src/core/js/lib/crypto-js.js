@@ -4,7 +4,6 @@
 		module.exports = exports = factory(
 			require('./crypto-js/core'),
 			require('./crypto-js/enc-base64'),
-			require('./crypto-js/enc-hex'),
 			require('./crypto-js/cipher-core'),
 			require('./crypto-js/x64-core'),
 			require('./crypto-js/aes'),
@@ -21,7 +20,6 @@
 		define([
 			'./crypto-js/core',
 			'./crypto-js/enc-base64',
-			'./crypto-js/enc-hex',
 			'./crypto-js/cipher-core',
 			'./crypto-js/x64-core',
 			'./crypto-js/aes',
