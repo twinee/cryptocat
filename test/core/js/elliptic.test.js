@@ -88,7 +88,6 @@ test['Curve25519'] = {
 				'1e2af4aa269b80d797f3bb592b1efa4be25c085a67180322a0022f9f9dcc8697',
 				'4ab2cbf418aff79f2d791e536099e135ad81dbee879ec8a5281c94f2c498ba6f']]
 
-			var allGood = true
 			for (var i = 0; i < testVectors.length; i++) {
 				var privateKey = BigInt.str2bigInt(testVectors[i][0], 16)
 				var basePoint  = BigInt.str2bigInt(testVectors[i][1], 16)
@@ -96,11 +95,8 @@ test['Curve25519'] = {
 					'000000000000000000000000000000000000000000000000000000000000000'
 					+ BigInt.bigInt2str(Curve25519.ecDH(privateKey, basePoint), 16).toLowerCase()
 				).substr(-64)
-				if (sharedKey !== testVectors[i][2]) {
-					allGood = false
-				}
+				test.assert.same(sharedKey, testVectors[i][2])
 			}
-			test.assert.same(allGood, true)
 		}
 	}
 
