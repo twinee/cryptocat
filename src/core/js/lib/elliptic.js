@@ -119,7 +119,7 @@ Curve25519.scalarMult = function (scalar, base) {
 	}
 
 	// Lowest 3 bits are zero
-	for (var i = 2; i >= 0; i--) {
+	for (i = 2; i >= 0; i--) {
 		point = groupDouble(x1, z1)
 		x1 = point[0]
 		z1 = point[1]
