@@ -14,7 +14,7 @@ Cryptocat.authenticatedUsers = []
 Cryptocat.conversationName = null
 Cryptocat.myNickname = null
 
-Cryptocat.audioExtension = '.mp3'
+Cryptocat.audioExt = '.mp3'
 if (navigator.userAgent.match('OPR')) {
 	Cryptocat.audioExt = '.ogg' // Opera doesn't support mp3 HTML5 audio
 }
