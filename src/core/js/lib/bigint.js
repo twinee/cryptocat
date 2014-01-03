@@ -197,7 +197,7 @@
   // floating-point number is 52, independent of platform.
   // See: https://github.com/arlolra/otr/issues/41
 
-  var bpe = 26;          // bits stored per array element
+  var bpe = 15;          // bits stored per array element
   var radix = 1 << bpe;  // equals 2^bpe
   var mask = radix - 1;  // AND this with an array element to chop it down to bpe bits
 
@@ -937,13 +937,11 @@
       //    q[i-ky]--;
       for (;;) {
         y2=(ky>1 ? y[ky-2] : 0)*q[i-ky];
-        c=y2;
+        c=y2>>bpe;
         y2=y2 & mask;
-        c = (c - y2) / radix;
         y1=c+q[i-ky]*y[ky-1];
-        c=y1;
+        c=y1>>bpe;
         y1=y1 & mask;
-        c = (c - y1) / radix;
 
         if (c==r[i] ? y1==r[i-1] ? y2>(i>1 ? r[i-2] : 0) : y1>r[i-1] : c>r[i])
           q[i-ky]--;
@@ -971,12 +969,11 @@
       c+=x[i];
       b=0;
       if (c<0) {
-        b = c & mask;
-        b = -((c - b) / radix);
+        b=-(c>>bpe);
         c+=b*radix;
       }
       x[i]=c & mask;
-      c = ((c - x[i]) / radix) - b;
+      c=(c>>bpe)-b;
     }
   }
 
@@ -1169,12 +1166,11 @@
       c+=x[i];
       b=0;
       if (c<0) {
-        b = c & mask;
-        b = -((c - b) / radix);
+        b=-(c>>bpe);
         c+=b*radix;
       }
       x[i]=c & mask;
-      c = ((c - x[i]) / radix) - b;
+      c=(c>>bpe)-b;
       if (!c) return; //stop carrying as soon as the carry is zero
     }
   }
@@ -1236,12 +1232,11 @@
       c+=x[i]*n;
       b=0;
       if (c<0) {
-        b = c & mask;
-        b = -((c - b) / radix);
+        b=-(c>>bpe);
         c+=b*radix;
       }
       x[i]=c & mask;
-      c = ((c - x[i]) / radix) - b;
+      c=(c>>bpe)-b;
     }
   }
 
@@ -1265,12 +1260,12 @@
     for (c=0,i=0;i<k;i++) {
       c+=a*x[i]+b*y[i];
       x[i]=c & mask;
-      c = (c - x[i]) / radix;
+      c>>=bpe;
     }
     for (i=k;i<kk;i++) {
       c+=a*x[i];
       x[i]=c & mask;
-      c = (c - x[i]) / radix;
+      c>>=bpe;
     }
   }
 
@@ -1283,12 +1278,12 @@
     for (c=0,i=ys;i<k;i++) {
       c+=x[i]+b*y[i-ys];
       x[i]=c & mask;
-      c = (c - x[i]) / radix;
+      c>>=bpe;
     }
     for (i=k;c && i<kk;i++) {
       c+=x[i];
       x[i]=c & mask;
-      c = (c - x[i]) / radix;
+      c>>=bpe;
     }
   }
 
@@ -1301,12 +1296,12 @@
     for (c=0,i=ys;i<k;i++) {
       c+=x[i]+y[i-ys];
       x[i]=c & mask;
-      c = (c - x[i]) / radix;
+      c>>=bpe;
     }
     for (i=k;c && i<kk;i++) {
       c+=x[i];
       x[i]=c & mask;
-      c = (c - x[i]) / radix;
+      c>>=bpe;
     }
   }
 
@@ -1319,12 +1314,12 @@
     for (c=0,i=ys;i<k;i++) {
       c+=x[i]-y[i-ys];
       x[i]=c & mask;
-      c = (c - x[i]) / radix;
+      c>>=bpe;
     }
     for (i=k;c && i<kk;i++) {
       c+=x[i];
       x[i]=c & mask;
-      c = (c - x[i]) / radix;
+      c>>=bpe;
     }
   }
 
@@ -1337,12 +1332,12 @@
     for (c=0,i=0;i<k;i++) {
       c+=x[i]-y[i];
       x[i]=c & mask;
-      c = (c - x[i]) / radix;
+      c>>=bpe;
     }
     for (i=k;c && i<x.length;i++) {
       c+=x[i];
       x[i]=c & mask;
-      c = (c - x[i]) / radix;
+      c>>=bpe;
     }
   }
 
@@ -1354,12 +1349,12 @@
     for (c=0,i=0;i<k;i++) {
       c+=x[i]+y[i];
       x[i]=c & mask;
-      c = (c - x[i]) / radix;
+      c>>=bpe;
     }
     for (i=k;c && i<x.length;i++) {
       c+=x[i];
       x[i]=c & mask;
-      c = (c - x[i]) / radix;
+      c>>=bpe;
     }
   }
 
@@ -1411,11 +1406,11 @@
     for (i=0;i<kx;i++) {
       c=s0[2*i]+x[i]*x[i];
       s0[2*i]=c & mask;
-      c = (c - s0[2*i]) / radix;
+      c>>=bpe;
       for (j=i+1;j<kx;j++) {
         c=s0[i+j]+2*x[i]*x[j]+c;
         s0[i+j]=(c & mask);
-        c = (c - s0[i+j]) / radix;
+        c>>=bpe;
       }
       s0[i+kx]=c;
     }
@@ -1499,7 +1494,7 @@
   //  n is odd
   //  np = -(n^(-1)) mod radix
   function mont_(x,y,n,np) {
-    var i,j,c,ui,t,t2,ks;
+    var i,j,c,ui,t,ks;
     var kn=n.length;
     var ky=y.length;
 
@@ -1516,34 +1511,33 @@
     for (i=0; i<kn; i++) {
       t=sa[0]+x[i]*y[0];
       ui=((t & mask) * np) & mask;  //the inner "& mask" was needed on Safari (but not MSIE) at one time
-      c=(t+ui*n[0]);
-      c = (c - (c & mask)) / radix;
+      c=(t+ui*n[0]) >> bpe;
       t=x[i];
 
       //do sa=(sa+x[i]*y+ui*n)/b   where b=2**bpe.  Loop is unrolled 5-fold for speed
       j=1;
       for (;j<ky-4;) {
-        c+=sa[j]+ui*n[j]+t*y[j]; t2=sa[j-1]=c & mask; c=(c-t2)/radix; j++;
-        c+=sa[j]+ui*n[j]+t*y[j]; t2=sa[j-1]=c & mask; c=(c-t2)/radix; j++;
-        c+=sa[j]+ui*n[j]+t*y[j]; t2=sa[j-1]=c & mask; c=(c-t2)/radix; j++;
-        c+=sa[j]+ui*n[j]+t*y[j]; t2=sa[j-1]=c & mask; c=(c-t2)/radix; j++;
-        c+=sa[j]+ui*n[j]+t*y[j]; t2=sa[j-1]=c & mask; c=(c-t2)/radix; j++;
+        c+=sa[j]+ui*n[j]+t*y[j]; sa[j-1]=c & mask; c>>=bpe; j++;
+        c+=sa[j]+ui*n[j]+t*y[j]; sa[j-1]=c & mask; c>>=bpe; j++;
+        c+=sa[j]+ui*n[j]+t*y[j]; sa[j-1]=c & mask; c>>=bpe; j++;
+        c+=sa[j]+ui*n[j]+t*y[j]; sa[j-1]=c & mask; c>>=bpe; j++;
+        c+=sa[j]+ui*n[j]+t*y[j]; sa[j-1]=c & mask; c>>=bpe; j++;
       }
       for (;j<ky;)   {
-        c+=sa[j]+ui*n[j]+t*y[j]; t2=sa[j-1]=c & mask; c=(c-t2)/radix; j++;
+        c+=sa[j]+ui*n[j]+t*y[j]; sa[j-1]=c & mask; c>>=bpe; j++;
       }
       for (;j<kn-4;) {
-        c+=sa[j]+ui*n[j];        t2=sa[j-1]=c & mask; c=(c-t2)/radix; j++;
-        c+=sa[j]+ui*n[j];        t2=sa[j-1]=c & mask; c=(c-t2)/radix; j++;
-        c+=sa[j]+ui*n[j];        t2=sa[j-1]=c & mask; c=(c-t2)/radix; j++;
-        c+=sa[j]+ui*n[j];        t2=sa[j-1]=c & mask; c=(c-t2)/radix; j++;
-        c+=sa[j]+ui*n[j];        t2=sa[j-1]=c & mask; c=(c-t2)/radix; j++;
+        c+=sa[j]+ui*n[j];        sa[j-1]=c & mask; c>>=bpe; j++;
+        c+=sa[j]+ui*n[j];        sa[j-1]=c & mask; c>>=bpe; j++;
+        c+=sa[j]+ui*n[j];        sa[j-1]=c & mask; c>>=bpe; j++;
+        c+=sa[j]+ui*n[j];        sa[j-1]=c & mask; c>>=bpe; j++;
+        c+=sa[j]+ui*n[j];        sa[j-1]=c & mask; c>>=bpe; j++;
       }
       for (;j<kn;)   {
-        c+=sa[j]+ui*n[j];        t2=sa[j-1]=c & mask; c=(c-t2)/radix; j++;
+        c+=sa[j]+ui*n[j];        sa[j-1]=c & mask; c>>=bpe; j++;
       }
       for (;j<ks;)   {
-        c+=sa[j];                t2=sa[j-1]=c & mask; c=(c-t2)/radix; j++;
+        c+=sa[j];                sa[j-1]=c & mask; c>>=bpe; j++;
       }
       sa[j-1]=c & mask;
     }
