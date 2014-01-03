@@ -1,5 +1,13 @@
 #Changelog
 
+##Cryptocat 2.1.18
+**Jan. 4 2014**
+
+This update contains fixes specific only to the Firefox and Opera versions of Cryptocat. It will not be released for any other platform.  
+
+- Firefox: Fixed a bug that could break compatibility with the latest Tor Browser Bundle.  
+- Opera: Fixed a bug that could prevent audio notifications from playing.  
+
 ##Cryptocat 2.1.17
 **Dec. 5 2013**
 
