@@ -1655,6 +1655,15 @@
     })
     return mpi
   }
+  
+	// Gets a bit from a BigInt
+	function getBit(x, n) {
+		var i = Math.floor(n / bpe)
+		if (i >= x.length) {
+			return 0
+		}
+		return (x[i] >> (n % bpe)) & 1
+	}
 
   return {
       base642bigInt : base642bigInt
@@ -1689,7 +1698,6 @@
     , divide_       : divide_
     , trim          : trim
     , expand        : expand
-    , bpe           : bpe
     , primes        : primes
     , findPrimes    : findPrimes
     , divMod        : divMod
@@ -1697,6 +1705,7 @@
     , twoToThe      : twoToThe
     , bigInt2bits   : bigInt2bits
     , ba2bigInt     : ba2bigInt
+    , getBit        : getBit
   }
 
 }))
