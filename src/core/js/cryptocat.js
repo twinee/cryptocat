@@ -823,10 +823,7 @@ function prepareKeysAndConnect() {
 		// Key storage currently disabled as we are not yet sure if this is safe to do.
 		//	Cryptocat.storage.setItem('myKey', JSON.stringify(Cryptocat.otr.myKey))
 		$('#loginInfo').text(Cryptocat.locale['loginMessage']['connecting'])
-		Cryptocat.xmpp.connect(
-			Cryptocat.random.encodedBytes(16, CryptoJS.enc.Hex),
-			Cryptocat.random.encodedBytes(16, CryptoJS.enc.Hex)
-		)
+		Cryptocat.xmpp.connect()
 	})
 	// Key storage currently disabled as we are not yet sure if this is safe to do.
 	// Cryptocat.storage.setItem('multiPartyKey', multiParty.genPrivateKey())
@@ -1089,12 +1086,9 @@ $('#loginForm').submit(function() {
 		}, 9000)
 		$('#fill').animate({'width': '100%', 'opacity': '1'}, 14000, 'linear')
 	}
-	// If everything is okay, then register a randomly generated throwaway XMPP ID and log in.
+	// If everything is okay, then log in anonymously.
 	else {
-		Cryptocat.xmpp.connect(
-			Cryptocat.random.encodedBytes(16, CryptoJS.enc.Hex),
-			Cryptocat.random.encodedBytes(16, CryptoJS.enc.Hex)
-		)
+		Cryptocat.xmpp.connect()
 	}
 	return false
 })
