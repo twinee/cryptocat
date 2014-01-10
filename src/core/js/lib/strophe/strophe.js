@@ -93,6 +93,7 @@ var Base64 = (function () {
  * These are the functions you'll usually want to call
  * They take string arguments and return either hex or base-64 encoded strings
  */
+function b64_sha1(s){return binb2b64(core_sha1(str2binb(s),s.length * 8));}
 function str_sha1(s){return binb2str(core_sha1(str2binb(s),s.length * 8));}
 function b64_hmac_sha1(key, data){ return binb2b64(core_hmac_sha1(key, data));}
 function str_hmac_sha1(key, data){ return binb2str(core_hmac_sha1(key, data));}
@@ -3036,7 +3037,7 @@ Strophe.Connection.prototype = {
             var serverSignature;
             var success = Base64.decode(Strophe.getText(elem));
             var attribMatch = /([a-z]+)=([^,]+)(,|$)/;
-            matches = success.match(attribMatch);
+            var matches = success.match(attribMatch);
             if (matches[1] == "v") {
                 serverSignature = matches[2];
             }
@@ -3433,8 +3434,6 @@ Strophe.SASLMechanism = function(name, isClientFirst, priority) {
 };
 
 Strophe.SASLMechanism.prototype = {
-  _sasl_data: {},
-
   /**
    *  Function: test
    *  Checks if mechanism able to run.
@@ -3576,23 +3575,23 @@ Strophe.SASLSHA1.prototype.onChallenge = function(connection, challenge, test_cn
   auth_str += ",r=";
   auth_str += cnonce;
 
-  this._sasl_data.cnonce = cnonce;
-  this._sasl_data["client-first-message-bare"] = auth_str;
+  connection._sasl_data.cnonce = cnonce;
+  connection._sasl_data["client-first-message-bare"] = auth_str;
 
   auth_str = "n,," + auth_str;
 
   this.onChallenge = function (connection, challenge)
   {
-    var nonce, salt, iter, Hi, U, U_old;
+    var nonce, salt, iter, Hi, U, U_old, i, k;
     var clientKey, serverKey, clientSignature;
     var responseText = "c=biws,";
-    var authMessage = this._sasl_data["client-first-message-bare"] + "," +
+    var authMessage = connection._sasl_data["client-first-message-bare"] + "," +
       challenge + ",";
-    var cnonce = this._sasl_data.cnonce;
+    var cnonce = connection._sasl_data.cnonce;
     var attribMatch = /([a-z]+)=([^,]+)(,|$)/;
 
     while (challenge.match(attribMatch)) {
-      matches = challenge.match(attribMatch);
+      var matches = challenge.match(attribMatch);
       challenge = challenge.replace(matches[0], "");
       switch (matches[1]) {
       case "r":
@@ -3608,7 +3607,7 @@ Strophe.SASLSHA1.prototype.onChallenge = function(connection, challenge, test_cn
     }
 
     if (nonce.substr(0, cnonce.length) !== cnonce) {
-      this._sasl_data = {};
+      connection._sasl_data = {};
       return connection._sasl_failure_cb();
     }
 
