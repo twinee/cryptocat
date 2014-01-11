@@ -842,17 +842,22 @@ USER INTERFACE BINDINGS
 // Buttons:
 // Status button.
 $('#status').click(function() {
-	if ($(this).attr('src') === 'img/available.png') {
-		$(this).attr('src', 'img/away.png')
-		$(this).attr('alt', Cryptocat.locale['chatWindow']['statusAway'])
-		$(this).attr('title', Cryptocat.locale['chatWindow']['statusAway'])
+	var $this = $(this)
+	if ($this.attr('src') === 'img/available.png') {
+		$this.attr('src', 'img/away.png')
+		$this.attr('alt', Cryptocat.locale['chatWindow']['statusAway'])
+		$this.attr('title', Cryptocat.locale['chatWindow']['statusAway'])
+		$this.attr('data-utip', Cryptocat.locale['chatWindow']['statusAway'])
+		$this.mouseenter()
 		Cryptocat.xmpp.currentStatus = 'away'
 		Cryptocat.xmpp.sendStatus()
 	}
 	else {
-		$(this).attr('src', 'img/available.png')
-		$(this).attr('alt', Cryptocat.locale['chatWindow']['statusAvailable'])
-		$(this).attr('title', Cryptocat.locale['chatWindow']['statusAvailable'])
+		$this.attr('src', 'img/available.png')
+		$this.attr('alt', Cryptocat.locale['chatWindow']['statusAvailable'])
+		$this.attr('title', Cryptocat.locale['chatWindow']['statusAvailable'])
+		$this.attr('data-utip', Cryptocat.locale['chatWindow']['statusAvailable'])
+		$this.mouseenter()
 		Cryptocat.xmpp.currentStatus = 'online'
 		Cryptocat.xmpp.sendStatus()
 	}
@@ -870,10 +875,13 @@ if (!window.webkitNotifications && (firefox && ((firefox[1] | 0) < 22))) {
 }
 else {
 	$('#notifications').click(function() {
-		if ($(this).attr('src') === 'img/noNotifications.png') {
-			$(this).attr('src', 'img/notifications.png')
-			$(this).attr('alt', Cryptocat.locale['chatWindow']['desktopNotificationsOn'])
-			$(this).attr('title', Cryptocat.locale['chatWindow']['desktopNotificationsOn'])
+		var $this = $(this)
+		if ($this.attr('src') === 'img/noNotifications.png') {
+			$this.attr('src', 'img/notifications.png')
+			$this.attr('alt', Cryptocat.locale['chatWindow']['desktopNotificationsOn'])
+			$this.attr('title', Cryptocat.locale['chatWindow']['desktopNotificationsOn'])
+			$this.attr('data-utip', Cryptocat.locale['chatWindow']['desktopNotificationsOn'])
+			$this.mouseenter()
 			Cryptocat.desktopNotifications = true
 			Cryptocat.storage.setItem('desktopNotifications', 'true')
 			if (window.webkitNotifications) {
@@ -883,9 +891,11 @@ else {
 			}
 		}
 		else {
-			$(this).attr('src', 'img/noNotifications.png')
-			$(this).attr('alt', Cryptocat.locale['chatWindow']['desktopNotificationsOff'])
-			$(this).attr('title', Cryptocat.locale['chatWindow']['desktopNotificationsOff'])
+			$this.attr('src', 'img/noNotifications.png')
+			$this.attr('alt', Cryptocat.locale['chatWindow']['desktopNotificationsOff'])
+			$this.attr('title', Cryptocat.locale['chatWindow']['desktopNotificationsOff'])
+			$this.attr('data-utip', Cryptocat.locale['chatWindow']['desktopNotificationsOff'])
+			$this.mouseenter()
 			Cryptocat.desktopNotifications = false
 			Cryptocat.storage.setItem('desktopNotifications', 'false')
 		}
@@ -894,17 +904,22 @@ else {
 
 // Audio notifications button.
 $('#audio').click(function() {
-	if ($(this).attr('src') === 'img/noSound.png') {
-		$(this).attr('src', 'img/sound.png')
-		$(this).attr('alt', Cryptocat.locale['chatWindow']['audioNotificationsOn'])
-		$(this).attr('title', Cryptocat.locale['chatWindow']['audioNotificationsOn'])
+	var $this = $(this)
+	if ($this.attr('src') === 'img/noSound.png') {
+		$this.attr('src', 'img/sound.png')
+		$this.attr('alt', Cryptocat.locale['chatWindow']['audioNotificationsOn'])
+		$this.attr('title', Cryptocat.locale['chatWindow']['audioNotificationsOn'])
+		$this.attr('data-utip', Cryptocat.locale['chatWindow']['audioNotificationsOn'])
+		$this.mouseenter()
 		Cryptocat.audioNotifications = true
 		Cryptocat.storage.setItem('audioNotifications', 'true')
 	}
 	else {
-		$(this).attr('src', 'img/noSound.png')
-		$(this).attr('alt', Cryptocat.locale['chatWindow']['audioNotificationsOff'])
-		$(this).attr('title', Cryptocat.locale['chatWindow']['audioNotificationsOff'])
+		$this.attr('src', 'img/noSound.png')
+		$this.attr('alt', Cryptocat.locale['chatWindow']['audioNotificationsOff'])
+		$this.attr('title', Cryptocat.locale['chatWindow']['audioNotificationsOff'])
+		$this.attr('data-utip', Cryptocat.locale['chatWindow']['audioNotificationsOff'])
+		$this.mouseenter()
 		Cryptocat.audioNotifications = false
 		Cryptocat.storage.setItem('audioNotifications', 'false')
 	}
