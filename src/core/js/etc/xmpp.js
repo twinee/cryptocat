@@ -102,7 +102,9 @@ Cryptocat.xmpp.onConnected = function() {
 // Reconnect to the same chatroom, on accidental connection loss.
 Cryptocat.xmpp.reconnect = function() {
 	multiParty.reset()
-	Cryptocat.xmpp.connection.reset()
+	if (Cryptocat.xmpp.connection) {
+	    Cryptocat.xmpp.connection.reset()
+	}
 	Cryptocat.xmpp.connection = new Strophe.Connection(Cryptocat.xmpp.bosh)
 	Cryptocat.xmpp.connection.connect(Cryptocat.xmpp.domain, null, function(status) {
 		if (status === Strophe.Status.CONNECTING) {
