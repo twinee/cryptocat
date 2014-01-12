@@ -102,8 +102,8 @@ Cryptocat.storage.getItem('domain', function(key) {
 Cryptocat.storage.getItem('conferenceServer', function(key) {
 	if (key) { Cryptocat.xmpp.conferenceServer = key }
 })
-Cryptocat.storage.getItem('bosh', function(key) {
-	if (key) { Cryptocat.xmpp.bosh = key }
+Cryptocat.storage.getItem('relay', function(key) {
+	if (key) { Cryptocat.xmpp.relay = key }
 })
 Cryptocat.storage.getItem('customServers', function(key) {
 	if (key) {
@@ -115,7 +115,7 @@ Cryptocat.storage.getItem('customServers', function(key) {
 					name: name,
 					domain: servers[name]['domain'],
 					XMPP: servers[name]['xmpp'],
-					BOSH: servers[name]['bosh']
+					Relay: servers[name]['relay']
 				})
 			)
 		})

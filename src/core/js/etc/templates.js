@@ -2,7 +2,7 @@
 
 Cryptocat.templates = {
 
-	customServer: '<option data-domain="{{domain}}" data-xmpp="{{XMPP}}" data-bosh="{{BOSH}}">'
+	customServer: '<option data-domain="{{domain}}" data-xmpp="{{XMPP}}" data-relay="{{Relay}}">'
 		+ '{{name}}</option>',
 
 	generatingKeys: '<br /><p id="progressForm"><img src="img/keygen.gif" '

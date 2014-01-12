@@ -7,11 +7,11 @@ Cryptocat.xmpp.connection = null
 // Default connection settings.
 Cryptocat.xmpp.defaultDomain = 'crypto.cat'
 Cryptocat.xmpp.defaultConferenceServer = 'conference.crypto.cat'
-Cryptocat.xmpp.defaultBOSH = 'https://crypto.cat/http-bind'
+Cryptocat.xmpp.defaultRelay = 'https://crypto.cat/http-bind'
 
 Cryptocat.xmpp.domain = Cryptocat.xmpp.defaultDomain
 Cryptocat.xmpp.conferenceServer = Cryptocat.xmpp.defaultConferenceServer
-Cryptocat.xmpp.bosh = Cryptocat.xmpp.defaultBOSH
+Cryptocat.xmpp.relay = Cryptocat.xmpp.defaultRelay
 
 $(window).ready(function() {
 
@@ -19,7 +19,7 @@ $(window).ready(function() {
 Cryptocat.xmpp.connect = function() {
 	Cryptocat.conversationName = Strophe.xmlescape($('#conversationName').val())
 	Cryptocat.myNickname = Strophe.xmlescape($('#nickname').val())
-	Cryptocat.xmpp.connection = new Strophe.Connection(Cryptocat.xmpp.bosh)
+	Cryptocat.xmpp.connection = new Strophe.Connection(Cryptocat.xmpp.relay)
 	$('#loginSubmit').attr('readonly', 'readonly')
 	Cryptocat.xmpp.connection.connect(Cryptocat.xmpp.domain, null, function(status) {
 		if (status === Strophe.Status.CONNECTING) {
@@ -105,7 +105,7 @@ Cryptocat.xmpp.reconnect = function() {
 	if (Cryptocat.xmpp.connection) {
 	    Cryptocat.xmpp.connection.reset()
 	}
-	Cryptocat.xmpp.connection = new Strophe.Connection(Cryptocat.xmpp.bosh)
+	Cryptocat.xmpp.connection = new Strophe.Connection(Cryptocat.xmpp.relay)
 	Cryptocat.xmpp.connection.connect(Cryptocat.xmpp.domain, null, function(status) {
 		if (status === Strophe.Status.CONNECTING) {
 			$('.conversationName').animate({'background-color': '#F00'})
