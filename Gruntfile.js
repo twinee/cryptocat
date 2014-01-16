@@ -4,6 +4,7 @@ module.exports = function (grunt) {
 
 	var srcFolder = __dirname + '/src/core',
 		firefoxFolder = __dirname + '/src/firefox',
+		firefoxExtensionFolder = firefoxFolder + '/chrome/content/data',
 		safariFolder = __dirname + '/src/safari',
 		safariExtensionFolder = __dirname + '/src/cryptocat.safariextension',
 		releaseFolder = __dirname + '/release';
@@ -22,18 +23,36 @@ module.exports = function (grunt) {
 			}
 		},
 
+		clean: {
+			'copy': [firefoxExtensionFolder, safariExtensionFolder],
+			'release': [releaseFolder],
+		},
+
+		mkdir: {
+			'copy':{
+				options: {
+					create:[firefoxExtensionFolder, safariExtensionFolder]
+				}
+			},
+			'release': {
+				options: {
+					create:[releaseFolder]
+				}
+			}
+		},
+
 		copy:{
-			'src-to-firefox':{
+			'firefox':{
 				files:[
 					{
 						expand:true,
 						src:[ 'css/**', 'img/**', 'js/**', 'locale/**', 'snd/**', 'locale/**', 'index.html' ],
-						dest:firefoxFolder + '/chrome/content/data',
+						dest:firefoxExtensionFolder,
 						cwd:srcFolder
 					}
 				]
 			},
-			'src-to-safari':{
+			'safari':{
 				files:[
 					{
 						expand:true,
@@ -72,7 +91,9 @@ module.exports = function (grunt) {
 
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
+	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-mocha-test');
+	grunt.loadNpmTasks('grunt-mkdir');
 
 	grunt.registerTask('tests', 'Run tests', ['mochaTest']);
 
@@ -120,8 +141,6 @@ module.exports = function (grunt) {
 
 		grunt.log.write('Creating Firefox add-on...');
 
-		grunt.task.run([ 'copy:src-to-firefox' ]);
-
 		var outputFile = releaseFolder + '/cryptocat-firefox.xpi';
 
 		createZipFile(firefoxFolder, outputFile, done);
@@ -130,11 +149,12 @@ module.exports = function (grunt) {
 	grunt.registerTask('build-safari', 'Build Safari browser extension', function () {
 		grunt.log.write('Creating Safari extension...');
 
-		grunt.task.run([ 'copy:src-to-safari' ]);
+		grunt.task.run([ 'copy:safari' ]);
 	});
 
 
-	grunt.registerTask('build', 'Build project', ['pre-build', 'build-chrome', 'build-firefox', 'build-safari']);
+	grunt.registerTask('build', 'Build project', ['pre-build', 'mkdir', 'copy',
+												  'build-chrome', 'build-firefox', 'build-safari']);
 
 	grunt.registerTask('default', ['build']);
 };
