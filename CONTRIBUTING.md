@@ -40,6 +40,7 @@ The full license text is included in `LICENSE.txt`.
 * **David Dahl**: window.crypto.getRandomValues() implementation for Firefox.  
 * **Daniel "koolfy" Faucon**: Documentation maintainer, bug reporter.  
 * **Arturo Filastò**: Testing and feedback. 
+* **Andreas "Gordin" Guth**: StropheJS maintainer, WebSocket & anonymous auth implementation.  
 * **Frederic Jacobs**: Substantial contributions to Cryptocat for Mac.  
 * **Nadim Kobeissi**: Lead developer. Created Cryptocat.  
 * **Tom Lowenthal**: Testing and feedback.  
