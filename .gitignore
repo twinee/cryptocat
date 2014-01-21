@@ -1,5 +1,6 @@
 .DS_Store
 src/cryptocat.safariextension/*
+src/firefox/chrome/content/data/*
 release/
 
 # npm

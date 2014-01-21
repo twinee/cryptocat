@@ -7,45 +7,21 @@ Cryptocat.xmpp.connection = null
 // Default connection settings.
 Cryptocat.xmpp.defaultDomain = 'crypto.cat'
 Cryptocat.xmpp.defaultConferenceServer = 'conference.crypto.cat'
-Cryptocat.xmpp.defaultBOSH = 'https://crypto.cat/http-bind'
+Cryptocat.xmpp.defaultRelay = 'https://crypto.cat/http-bind'
 
 Cryptocat.xmpp.domain = Cryptocat.xmpp.defaultDomain
 Cryptocat.xmpp.conferenceServer = Cryptocat.xmpp.defaultConferenceServer
-Cryptocat.xmpp.bosh = Cryptocat.xmpp.defaultBOSH
+Cryptocat.xmpp.relay = Cryptocat.xmpp.defaultRelay
 
 $(window).ready(function() {
 
-// Registers a new user on the XMPP server, connects and join conversation.
-Cryptocat.xmpp.connect = function(username, password) {
+// connect anonymously and join conversation.
+Cryptocat.xmpp.connect = function() {
 	Cryptocat.conversationName = Strophe.xmlescape($('#conversationName').val())
 	Cryptocat.myNickname = Strophe.xmlescape($('#nickname').val())
-	Cryptocat.xmpp.connection = new Strophe.Connection(Cryptocat.xmpp.bosh)
+	Cryptocat.xmpp.connection = new Strophe.Connection(Cryptocat.xmpp.relay)
 	$('#loginSubmit').attr('readonly', 'readonly')
-	Cryptocat.xmpp.connection.register.connect(Cryptocat.xmpp.domain, function(status) {
-		if (status=== Strophe.Status.REGISTER) {
-			$('#loginInfo').text(Cryptocat.locale['loginMessage']['registering'])
-			Cryptocat.xmpp.connection.register.fields.username = username
-			Cryptocat.xmpp.connection.register.fields.password = password
-			Cryptocat.xmpp.connection.register.submit()
-		}
-		else if (status === Strophe.Status.REGISTERED) {
-			Cryptocat.xmpp.onRegistered(username, password)
-		}
-		else if (status=== Strophe.Status.SBMTFAIL) {
-			Cryptocat.loginFail(Cryptocat.locale['loginMessage']['authenticationFailure'])
-			$('#conversationName').select()
-			$('#loginSubmit').removeAttr('readonly')
-			Cryptocat.xmpp.connection = null
-			return false
-		}
-	})
-}
-
-// Executed on succesfully completed XMPP registration.
-Cryptocat.xmpp.onRegistered = function(username, password) {
-	Cryptocat.xmpp.connection.reset()
-	Cryptocat.xmpp.connection = new Strophe.Connection(Cryptocat.xmpp.bosh)
-	Cryptocat.xmpp.connection.connect(username + '@' + Cryptocat.xmpp.domain, password, function(status) {
+	Cryptocat.xmpp.connection.connect(Cryptocat.xmpp.domain, null, function(status) {
 		if (status === Strophe.Status.CONNECTING) {
 			$('#loginInfo').animate({'background-color': '#97CEEC'}, 200)
 			$('#loginInfo').text(Cryptocat.locale['loginMessage']['connecting'])
@@ -78,17 +54,17 @@ Cryptocat.xmpp.onRegistered = function(username, password) {
 				}, 200)
 			})
 			window.setTimeout(function() {
-				Cryptocat.xmpp.onConnected(username, password)
+				Cryptocat.xmpp.onConnected()
 			}, 400)
 		}
 		else if (status === Strophe.Status.CONNFAIL) {
 			if (Cryptocat.loginError) {
-				Cryptocat.xmpp.reconnect(username, password)
+				Cryptocat.xmpp.reconnect()
 			}
 		}
 		else if (status === Strophe.Status.DISCONNECTED) {
 			if (Cryptocat.loginError) {
-				Cryptocat.xmpp.reconnect(username, password)
+				Cryptocat.xmpp.reconnect()
 			}
 		}
 	})
@@ -124,11 +100,13 @@ Cryptocat.xmpp.onConnected = function() {
 }
 
 // Reconnect to the same chatroom, on accidental connection loss.
-Cryptocat.xmpp.reconnect = function(username, password) {
+Cryptocat.xmpp.reconnect = function() {
 	multiParty.reset()
-	Cryptocat.xmpp.connection.reset()
-	Cryptocat.xmpp.connection = new Strophe.Connection(Cryptocat.xmpp.bosh)
-	Cryptocat.xmpp.connection.connect(username + '@' + Cryptocat.xmpp.domain, password, function(status) {
+	if (Cryptocat.xmpp.connection) {
+	    Cryptocat.xmpp.connection.reset()
+	}
+	Cryptocat.xmpp.connection = new Strophe.Connection(Cryptocat.xmpp.relay)
+	Cryptocat.xmpp.connection.connect(Cryptocat.xmpp.domain, null, function(status) {
 		if (status === Strophe.Status.CONNECTING) {
 			$('.conversationName').animate({'background-color': '#F00'})
 		}
@@ -150,7 +128,7 @@ Cryptocat.xmpp.reconnect = function(username, password) {
 		else if ((status === Strophe.Status.CONNFAIL) || (status === Strophe.Status.DISCONNECTED)) {
 			if (Cryptocat.loginError) {
 				window.setTimeout(function() {
-				Cryptocat.xmpp.reconnect(username, password)
+				Cryptocat.xmpp.reconnect()
 				}, 5000)
 			}
 		}
