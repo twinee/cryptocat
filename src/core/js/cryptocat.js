@@ -931,15 +931,10 @@ $('#userInput').submit(function() {
 	var message = $.trim($('#userInputText').val())
 	$('#userInputText').val('')
 	if (!message.length) { return false }
-	Cryptocat.addToConversation(
-		message, Cryptocat.myNickname,
-		Cryptocat.currentConversation, 'message'
-	)
 	if (Cryptocat.currentConversation !== 'main-Conversation') {
 		Cryptocat.otr.keys[Cryptocat.currentConversation].sendMsg(message)
 	}
-	else {
-		if (multiParty.userCount() < 1) { return false }
+	else if (multiParty.userCount() > 1) {
 		var ciphertext = JSON.parse(multiParty.sendMessage(message))
 		var missingRecipients = []
 		for (var i = 0; i !== buddyList.length; i++) {
@@ -958,6 +953,10 @@ $('#userInput').submit(function() {
 			null, JSON.stringify(ciphertext), null, 'groupchat', 'active'
 		)
 	}
+	Cryptocat.addToConversation(
+		message, Cryptocat.myNickname,
+		Cryptocat.currentConversation, 'message'
+	)
 	return false
 })
 
