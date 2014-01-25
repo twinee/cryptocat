@@ -113,13 +113,13 @@ Cryptocat.addToConversation = function(message, nickname, conversation, type) {
 	if (nickname === Cryptocat.myNickname) { lineDecoration = 1 }
 	if (type === 'file') {
 		if (!message.length) { return false }
-		message = Mustache.render(Cryptocat.templates.file, { message: message })
 		if (nickname !== Cryptocat.myNickname) {
 			if (Cryptocat.audioNotifications) { Cryptocat.sounds.msgGet.play() }
 			desktopNotification(
-				'img/keygen.gif', nickname + ' @ ' + Cryptocat.conversationName, '', 0x1337
+				'img/keygen.gif', nickname + ' @ ' + Cryptocat.conversationName, message, 0x1337
 			)
 		}
+		message = Mustache.render(Cryptocat.templates.file, { message: message })
 	}
 	else if (type === 'composing') {
 		if ($('#composing-' + nickname).length) { return true }
@@ -127,27 +127,27 @@ Cryptocat.addToConversation = function(message, nickname, conversation, type) {
 	}
 	else if (type === 'message') {
 		if (!message.length) { return false }
+		if (nickname !== Cryptocat.myNickname) {
+			if (Cryptocat.audioNotifications) { Cryptocat.sounds.msgGet.play() }
+			desktopNotification(
+				'img/keygen.gif', nickname + ' @ ' + Cryptocat.conversationName, message, 0x1337
+			)
+		}
 		message = Strophe.xmlescape(message)
 		message = addLinks(message)
 		message = addEmoticons(message)
 		if (message.match(Cryptocat.myNickname)) { lineDecoration = 3 }
-		if (nickname !== Cryptocat.myNickname) {
-			if (Cryptocat.audioNotifications) { Cryptocat.sounds.msgGet.play() }
-			desktopNotification(
-				'img/keygen.gif', nickname + ' @ ' + Cryptocat.conversationName, '', 0x1337
-			)
-		}
 	}
 	else if (type === 'warning') {
 		if (!message.length) { return false }
-		message = Strophe.xmlescape(message)
-		lineDecoration = 4
 		if (nickname !== Cryptocat.myNickname) {
 			if (Cryptocat.audioNotifications) { Cryptocat.sounds.msgGet.play() }
 			desktopNotification(
-				'img/keygen.gif', nickname + ' @ ' + Cryptocat.conversationName, '', 0x1337
+				'img/keygen.gif', nickname + ' @ ' + Cryptocat.conversationName, message, 0x1337
 			)
 		}
+		message = Strophe.xmlescape(message)
+		lineDecoration = 4
 	}
 	else if (type === 'missingRecipients') {
 		if (!message.length) { return false }
@@ -937,6 +937,10 @@ $('#userInput').submit(function() {
 	var message = $.trim($('#userInputText').val())
 	$('#userInputText').val('')
 	if (!message.length) { return false }
+	Cryptocat.addToConversation(
+		message, Cryptocat.myNickname,
+		Cryptocat.currentConversation, 'message'
+	)
 	if (Cryptocat.currentConversation !== 'main-Conversation') {
 		Cryptocat.otr.keys[Cryptocat.currentConversation].sendMsg(message)
 	}
@@ -960,10 +964,6 @@ $('#userInput').submit(function() {
 			null, JSON.stringify(ciphertext), null, 'groupchat', 'active'
 		)
 	}
-	Cryptocat.addToConversation(
-		message, Cryptocat.myNickname,
-		Cryptocat.currentConversation, 'message'
-	)
 	return false
 })
 
