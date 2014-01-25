@@ -845,7 +845,6 @@ $('#status').click(function() {
 	var $this = $(this)
 	if ($this.attr('src') === 'img/available.png') {
 		$this.attr('src', 'img/away.png')
-		$this.attr('alt', Cryptocat.locale['chatWindow']['statusAway'])
 		$this.attr('title', Cryptocat.locale['chatWindow']['statusAway'])
 		$this.attr('data-utip', Cryptocat.locale['chatWindow']['statusAway'])
 		$this.mouseenter()
@@ -854,7 +853,6 @@ $('#status').click(function() {
 	}
 	else {
 		$this.attr('src', 'img/available.png')
-		$this.attr('alt', Cryptocat.locale['chatWindow']['statusAvailable'])
 		$this.attr('title', Cryptocat.locale['chatWindow']['statusAvailable'])
 		$this.attr('data-utip', Cryptocat.locale['chatWindow']['statusAvailable'])
 		$this.mouseenter()
@@ -878,7 +876,6 @@ else {
 		var $this = $(this)
 		if ($this.attr('src') === 'img/noNotifications.png') {
 			$this.attr('src', 'img/notifications.png')
-			$this.attr('alt', Cryptocat.locale['chatWindow']['desktopNotificationsOn'])
 			$this.attr('title', Cryptocat.locale['chatWindow']['desktopNotificationsOn'])
 			$this.attr('data-utip', Cryptocat.locale['chatWindow']['desktopNotificationsOn'])
 			$this.mouseenter()
@@ -892,7 +889,6 @@ else {
 		}
 		else {
 			$this.attr('src', 'img/noNotifications.png')
-			$this.attr('alt', Cryptocat.locale['chatWindow']['desktopNotificationsOff'])
 			$this.attr('title', Cryptocat.locale['chatWindow']['desktopNotificationsOff'])
 			$this.attr('data-utip', Cryptocat.locale['chatWindow']['desktopNotificationsOff'])
 			$this.mouseenter()
@@ -907,7 +903,6 @@ $('#audio').click(function() {
 	var $this = $(this)
 	if ($this.attr('src') === 'img/noSound.png') {
 		$this.attr('src', 'img/sound.png')
-		$this.attr('alt', Cryptocat.locale['chatWindow']['audioNotificationsOn'])
 		$this.attr('title', Cryptocat.locale['chatWindow']['audioNotificationsOn'])
 		$this.attr('data-utip', Cryptocat.locale['chatWindow']['audioNotificationsOn'])
 		$this.mouseenter()
@@ -916,7 +911,6 @@ $('#audio').click(function() {
 	}
 	else {
 		$this.attr('src', 'img/noSound.png')
-		$this.attr('alt', Cryptocat.locale['chatWindow']['audioNotificationsOff'])
 		$this.attr('title', Cryptocat.locale['chatWindow']['audioNotificationsOff'])
 		$this.attr('data-utip', Cryptocat.locale['chatWindow']['audioNotificationsOff'])
 		$this.mouseenter()

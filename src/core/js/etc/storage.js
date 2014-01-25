@@ -135,10 +135,16 @@ Cryptocat.storage.getItem('myNickname', function(key) {
 // Load notification settings.
 window.setTimeout(function() {
 	Cryptocat.storage.getItem('desktopNotifications', function(key) {
-		if (key === 'true') { $('#notifications').click() }
+		if (key === 'true') {
+			$('#notifications').click()
+			$('#utip').hide()
+		}
 	})
 	Cryptocat.storage.getItem('audioNotifications', function(key) {
-		if ((key === 'true') || !key) { $('#audio').click() }
+		if ((key === 'true') || !key) {
+			$('#audio').click()
+			$('#utip').hide()
+		}
 	})
 }, 800)
 
