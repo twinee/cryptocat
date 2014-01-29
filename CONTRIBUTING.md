@@ -32,19 +32,13 @@ The full license text is included in `LICENSE.txt`.
 * [Development Blog](https://blog.crypto.cat)  
 
 ##Contributors
-* **Jacob Appelbaum**: Testing and feedback.  
-* **Joseph Bonneau**: Testing and feedback.  
-* **Griffin Boyce**: Testing and feedback.  
 * **Arlo Breault**: OTR library maintainer, bug reporter, all-around helper.  
 * **Dmitry Chestnykh**: Salsa20 CSPRNG implementation.  
 * **David Dahl**: window.crypto.getRandomValues() implementation for Firefox.  
 * **Daniel "koolfy" Faucon**: Documentation maintainer, bug reporter.  
-* **Arturo Filastò**: Testing and feedback. 
 * **Andreas "Gordin" Guth**: StropheJS maintainer, WebSocket & anonymous auth implementation.  
 * **Frederic Jacobs**: Substantial contributions to Cryptocat for Mac.  
 * **Nadim Kobeissi**: Lead developer. Created Cryptocat.  
-* **Tom Lowenthal**: Testing and feedback.  
-* **Fabio Pietrosanti**: Testing and feedback.  
 
 ###Multimedia
 * **Ingrid Burrington**: Some icons and graphics.  
