@@ -405,7 +405,7 @@ Cryptocat.logout = function() {
 			$('#info,#loginOptions,#version,#loginInfo').fadeIn()
 			$('#loginForm').fadeIn(200, function() {
 				$('#conversationName').select()
-				$('#loginSubmit').removeAttr('readonly')
+				$('#loginSubmit,#conversationName,#nickname').removeAttr('readonly')
 			})
 		})
 	})
@@ -1072,6 +1072,7 @@ $('#loginForm').submit(function() {
 	}
 	// If no encryption keys, prepare keys before connecting.
 	else if (!Cryptocat.otr.myKey) {
+		$('#loginSubmit,#conversationName,#nickname').attr('readonly', 'readonly')
 		var progressForm = Mustache.render(Cryptocat.templates.generatingKeys, {
 			text: Cryptocat.locale['loginMessage']['generatingKeys']
 		})
@@ -1096,6 +1097,7 @@ $('#loginForm').submit(function() {
 	}
 	// If everything is okay, then log in anonymously.
 	else {
+		$('#loginSubmit,#conversationName,#nickname').attr('readonly', 'readonly')
 		Cryptocat.xmpp.connect()
 	}
 	return false

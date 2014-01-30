@@ -20,7 +20,6 @@ Cryptocat.xmpp.connect = function() {
 	Cryptocat.conversationName = Strophe.xmlescape($('#conversationName').val())
 	Cryptocat.myNickname = Strophe.xmlescape($('#nickname').val())
 	Cryptocat.xmpp.connection = new Strophe.Connection(Cryptocat.xmpp.relay)
-	$('#loginSubmit').attr('readonly', 'readonly')
 	Cryptocat.xmpp.connection.connect(Cryptocat.xmpp.domain, null, function(status) {
 		if (status === Strophe.Status.CONNECTING) {
 			$('#loginInfo').animate({'background-color': '#97CEEC'}, 200)
