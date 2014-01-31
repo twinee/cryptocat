@@ -241,6 +241,7 @@
 				ORGANIZATIONNAME = Cryptocat;
 				TargetAttributes = {
 					5F4ADDBB17737FCF00309087 = {
+						DevelopmentTeam = HC689Z8JM4;
 						SystemCapabilities = {
 							com.apple.Sandbox = {
 								enabled = 1;
@@ -420,6 +421,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = Cryptocat.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Cryptocat-Prefix.pch";
@@ -427,6 +430,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "A5CD9AB7-4E2B-427D-95E7-758438647299";
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = app;
 			};
@@ -436,6 +440,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = Cryptocat.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Cryptocat-Prefix.pch";
@@ -443,6 +449,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "A5CD9AB7-4E2B-427D-95E7-758438647299";
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = app;
 			};

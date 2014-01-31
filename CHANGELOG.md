@@ -1,5 +1,16 @@
 #Changelog
 
+##Cryptocat 2.1.19
+**Jan. 30 2014**
+
+- Cryptocat now supports anonymous SASL authentication.  
+- Fixed a bug that prevented tooltips for chat settings from displaying properly.  
+- Fixed a bug that would prevent the sending of messages if the user was the only person in a conversation.  
+- Fixed a bug that prevented text from showing in desktop notifications.  
+- Updated OTR.js and jQuery libraries to their latest versions.  
+- Other bug fixes.  
+
+
 ##Cryptocat 2.1.18
 **Jan. 4 2014**
 
