@@ -613,7 +613,7 @@ function desktopNotification(image, title, body, timeout) {
 	}
 }
 
-// Add a join/part notification to the main conversation window.
+// Add a join/part notification to the conversation window.
 // If 'join === true', shows join notification, otherwise shows part.
 function buddyNotification(nickname, join) {
 	var status, audioNotification
@@ -632,12 +632,14 @@ function buddyNotification(nickname, join) {
 		audioNotification = 'userLeave'
 	}
 	conversations['main-Conversation'] += status
-	if (Cryptocat.currentConversation === 'main-Conversation') {
-		$('#conversationWindow').append(status)
+	if (Cryptocat.currentConversation !== 'main-Conversation') {
+		conversations[Cryptocat.currentConversation] += status
 	}
+	$('#conversationWindow').append(status)
 	scrollDownConversation(400, true)
 	desktopNotification('img/keygen.gif',
-		nickname + ' has ' + (join ? 'joined ' : 'left ') + Cryptocat.conversationName, '', 0x1337)
+		nickname + ' has ' + (join ? 'joined ' : 'left ')
+		+ Cryptocat.conversationName, '', 0x1337)
 	if (Cryptocat.audioNotifications) {
 		Cryptocat.sounds[audioNotification].play()
 	}
