@@ -7,7 +7,7 @@ GLOBAL VARIABLES
 if (typeof Cryptocat === 'undefined') {
 	Cryptocat = function() {}
 }
-Cryptocat.version = '2.1.19' // Version number
+Cryptocat.version = '2.1.20' // Version number
 
 Cryptocat.ignoredUsers = []
 Cryptocat.authenticatedUsers = []

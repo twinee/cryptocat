@@ -1,5 +1,14 @@
 #Changelog
 
+##Cryptocat 2.1.20
+**Feb. 4 2014**
+
+**This is an important update with fixes for both usability and security.**
+
+- Fixed a bug introduced in Cryptocat 2.1.19 that prevented group conversations with exactly two participants from working properly.  
+- Addressed a security risk that could allow an attacker to divert the destination of outgoing chat messages.  
+- Added join/part notifications to one-on-one conversation windows.  
+
 ##Cryptocat 2.1.19
 **Jan. 30 2014**
 
@@ -9,7 +18,6 @@
 - Fixed a bug that prevented text from showing in desktop notifications.  
 - Updated OTR.js and jQuery libraries to their latest versions.  
 - Other bug fixes.  
-
 
 ##Cryptocat 2.1.18
 **Jan. 4 2014**
