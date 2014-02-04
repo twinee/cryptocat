@@ -936,7 +936,7 @@ $('#userInput').submit(function() {
 	if (Cryptocat.currentConversation !== 'main-Conversation') {
 		Cryptocat.otr.keys[Cryptocat.currentConversation].sendMsg(message)
 	}
-	else if (multiParty.userCount() > 1) {
+	else if (multiParty.userCount() >= 1) {
 		var ciphertext = JSON.parse(multiParty.sendMessage(message))
 		var missingRecipients = []
 		for (var i = 0; i !== buddyList.length; i++) {
