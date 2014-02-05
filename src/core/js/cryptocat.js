@@ -364,14 +364,6 @@ Cryptocat.dialogBox = function(data, height, closeable, onAppear, onClose) {
 	}
 }
 
-// Handle nickname change (which may be done by non-Cryptocat XMPP clients)
-Cryptocat.changeNickname = function(oldNickname, newNickname) {
-	Cryptocat.otr.keys[newNickname] = Cryptocat.otr.keys[oldNickname]
-	multiParty.renameKeys(oldNickname, newNickname)
-	conversations[newNickname] = conversations[oldNickname]
-	Cryptocat.removeBuddy(oldNickname)
-}
-
 // Executes on user logout.
 Cryptocat.logout = function() {
 	Cryptocat.loginError = false

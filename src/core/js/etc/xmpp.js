@@ -204,10 +204,8 @@ Cryptocat.xmpp.onPresence = function(presence) {
 		return true
 	}
 	// Detect nickname change (which may be done by non-Cryptocat XMPP clients)
-	// This is currently commented out due to a security risk
+	// This currently does nothing.
 	if ($(presence).find('status').attr('code') === '303') {
-		// var newNickname = cleanNickname('/' + $(presence).find('item').attr('nick'))
-		// Cryptocat.changeNickname(nickname, newNickname)
 		return true
 	}
 	// Add to otr keys if necessary
