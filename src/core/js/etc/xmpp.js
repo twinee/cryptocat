@@ -186,7 +186,6 @@ Cryptocat.xmpp.onMessage = function(message) {
 
 // Handle incoming presence updates from the XMPP server.
 Cryptocat.xmpp.onPresence = function(presence) {
-	var status, color, placement
 	var nickname = cleanNickname($(presence).attr('from'))
 	// If invalid nickname, do not process
 	if ($(presence).attr('type') === 'error') {
@@ -204,20 +203,20 @@ Cryptocat.xmpp.onPresence = function(presence) {
 	if (nickname === Cryptocat.myNickname) {
 		return true
 	}
-	// Detect buddy going offline.
-	if ($(presence).attr('type') === 'unavailable') {
-		Cryptocat.removeBuddy(nickname)
-		return true
-	}
 	// Detect nickname change (which may be done by non-Cryptocat XMPP clients)
 	// This currently does nothing.
 	if ($(presence).find('status').attr('code') === '303') {
-		Cryptocat.removeBuddy(nickname)
 		return true
 	}
 	// Add to otr keys if necessary
 	if (nickname !== 'main-Conversation' && !Cryptocat.otr.keys.hasOwnProperty(nickname)) {
 		Cryptocat.otr.add(nickname)
+	}
+	var status, color, placement
+	// Detect buddy going offline.
+	if ($(presence).attr('type') === 'unavailable') {
+		Cryptocat.removeBuddy(nickname)
+		return true
 	}
 	// Createbuddy element if buddy is new.
 	else if (!$('#buddy-' + nickname).length) {
