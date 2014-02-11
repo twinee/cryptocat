@@ -218,7 +218,7 @@ Cryptocat.xmpp.onPresence = function(presence) {
 		Cryptocat.removeBuddy(nickname)
 		return true
 	}
-	// Createbuddy element if buddy is new.
+	// Create buddy element if buddy is new.
 	else if (!$('#buddy-' + nickname).length) {
 		Cryptocat.addBuddy(nickname)
 	}
