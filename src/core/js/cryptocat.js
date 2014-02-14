@@ -9,6 +9,10 @@ if (typeof Cryptocat === 'undefined') {
 }
 Cryptocat.version = '2.1.20' // Version number
 
+Cryptocat.buddyList = {
+	'main-Conversation': 'main-Conversation'
+}
+
 Cryptocat.ignoredUsers = []
 Cryptocat.authenticatedUsers = []
 Cryptocat.conversationName = null
@@ -49,7 +53,6 @@ $('#version').text(Cryptocat.version)
 Cryptocat.random.setSeed(Cryptocat.random.generateSeed())
 
 var conversations = {}
-var buddyList = []
 var newMessages = 0
 var isFocused = true
 var paused = false
@@ -122,8 +125,8 @@ Cryptocat.addToConversation = function(message, nickname, conversation, type) {
 		message = Mustache.render(Cryptocat.templates.file, { message: message })
 	}
 	else if (type === 'composing') {
-		if ($('#composing-' + nickname).length) { return true }
-		message = Mustache.render(Cryptocat.templates.composing, { id: 'composing-' + nickname })
+		if ($('#composing-' + Cryptocat.buddyList[nickname]).length) { return true }
+		message = Mustache.render(Cryptocat.templates.composing, { id: 'composing-' + Cryptocat.buddyList[nickname] })
 	}
 	else if (type === 'message') {
 		if (!message.length) { return false }
@@ -151,7 +154,7 @@ Cryptocat.addToConversation = function(message, nickname, conversation, type) {
 	}
 	else if (type === 'missingRecipients') {
 		if (!message.length) { return false }
-		message = Strophe.xmlescape(message.join(', '))
+		message = message.join(', ')
 		message = Mustache.render(Cryptocat.templates.missingRecipients, {
 			text: 'Warning: this message was not sent to ' + message // Replace with localization string!
 		})
@@ -180,24 +183,24 @@ Cryptocat.addToConversation = function(message, nickname, conversation, type) {
 		scrollDownConversation(400, true)
 	}
 	else if (type !== 'composing') {
-		$('#buddy-' + conversation).css('background-image', 'url("img/newMessage.png")')
-		$('#buddy-' + conversation).addClass('newMessage')
+		$('#buddy-' + Cryptocat.buddyList[conversation]).css('background-image', 'url("img/newMessage.png")')
+		$('#buddy-' + Cryptocat.buddyList[conversation]).addClass('newMessage')
 	}
 }
 
 // Show a preview for a received message from a buddy.
 // Message previews will not overlap and are removed after 5 seconds.
 Cryptocat.messagePreview = function(message, nickname) {
-	if (!$('#buddy-' + nickname).attr('data-utip')) {
+	if (!$('#buddy-' + Cryptocat.buddyList[nickname]).attr('data-utip')) {
 		if (message.length > 15) {
 			message = message.substring(0, 15) + '..'
 		}
-		$('#buddy-' + nickname).attr('data-utip', Strophe.xmlescape(message))
-		$('#buddy-' + nickname).attr('data-utip-gravity', 'sw')
-		$('#buddy-' + nickname).mouseenter()
+		$('#buddy-' + Cryptocat.buddyList[nickname]).attr('data-utip', Strophe.xmlescape(message))
+		$('#buddy-' + Cryptocat.buddyList[nickname]).attr('data-utip-gravity', 'sw')
+		$('#buddy-' + Cryptocat.buddyList[nickname]).mouseenter()
 		window.setTimeout(function() {
-			$('#buddy-' + nickname).mouseleave()
-			$('#buddy-' + nickname).removeAttr('data-utip')
+			$('#buddy-' + Cryptocat.buddyList[nickname]).mouseleave()
+			$('#buddy-' + Cryptocat.buddyList[nickname]).removeAttr('data-utip')
 		}, 0x1337)
 	}
 }
@@ -229,28 +232,31 @@ Cryptocat.loginFail = function(message) {
 
 // Build new buddy.
 Cryptocat.addBuddy = function(nickname) {
-	nickname = Strophe.xmlescape(nickname)
+	var buddyElement = Cryptocat.random.encodedBytes(16, CryptoJS.enc.Hex)
+	while ($('buddy-' + buddyElement).length) {
+		buddyElement = Cryptocat.random.encodedBytes(16, CryptoJS.enc.Hex)
+	}
 	$('#buddyList').queue(function() {
 		var buddyTemplate = Mustache.render(Cryptocat.templates.buddy, {
-			nickname: nickname,
+			buddyElement: buddyElement,
 			shortNickname: shortenString(nickname, 12)
 		})
 		$(buddyTemplate).insertAfter('#buddiesOnline').slideDown(100, function() {
-			$('#buddy-' + nickname).unbind('click')
-			$('#menu-' + nickname).unbind('click')
-			$('#menu-' + nickname).attr('status', 'inactive')
+			$('#buddy-' + buddyElement).unbind('click')
+			$('#menu-' + buddyElement).unbind('click')
+			$('#menu-' + buddyElement).attr('status', 'inactive')
 			if (Cryptocat.ignoredUsers.indexOf(nickname) >= 0) {
-				$('#buddy-' + nickname).addClass('ignored')
+				$('#buddy-' + buddyElement).addClass('ignored')
 			}
-			$('#menu-' + nickname).click(function(e) {
+			$('#menu-' + buddyElement).click(function(e) {
 				e.stopPropagation()
 				openBuddyMenu(nickname)
 			})
-			$('#buddy-' + nickname).click(function() {
+			$('#buddy-' + buddyElement).click(function() {
 				Cryptocat.onBuddyClick(nickname)
 			})
-			buddyList.push(nickname)
-			for (var u = 0; u < 6000; u += 2000) {
+			Cryptocat.buddyList[nickname] = buddyElement
+			for (var u = 0; u < 4000; u += 2000) {
 				window.setTimeout(Cryptocat.xmpp.sendPublicKey, u, nickname)
 			}
 			buddyNotification(nickname, true)
@@ -264,42 +270,46 @@ Cryptocat.removeBuddy = function(nickname) {
 	// Delete their encryption keys.
 	delete Cryptocat.otr.keys[nickname]
 	multiParty.removeKeys(nickname)
-	buddyList.splice(buddyList.indexOf(nickname), 1)
-	Cryptocat.authenticatedUsers.splice(Cryptocat.authenticatedUsers.indexOf(nickname), 1)
-	if (($('#buddy-' + nickname).length !== 0)
-		&& ($('#buddy-' + nickname).attr('status') !== 'offline')) {
+	Cryptocat.authenticatedUsers.splice(
+		Cryptocat.authenticatedUsers.indexOf(nickname), 1
+	)
+	if (($('#buddy-' + Cryptocat.buddyList[nickname]).length !== 0)
+		&& ($('#buddy-' + Cryptocat.buddyList[nickname]).attr('status') !== 'offline')) {
 		if ((Cryptocat.currentConversation !== nickname)
-			&& ($('#buddy-' + nickname).css('background-image') === 'none')) {
-			$('#buddy-' + nickname).slideUp(500, function() {
+			&& ($('#buddy-' + Cryptocat.buddyList[nickname]).css('background-image') === 'none')) {
+			$('#buddy-' + Cryptocat.buddyList[nickname]).slideUp(500, function() {
 				$(this).remove()
 			})
 		}
 		else {
-			$('#buddy-' + nickname).attr('status', 'offline')
+			$('#buddy-' + Cryptocat.buddyList[nickname]).attr('status', 'offline')
 		}
 	}
 	buddyNotification(nickname, false)
+	delete Cryptocat.buddyList[nickname]
 }
 
 // Bind buddy click actions.
 Cryptocat.onBuddyClick = function(nickname) {
-	$('#buddy-' + nickname).removeClass('newMessage')
-	if ($('#buddy-' + nickname).prev().attr('id') === 'currentConversation') {
+	$('#buddy-' + Cryptocat.buddyList[nickname]).removeClass('newMessage')
+	if ($('#buddy-' + Cryptocat.buddyList[nickname]).prev().attr('id') === 'currentConversation') {
 		$('#userInputText').focus()
 		return true
 	}
-	$('#buddy-' + nickname).css('background-image', 'none')
+	$('#buddy-' + Cryptocat.buddyList[nickname]).css('background-image', 'none')
 	if (nickname === 'main-Conversation') {
-		$('#buddy-' + nickname).css('background-image', 'url("img/groupChat.png")')
+		$('#buddy-' + Cryptocat.buddyList[nickname])
+			.css('background-image', 'url("img/groupChat.png")')
 	}
 	if (Cryptocat.currentConversation) {
-		var buddyStatus = $('#buddy-' + Cryptocat.currentConversation).attr('status')
+		var buddyStatus = $('#buddy-' + Cryptocat.buddyList[Cryptocat.currentConversation])
+			.attr('status')
 		if (buddyStatus === 'online') {
-			$('#buddy-' + Cryptocat.currentConversation)
+			$('#buddy-' + Cryptocat.buddyList[Cryptocat.currentConversation])
 				.insertAfter('#buddiesOnline').slideDown(100)
 		}
 		else if (buddyStatus === 'away') {
-			$('#buddy-' + Cryptocat.currentConversation)
+			$('#buddy-' + Cryptocat.buddyList[Cryptocat.currentConversation])
 				.insertAfter('#buddiesAway').slideDown(100)
 		}
 	}
@@ -389,7 +399,9 @@ Cryptocat.logout = function() {
 			})
 			$('#conversationWindow').html('')
 			Cryptocat.otr.keys = {}
-			buddyList = []
+			Cryptocat.buddyList = {
+				'main-Conversation': 'main-Conversation'
+			}
 			multiParty.reset()
 			conversations = {}
 			Cryptocat.currentConversation = null
@@ -443,33 +455,33 @@ function buildConversationInfo(conversation) {
 	}
 }
 
-// Switches the currently active conversation to `buddy'
-function switchConversation(buddy) {
+// Switches the currently active conversation to `nickname'
+function switchConversation(nickname) {
 	setTimeout(function () {
-		$('#buddy-' + buddy).addClass('currentConversation')
+		$('#buddy-' + Cryptocat.buddyList[nickname]).addClass('currentConversation')
 	}, 1)
 
-	if (buddy !== 'main-Conversation') {
-		$('#buddy-' + buddy).css('background-image', 'none')
+	if (nickname !== 'main-Conversation') {
+		$('#buddy-' + Cryptocat.buddyList[nickname]).css('background-image', 'none')
 	}
 	buildConversationInfo(Cryptocat.currentConversation)
 	$('#conversationWindow').html(conversations[Cryptocat.currentConversation])
 	bindTimestamps()
 	scrollDownConversation(0, false)
 	$('#userInputText').focus()
-	if (($('#buddy-' + buddy).prev().attr('id') === 'buddiesOnline')
-		|| (($('#buddy-' + buddy).prev().attr('id') === 'buddiesAway')
+	if (($('#buddy-' + Cryptocat.buddyList[nickname]).prev().attr('id') === 'buddiesOnline')
+		|| (($('#buddy-' + Cryptocat.buddyList[nickname]).prev().attr('id') === 'buddiesAway')
 		&& $('#buddiesOnline').next().attr('id') === 'buddiesAway')) {
-		$('#buddy-' + buddy).insertAfter('#currentConversation')
+		$('#buddy-' + Cryptocat.buddyList[nickname]).insertAfter('#currentConversation')
 	}
 	else {
-		$('#buddy-' + buddy).insertAfter('#currentConversation').slideDown(100)
+		$('#buddy-' + Cryptocat.buddyList[nickname]).insertAfter('#currentConversation').slideDown(100)
 	}
 	// Clean up finished conversations.
 	$('#buddyList div').each(function() {
-		if ($(this).attr('id') !== ('buddy-' + Cryptocat.currentConversation)) {
+		if ($(this).attr('id') !== ('buddy-' + Cryptocat.buddyList[Cryptocat.currentConversation])) {
 			var thisBuddy = $(this)
-			setTimeout(function () {
+			setTimeout(function() {
 				thisBuddy.removeClass('currentConversation')
 			}, 1)
 			if (($(this).css('background-image') === 'none')
@@ -490,24 +502,24 @@ function shortenString(string, length) {
 }
 
 // Get a fingerprint, formatted for readability.
-function getFingerprint(buddy, OTR) {
+function getFingerprint(nickname, OTR) {
 	var fingerprint
 	if (OTR) {
-		if (buddy === Cryptocat.myNickname) {
+		if (nickname === Cryptocat.myNickname) {
 			fingerprint = Cryptocat.otr.myKey.fingerprint()
 		}
 		else {
 			/* jshint -W106 */
-			fingerprint = Cryptocat.otr.keys[buddy].their_priv_pk.fingerprint()
+			fingerprint = Cryptocat.otr.keys[nickname].their_priv_pk.fingerprint()
 			/* jshint +W106 */
 		}
 	}
 	else {
-		if (buddy === Cryptocat.myNickname) {
+		if (nickname === Cryptocat.myNickname) {
 			fingerprint = multiParty.genFingerprint()
 		}
 		else {
-			fingerprint = multiParty.genFingerprint(buddy)
+			fingerprint = multiParty.genFingerprint(nickname)
 		}
 	}
 	var formatted = ''
@@ -611,14 +623,14 @@ function buddyNotification(nickname, join) {
 	var status, audioNotification
 	if (join) {
 		status = Mustache.render(Cryptocat.templates.userJoin, {
-			nickname: Strophe.xmlescape(nickname),
+			nickname: nickname,
 			currentTime: currentTime(false)
 		})
 		audioNotification = 'userJoin'
 	}
 	else {
 		status = Mustache.render(Cryptocat.templates.userLeave, {
-			nickname: Strophe.xmlescape(nickname),
+			nickname: nickname,
 			currentTime: currentTime(false)
 		})
 		audioNotification = 'userLeave'
@@ -698,7 +710,6 @@ function ensureOTRdialog(nickname, close, cb) {
 // Display buddy information, including fingerprints and authentication.
 function displayInfo(nickname) {
 	var infoDialog
-	nickname = Strophe.xmlescape(nickname)
 	if (nickname === Cryptocat.myNickname) {
 		infoDialog = 'myInfo'
 	}
@@ -749,53 +760,53 @@ function displayInfo(nickname) {
 
 // Open a buddy's contact list context menu.
 function openBuddyMenu(nickname) {
-	if ($('#menu-' + nickname).attr('status') === 'active') {
-		$('#menu-' + nickname).attr('status', 'inactive')
-		$('#menu-' + nickname).css('background-image', 'url("img/down.png")')
-		$('#buddy-' + nickname).animate({'height': 15}, 190)
-		$('#' + nickname + '-contents').fadeOut(200, function() {
-			$('#' + nickname + '-contents').remove()
+	if ($('#menu-' + Cryptocat.buddyList[nickname]).attr('status') === 'active') {
+		$('#menu-' + Cryptocat.buddyList[nickname]).attr('status', 'inactive')
+		$('#menu-' + Cryptocat.buddyList[nickname]).css('background-image', 'url("img/down.png")')
+		$('#buddy-' + Cryptocat.buddyList[nickname]).animate({'height': 15}, 190)
+		$('#' + Cryptocat.buddyList[nickname] + '-contents').fadeOut(200, function() {
+			$('#' + Cryptocat.buddyList[nickname] + '-contents').remove()
 		})
 		return
 	}
 	var ignoreAction = Cryptocat.locale['chatWindow']['ignore']
-	var buddyMenuContents = '<div class="buddyMenuContents" id="' + nickname + '-contents">'
-	$('#menu-' + nickname).attr('status', 'active')
-	$('#menu-' + nickname).css('background-image', 'url("img/up.png")')
+	var buddyMenuContents = '<div class="buddyMenuContents" id="' + Cryptocat.buddyList[nickname] + '-contents">'
+	$('#menu-' + Cryptocat.buddyList[nickname]).attr('status', 'active')
+	$('#menu-' + Cryptocat.buddyList[nickname]).css('background-image', 'url("img/up.png")')
 	if (Cryptocat.ignoredUsers.indexOf(nickname) >= 0) {
 		ignoreAction = Cryptocat.locale['chatWindow']['unignore']
 	}
-	$('#buddy-' + nickname).delay(10).animate({'height': 130}, 180, function() {
-		$('#buddy-' + nickname).append(buddyMenuContents)
-		$('#' + nickname + '-contents').append(
+	$('#buddy-' + Cryptocat.buddyList[nickname]).delay(10).animate({'height': 130}, 180, function() {
+		$('#buddy-' + Cryptocat.buddyList[nickname]).append(buddyMenuContents)
+		$('#' + Cryptocat.buddyList[nickname] + '-contents').append(
 			Mustache.render(Cryptocat.templates.buddyMenu, {
 				sendEncryptedFile: Cryptocat.locale['chatWindow']['sendEncryptedFile'],
 				displayInfo: Cryptocat.locale['chatWindow']['displayInfo'],
 				ignore: ignoreAction
 			})
 		)
-		$('#' + nickname + '-contents').fadeIn(200)
-		$('#' + nickname + '-contents').find('.option1').click(function(e) {
+		$('#' + Cryptocat.buddyList[nickname] + '-contents').fadeIn(200)
+		$('#' + Cryptocat.buddyList[nickname] + '-contents').find('.option1').click(function(e) {
 			e.stopPropagation()
 			displayInfo(nickname)
-			$('#menu-' + nickname).click()
+			$('#menu-' + Cryptocat.buddyList[nickname]).click()
 		})
-		$('#' + nickname + '-contents').find('.option2').click(function(e) {
+		$('#' + Cryptocat.buddyList[nickname] + '-contents').find('.option2').click(function(e) {
 			e.stopPropagation()
 			sendFile(nickname)
-			$('#menu-' + nickname).click()
+			$('#menu-' + Cryptocat.buddyList[nickname]).click()
 		})
-		$('#' + nickname + '-contents').find('.option3').click(function(e) {
+		$('#' + Cryptocat.buddyList[nickname] + '-contents').find('.option3').click(function(e) {
 			e.stopPropagation()
 			if (Cryptocat.ignoredUsers.indexOf(nickname) < 0) {
 				Cryptocat.ignoredUsers.push(nickname)
-				$('#buddy-' + nickname).addClass('ignored')
+				$('#buddy-' + Cryptocat.buddyList[nickname]).addClass('ignored')
 			}
 			else {
 				Cryptocat.ignoredUsers.splice(Cryptocat.ignoredUsers.indexOf(nickname), 1)
-				$('#buddy-' + nickname).removeClass('ignored')
+				$('#buddy-' + Cryptocat.buddyList[nickname]).removeClass('ignored')
 			}
-			$('#menu-' + nickname).click()
+			$('#menu-' + Cryptocat.buddyList[nickname]).click()
 		})
 	})
 }
@@ -931,9 +942,11 @@ $('#userInput').submit(function() {
 	else if (multiParty.userCount() >= 1) {
 		var ciphertext = JSON.parse(multiParty.sendMessage(message))
 		var missingRecipients = []
-		for (var i = 0; i !== buddyList.length; i++) {
-			if (typeof(ciphertext['text'][buddyList[i]]) !== 'object') {
-				missingRecipients.push(buddyList[i])
+		for (var i in Cryptocat.buddyList) {
+			if (typeof(ciphertext['text'][i]) !== 'object') {
+				if (i !== 'main-Conversation') {
+					missingRecipients.push(i)
+				}
 			}
 		}
 		if (missingRecipients.length) {
@@ -1116,7 +1129,7 @@ $(window).focus(function() {
 
 // Prevent accidental window close.
 $(window).bind('beforeunload', function() {
-	if (buddyList.length) {
+	if (Object.keys(Cryptocat.buddyList).length > 1) {
 		return Cryptocat.locale['loginMessage']['thankYouUsing']
 	}
 })

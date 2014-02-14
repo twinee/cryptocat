@@ -148,7 +148,7 @@ Cryptocat.xmpp.onMessage = function(message) {
 		return true
 	}
 	// If message is from someone not on buddy list, ignore.
-	if (!$('#buddy-' + nickname).length) {
+	if (!Cryptocat.buddyList.hasOwnProperty(nickname)) {
 		return true
 	}
 	// Check if message has a 'composing' notification.
@@ -165,8 +165,8 @@ Cryptocat.xmpp.onMessage = function(message) {
 	}
 	// Check if message has an 'active' or 'paused' (stopped writing) notification.
 	if ($(message).find('active').length || $(message).find('paused').length) {
-		if ($('#composing-' + nickname).length) {
-			$('#composing-' + nickname).parent().fadeOut(100).remove()
+		if ($('#composing-' + Cryptocat.buddyList[nickname]).length) {
+			$('#composing-' + Cryptocat.buddyList[nickname]).parent().fadeOut(100).remove()
 		}
 	}
 	// Check if message is a group chat message.
@@ -219,25 +219,25 @@ Cryptocat.xmpp.onPresence = function(presence) {
 		return true
 	}
 	// Create buddy element if buddy is new.
-	else if (!$('#buddy-' + nickname).length) {
+	else if (!Cryptocat.buddyList.hasOwnProperty(nickname)) {
 		Cryptocat.addBuddy(nickname)
 	}
 	// Handle buddy status change to 'available'.
 	else if ($(presence).find('show').text() === '' || $(presence).find('show').text() === 'chat') {
-		if ($('#buddy-' + nickname).attr('status') !== 'online') {
+		if ($('#buddy-' + Cryptocat.buddyList[nickname]).attr('status') !== 'online') {
 			status = 'online'
 			placement = '#buddiesOnline'
 		}
 	}
 	// Handlebuddy status change to 'away'.
-	else if ($('#buddy-' + nickname).attr('status') !== 'away') {
+	else if ($('#buddy-' + Cryptocat.buddyList[nickname]).attr('status') !== 'away') {
 		status = 'away'
 		placement = '#buddiesAway'
 	}
 	// Perform status change.
-	$('#buddy-' + nickname).attr('status', status)
+	$('#buddy-' + Cryptocat.buddyList[nickname]).attr('status', status)
 	if (placement) {
-		$('#buddy-' + nickname).animate({'color': color }, function() {
+		$('#buddy-' + Cryptocat.buddyList[nickname]).animate({'color': color }, function() {
 			if (Cryptocat.currentConversation !== nickname) {
 				$(this).insertAfter(placement).slideDown(200)
 			}
@@ -269,10 +269,11 @@ Cryptocat.xmpp.sendStatus = function() {
 // Clean nickname so that it's safe to use.
 function cleanNickname(nickname) {
 	var clean = nickname.match(/\/([\s\S]+)/)
-	if (clean) { clean = Strophe.xmlescape(clean[1]) }
+	if (clean) {
+		return clean[1]
+		return Strophe.xmlescape(clean[1])
+	}
 	else { return false }
-	if (clean.match(/\W/)) { return false }
-	return clean
 }
 
 })
