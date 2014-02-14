@@ -2,8 +2,8 @@
  * Tinycon - A small library for manipulating the Favicon
  * Tom Moor, http://tommoor.com
  * Copyright (c) 2012 Tom Moor
- * MIT Licensed
- * @version 0.6.1
+ * @license MIT Licensed
+ * @version 0.6.3
  */
 
 (function(){
@@ -11,7 +11,6 @@
 	var Tinycon = {};
 	var currentFavicon = null;
 	var originalFavicon = null;
-	var originalTitle = document.title;
 	var faviconImage = null;
 	var canvas = null;
 	var options = {};
@@ -145,6 +144,14 @@
 	var updateTitle = function(label) {
 
 		if (options.fallback) {
+			// Grab the current title that we can prefix with the label
+			var originalTitle = document.title;
+
+			// Strip out the old label if there is one
+			if (originalTitle[0] === '(') {
+				originalTitle = originalTitle.slice(originalTitle.indexOf(' '));
+			}
+
 			if ((label + '').length > 0) {
 				document.title = '(' + label + ') ' + originalTitle;
 			} else {
@@ -264,4 +271,9 @@
 
 	Tinycon.setOptions(defaults);
 	window.Tinycon = Tinycon;
+
+	if(typeof define === 'function' && define.amd) {
+		define(Tinycon);
+	}
+
 })();
