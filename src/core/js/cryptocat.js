@@ -486,7 +486,7 @@ function switchConversation(nickname) {
 			}, 1)
 			if (($(this).css('background-image') === 'none')
 				&& ($(this).attr('status') === 'offline')) {
-				$(this).slideUp(500, function() { $('#' + buddy).remove() })
+				$(this).slideUp(500, function() { $('#' + nickname).remove() })
 			}
 		}
 	})
