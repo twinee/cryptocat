@@ -233,7 +233,7 @@ Cryptocat.loginFail = function(message) {
 // Build new buddy.
 Cryptocat.addBuddy = function(nickname) {
 	var buddyElement = Cryptocat.random.encodedBytes(16, CryptoJS.enc.Hex)
-	while ($('buddy-' + buddyElement).length) {
+	while ($('#buddy-' + buddyElement).length) {
 		buddyElement = Cryptocat.random.encodedBytes(16, CryptoJS.enc.Hex)
 	}
 	$('#buddyList').queue(function() {
