@@ -687,7 +687,7 @@ function sendFile(nickname) {
 function scrollDownConversation(speed, threshold) {
 	var scrollPosition = $('#conversationWindow')[0].scrollHeight - $('#conversationWindow').scrollTop()
 	if ((scrollPosition < 950) || !threshold) {
-		$('#conversationWindow').animate({
+		$('#conversationWindow').stop().animate({
 			scrollTop: $('#conversationWindow')[0].scrollHeight + 20
 		}, speed)
 	}
