@@ -27,7 +27,7 @@ Cryptocat.templates = {
 		+ '<div id="displayInfo">'
 		+ '{{groupFingerprint}}<br /><span id="multiPartyFingerprint"></span>'
 		+ '</div><div id="authInfo"><h2>{{authenticate}}</h2>'
-		+ '<p>{{otrFingerprint}}<br /><span id="otrFingerprint"></span></p>'
+		+ '<p id="otrFingerprintWrapper">{{otrFingerprint}}<br /><span id="otrFingerprint"></span></p>'
 		+ '<p>{{verifyUserIdentity}}</p>'
 		+ '<form><input type="text" id="authQuestion" placeholder="{{secretQuestion}}" maxlength="64" />'
 		+ '<input type="password" id="authAnswer" placeholder="{{secretAnswer}}" maxlength="64" />'

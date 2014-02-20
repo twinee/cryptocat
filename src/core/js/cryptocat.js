@@ -208,13 +208,14 @@ Cryptocat.messagePreview = function(message, nickname) {
 // Modify the "Display Info" dialog to show that a user is authenticated.
 // `speed` is animation speed.
 Cryptocat.showAuthenticated = function(nickname, speed) {
-	$('#authInfo').children().not('#authVerified')
+	$('#authInfo').children()
+		.not('#otrFingerprintWrapper')
+		.not('#authVerified')
 		.fadeOut(speed, function() { $(this).remove() })
 	window.setTimeout(function() {
 		$('#authInfo').animate({
-			'height': 44,
-			'background-color': '#97CEEC',
-			'margin-top': '15px'
+			'height': 100,
+			'background-color': '#97CEEC'
 		}, speed, function() {
 			$('#authVerified').fadeIn(speed)
 		})
