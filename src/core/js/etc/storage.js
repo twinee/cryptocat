@@ -18,7 +18,7 @@ $(window).ready(function() {
 // Cryptocat.storage.removeItem(itemName)
 // Removes itemName and its value from local storage.
 
-// Define the wrapper, depending on our browser or enivronment.
+// Define the wrapper, depending on our browser or environment.
 Cryptocat.storage = (function() {
 	// Chrome
 	if (typeof(chrome) === 'object' && chrome.storage) {
