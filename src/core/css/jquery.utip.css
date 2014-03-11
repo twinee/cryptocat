@@ -8,9 +8,9 @@ color: white;
 font-size: 14px;
 max-width: 256px;
 line-height: 16px;
-font-size: 11px;
+font-size: 12px;
 color: #FFF;
-box-shadow: 3px 3px #97CEEC;
+box-shadow: 2px 2px #97CEEC;
 background: #76BDE5;
 }
 #utip::before {
