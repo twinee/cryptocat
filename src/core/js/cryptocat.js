@@ -891,20 +891,19 @@ var prepareKeysAndConnect = function() {
 // Check for nickname completion.
 // Called when pressing tab in user input.
 var nicknameCompletion = function(input) {
-	var suffix
-	for (var nickname in Cryptocat.buddies) {
-		if (!Cryptocat.buddies.hasOwnProperty(nickname)) {
-			continue
-		}
-		if (nickname === 'main-Conversation') {
-			continue
-		}
-		try { var match = nickname.match(input.match(/(\S)+$/)[0]) }
-		catch(err) {}
-		if (match) {
-			if (input.match(/\s/)) { suffix = ' ' }
-			else { suffix = ': ' }
-			return input.replace(/(\S)+$/, nickname + suffix)
+	var nickname, match, suffix
+	for (nickname in Cryptocat.buddies) {
+		if (Cryptocat.buddies.hasOwnProperty(nickname)) {
+			if (nickname === 'main-Conversation') {
+				continue
+			}
+			try { match = nickname.match(input.match(/(\S)+$/)[0]) }
+			catch(err) {}
+			if (match) {
+				if (input.match(/\s/)) { suffix = ' ' }
+				else { suffix = ': ' }
+				return input.replace(/(\S)+$/, nickname + suffix)
+			}
 		}
 	}
 }
