@@ -148,18 +148,4 @@ window.setTimeout(function() {
 	})
 }, 800)
 
-// Load pre-existing encryption keys
-// Key storage currently disabled as we are not yet sure if this is safe to do.
-/*
-Cryptocat.storage.getItem('myKey', function(key) {
-	if (key) {
-		var Cryptocat.otr.myKey = new DSA(JSON.parse(key))
-		Cryptocat.storage.getItem('multiPartyKey', function(mpKey) {
-			multiParty.setPrivateKey(mpKey)
-			multiParty.getPublicKey()
-		})
-	}
-})
-*/
-
 })

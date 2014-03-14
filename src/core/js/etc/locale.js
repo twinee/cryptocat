@@ -150,7 +150,7 @@ Cryptocat.locale.refresh = function(languageObject) {
 	$('#myInfo').attr('data-utip', languageObject['chatWindow']['myInfo'])
 	$('#status').attr('data-utip', languageObject['chatWindow']['statusAvailable'])
 	$('#conversationTag').text(languageObject['chatWindow']['conversation'])
-	$('#languageSelect').text($('#' + languageObject['language']).text())
+	$('#languageSelect').text($('[data-locale=' + languageObject['language'] + ']').text())
 	$('[data-utip]').utip()
 	$('html').attr('dir', languageObject['direction'])
 	if (languageObject['direction'] === 'ltr') {

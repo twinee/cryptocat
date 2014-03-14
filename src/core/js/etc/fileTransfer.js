@@ -9,8 +9,8 @@ var fileMIME = new RegExp('^(image\/(png|jpeg|gif))|(application\/((x-compressed
 	+ '|(x-zip)|(octet-stream)|(x-compress)))|(multipart/x-zip)$'
 )
 
-function cn(to) {
-	return Cryptocat.conversationName + '@' + Cryptocat.xmpp.conferenceServer + '/' + to
+var cn = function(to) {
+	return Cryptocat.me.conversation + '@' + Cryptocat.xmpp.conferenceServer + '/' + to
 }
 
 Cryptocat.otr.beginSendFile = function(data) {
@@ -52,7 +52,7 @@ Cryptocat.otr.beginSendFile = function(data) {
 				if (err) {
 					return console.log(err)
 				}
-				Cryptocat.addToConversation(sid, Cryptocat.myNickname, data.to, 'file')
+				Cryptocat.addToConversation(sid, Cryptocat.me.nickname, data.to, 'file')
 				Cryptocat.otr.sendFileData({
 					start: true,
 					to: data.to,
@@ -133,11 +133,11 @@ Cryptocat.otr.ibbHandler = function(type, from, sid, data, seq) {
 	switch (type) {
 		case 'open':
 			var file = rcvFile[from][sid].filename
-			rcvFile[from][sid].key = Cryptocat.otr.fileKeys[nick][file]
+			rcvFile[from][sid].key = Cryptocat.buddies[nick].fileKey[file]
 			if (sid.match(/^\w{1,64}$/) && rcvFile[from][sid].mime.match(fileMIME)) {
 				Cryptocat.addToConversation(sid, nick, nick, 'file')
 			}
-			delete Cryptocat.otr.fileKeys[nick][file]
+			delete Cryptocat.buddies[nick].fileKey[file]
 			break
 		case 'data':
 			if (rcvFile[from][sid].abort) {

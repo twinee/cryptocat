@@ -1,6 +1,6 @@
 $(window).ready(function() {
 
-function updateCustomServers() {
+var updateCustomServers = function() {
 	var customServers = {}
 	$('#customServerSelector option').each(function() {
 		var name = $(this).val()
@@ -12,7 +12,6 @@ function updateCustomServers() {
 	Cryptocat.storage.setItem('customServers', JSON.stringify(customServers))
 }
 
-// Custom server dialog.
 $('#customServer').click(function() {
 	if (!document.getElementById('customServerSelector').firstChild) {
 		$('#customServerSelector').append(
@@ -62,85 +61,85 @@ $('#customServer').click(function() {
 			Cryptocat.storage.setItem('conferenceServer', Cryptocat.xmpp.conferenceServer)
 			Cryptocat.storage.setItem('relay', Cryptocat.xmpp.relay)
 		})
-		$('#customServerSave').unbind('click')
-		$('#customServerSave').click(function() {
-			$('#customServerDelete').val('Delete')
-				.attr('data-deleteconfirm', '0')
-				.removeClass('confirm')
-			if ($('#customDomain').val() === Cryptocat.xmpp.defaultDomain) {
-				return // Cannot overwrite the default domain
-			}
-			var serverIsInList = false
-			$('#customServerSelector').children().each(function() {
-				if ($('#customName').val() === $(this).val()) {
-					serverIsInList = true
-					if ($('#customServerSave').attr('data-saveconfirm') !== '1') {
-						$('#customServerSave').val('Overwrite?').attr('data-saveconfirm', '1').addClass('confirm')
-						return
-					}
-					else {
-						$('#customServerSave').val('Save').attr('data-saveconfirm', '0').removeClass('confirm')
-					}
-				}
-			})
-			if (!serverIsInList) {
-				$('#customServerSelector').append(
-					Mustache.render(Cryptocat.templates['customServer'], {
-						name: $('#customName').val(),
-						domain: $('#customDomain').val(),
-						XMPP: $('#customConferenceServer').val(),
-						Relay: $('#customRelay').val()
-					})
-				)
-			}
-			else {
-				$.each($('#customServerSelector option'), function(index, value) {
-					if ($(value).val() === $('#customName').val()) {
-						$(value).attr('data-domain', $('#customDomain').val())
-						$(value).attr('data-relay', $('#customRelay').val())
-						$(value).attr('data-xmpp', $('#customConferenceServer').val())
-					}
-				})
-			}
-			updateCustomServers()
-		})
-		$('#customServerDelete').unbind('click')
-		$('#customServerDelete').click(function() {
-			$('#customServerSave').val('Save').attr('data-saveconfirm', '0').removeClass('confirm')
-			if ($('#customServerDelete').attr('data-deleteconfirm') === '1') {
-				$.each($('#customServerSelector option'), function(index, value) {
-					if ($(value).val() === $('#customName').val()) {
-						$(value).remove()
-					}
-				})
-				updateCustomServers()
-				$('#customServerDelete').val('Delete').attr('data-deleteconfirm', '0').removeClass('confirm')
-			}
-			else {
-				$('#customServerDelete').val('Are you sure?').attr('data-deleteconfirm', '1').addClass('confirm')
-			}
-		})
-		$('#customServerSelector').unbind('change')
-		$('#customServerSelector').change(function() {
-			$('#customServerDelete').val('Delete')
-				.attr('data-deleteconfirm', '0')
-				.removeClass('confirm')
-				.removeAttr('disabled')
-				.removeClass('disabled')
-			$('#customServerSave').val('Save')
-				.attr('data-saveconfirm', '0')
-				.removeClass('confirm')
-			var selectedOption = $(this).find(':selected')
-			if ($(selectedOption).attr('data-domain') === Cryptocat.xmpp.defaultDomain) {
-				$('#customServerDelete').attr('disabled', 'disabled').addClass('disabled')
-			}
-			$('#customName').val($(selectedOption).val())
-			$('#customDomain').val($(selectedOption).attr('data-domain'))
-			$('#customConferenceServer').val($(selectedOption).attr('data-xmpp'))
-			$('#customRelay').val($(selectedOption).attr('data-relay'))
-		})
 		$('#customDomain').select()
 	})
+})
+
+$('#customServerSave').click(function() {
+	$('#customServerDelete').val('Delete')
+		.attr('data-deleteconfirm', '0')
+		.removeClass('confirm')
+	if ($('#customDomain').val() === Cryptocat.xmpp.defaultDomain) {
+		return // Cannot overwrite the default domain
+	}
+	var serverIsInList = false
+	$('#customServerSelector').children().each(function() {
+		if ($('#customName').val() === $(this).val()) {
+			serverIsInList = true
+			if ($('#customServerSave').attr('data-saveconfirm') !== '1') {
+				$('#customServerSave').val('Overwrite?').attr('data-saveconfirm', '1').addClass('confirm')
+				return
+			}
+			else {
+				$('#customServerSave').val('Save').attr('data-saveconfirm', '0').removeClass('confirm')
+			}
+		}
+	})
+	if (!serverIsInList) {
+		$('#customServerSelector').append(
+			Mustache.render(Cryptocat.templates['customServer'], {
+				name: $('#customName').val(),
+				domain: $('#customDomain').val(),
+				XMPP: $('#customConferenceServer').val(),
+				Relay: $('#customRelay').val()
+			})
+		)
+	}
+	else {
+		$.each($('#customServerSelector option'), function(index, value) {
+			if ($(value).val() === $('#customName').val()) {
+				$(value).attr('data-domain', $('#customDomain').val())
+				$(value).attr('data-relay', $('#customRelay').val())
+				$(value).attr('data-xmpp', $('#customConferenceServer').val())
+			}
+		})
+	}
+	updateCustomServers()
+})
+
+$('#customServerDelete').click(function() {
+	$('#customServerSave').val('Save').attr('data-saveconfirm', '0').removeClass('confirm')
+	if ($('#customServerDelete').attr('data-deleteconfirm') === '1') {
+		$.each($('#customServerSelector option'), function(index, value) {
+			if ($(value).val() === $('#customName').val()) {
+				$(value).remove()
+			}
+		})
+		updateCustomServers()
+		$('#customServerDelete').val('Delete').attr('data-deleteconfirm', '0').removeClass('confirm')
+	}
+	else {
+		$('#customServerDelete').val('Are you sure?').attr('data-deleteconfirm', '1').addClass('confirm')
+	}
+})
+
+$('#customServerSelector').change(function() {
+	$('#customServerDelete').val('Delete')
+		.attr('data-deleteconfirm', '0')
+		.removeClass('confirm')
+		.removeAttr('disabled')
+		.removeClass('disabled')
+	$('#customServerSave').val('Save')
+		.attr('data-saveconfirm', '0')
+		.removeClass('confirm')
+	var selectedOption = $(this).find(':selected')
+	if ($(selectedOption).attr('data-domain') === Cryptocat.xmpp.defaultDomain) {
+		$('#customServerDelete').attr('disabled', 'disabled').addClass('disabled')
+	}
+	$('#customName').val($(selectedOption).val())
+	$('#customDomain').val($(selectedOption).attr('data-domain'))
+	$('#customConferenceServer').val($(selectedOption).attr('data-xmpp'))
+	$('#customRelay').val($(selectedOption).attr('data-relay'))
 })
 
 })

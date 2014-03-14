@@ -1,6 +1,6 @@
 $(window).ready(function() {
 
-function detectBrowser() {
+var detectBrowser = function() {
 	if (navigator.userAgent.match('OPR')) {
 		return 'Opera'
 	}
@@ -16,7 +16,7 @@ function detectBrowser() {
 	return 'Safari'
 }
 
-function showInstructions(browser) {
+var showInstructions = function(browser) {
 	$('.browser').text(browser)
 	$('.instructions[data-browser=' + browser + ']').show()
 }

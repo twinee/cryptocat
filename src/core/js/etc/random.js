@@ -3,7 +3,6 @@ if (typeof Cryptocat === 'undefined') {
 }
 
 ;(function (root, factory) {
-
 	if (typeof module !== 'undefined' && module.exports) {
 		module.exports = factory({}, require('../lib/salsa20.js'), true)
 	} else {
@@ -12,7 +11,6 @@ if (typeof Cryptocat === 'undefined') {
 		}
 		factory(root.Cryptocat, root.Salsa20, false)
 	}
-
 }(this, function (Cryptocat, Salsa20, node) {
 
 Cryptocat.random = {}
@@ -28,19 +26,6 @@ Cryptocat.random.generateSeed = function() {
 			buffer = crypto.randomBytes(40)
 		} catch (e) { throw e }
 	}
-	// Older versions of Firefox
-	else if (navigator.userAgent.match('Firefox') &&
-		(!window.crypto || !window.crypto.getRandomValues)
-	) {
-		var element = document.createElement('cryptocatFirefoxElement')
-		document.documentElement.appendChild(element)
-		var evt = document.createEvent('HTMLEvents')
-		evt.initEvent('cryptocatGenerateRandomBytes', true, false)
-		element.dispatchEvent(evt)
-		buffer = element.getAttribute('randomValues').split(',')
-		element = null
-	}
-	// Browsers that don't require workarounds
 	else {
 		buffer = new Uint8Array(40)
 		window.crypto.getRandomValues(buffer)

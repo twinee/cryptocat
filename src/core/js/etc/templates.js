@@ -11,12 +11,14 @@ Cryptocat.templates = {
 	catFact: '<br />Here is an interesting fact while you wait:'
 		+ '<br /><div id="interestingFact">{{catFact}}</div>',
 
-	buddy: '<div class="buddy" id="buddy-{{buddyElement}}" status="online">'
+	buddy: '<div class="buddy" id="buddy-{{buddyID}}" status="online" data-nickname="{{nickname}}" data-id="{{buddyID}}">'
 		+ '<span>{{shortNickname}}</span>'
-		+ '<div class="buddyMenu" id="menu-{{buddyElement}}"></div></div>',
+		+ '<div class="buddyMenu" id="menu-{{buddyID}}"></div></div>',
 
-	buddyMenu: '<li class="option1">{{displayInfo}}</li>'
-		+ '<li class="option3">{{ignore}}</li>',
+	buddyMenu: '<div class="buddyMenuContents" id="{{buddyID}}-contents">'
+		+ '<li class="option1">{{displayInfo}}</li>'
+		+ '<li class="option3">{{ignore}}</li>'
+		+ '</div>',
 
 	myInfo: '<div class="title">{{nickname}}</div>'
 		+ '<div id="displayInfo">'
@@ -55,7 +57,9 @@ Cryptocat.templates = {
 	missingRecipients: '<div class="missingRecipients">{{text}}</div>',
 
 	message: '<div class="line{{lineDecoration}}"><span class="sender" sender="{{nickname}}"'
-		+ ' timestamp="{{currentTime}}">{{nickname}}</span>{{&message}}</div>',
+		+ ' timestamp="{{currentTime}}"><!--<span class="authStatusNo" data-utip-hoverable="hoverable" '
+		+ 'data-utip-gravity="w" data-utip="{{authStatus}}"></span>-->'
+		+ '<span class="nickname">{{nickname}}</span></span>{{&message}}</div>',
 
 	composing: '<img src="img/typing.gif" class="typing" id="{{id}}" alt="" />',
 

@@ -1,6 +1,4 @@
 Cryptocat.otr = {}
-Cryptocat.otr.keys = {}
-Cryptocat.otr.fileKeys = {}
 
 Cryptocat.otr.fileSize = 5120 // Maximum encrypted file sharing size, in kilobytes.
 Cryptocat.otr.chunkSize = 64511 // Size in which file chunks are split, in bytes.
@@ -14,7 +12,7 @@ Cryptocat.otr.onIncoming = function(buddy) {
 		// drop unencrypted messages
 		if (encrypted) {
 			Cryptocat.addToConversation(msg, buddy, buddy, 'message')
-			if (Cryptocat.currentConversation !== buddy) {
+			if (Cryptocat.me.currentBuddy.name !== buddy) {
 				Cryptocat.messagePreview(msg, buddy)
 			}
 		}
@@ -25,7 +23,7 @@ Cryptocat.otr.onIncoming = function(buddy) {
 Cryptocat.otr.onOutgoing = function(buddy) {
 	return function(message) {
 		Cryptocat.xmpp.connection.muc.message(
-			Cryptocat.conversationName + '@' + Cryptocat.xmpp.conferenceServer,
+			Cryptocat.me.conversation + '@' + Cryptocat.xmpp.conferenceServer,
 			buddy, message, null, 'chat', 'active'
 		)
 	}
@@ -49,12 +47,12 @@ Cryptocat.otr.onSMPQuestion = function(nickname, question) {
 				e.preventDefault()
 				answer = $('#authReply').val().toLowerCase()
 					.replace(/(\s|\.|\,|\'|\"|\;|\?|\!)/, '')
-				Cryptocat.otr.keys[nickname].smpSecret(answer)
+				Cryptocat.buddies[nickname].otrKey.smpSecret(answer)
 				$('#dialogBoxClose').click()
 			})
 		}, function() {
 			if (!answer) {
-				Cryptocat.otr.keys[nickname].smpSecret(
+				Cryptocat.buddies[nickname].otrKey.smpSecret(
 					Cryptocat.random.encodedBytes(16, CryptoJS.enc.Hex)
 				)
 			}
@@ -64,35 +62,35 @@ Cryptocat.otr.onSMPQuestion = function(nickname, question) {
 
 // Add a new OTR key for a new conversation participant
 Cryptocat.otr.add = function(buddy) {
-	Cryptocat.otr.keys[buddy] = new OTR({
-		priv: Cryptocat.otr.myKey,
+	Cryptocat.buddies[buddy].otrKey = new OTR({
+		priv: Cryptocat.me.otrKey,
 		smw: {
 			path: 'js/workers/smp.js',
 			seed: Cryptocat.random.generateSeed
 		}
 	})
-	Cryptocat.otr.keys[buddy].REQUIRE_ENCRYPTION = true
-	Cryptocat.otr.keys[buddy].on('ui' , Cryptocat.otr.onIncoming(buddy))
-	Cryptocat.otr.keys[buddy].on('io' , Cryptocat.otr.onOutgoing(buddy))
-	Cryptocat.otr.keys[buddy].on('smp', Cryptocat.otr.onSMPAnswer(buddy))
-	Cryptocat.otr.keys[buddy].on('status', (function(buddy) {
+	Cryptocat.buddies[buddy].otrKey.REQUIRE_ENCRYPTION = true
+	Cryptocat.buddies[buddy].otrKey.on('ui' , Cryptocat.otr.onIncoming(buddy))
+	Cryptocat.buddies[buddy].otrKey.on('io' , Cryptocat.otr.onOutgoing(buddy))
+	Cryptocat.buddies[buddy].otrKey.on('smp', Cryptocat.otr.onSMPAnswer(buddy))
+	Cryptocat.buddies[buddy].otrKey.on('status', (function(buddy) {
 		return function(state) {
-			if (Cryptocat.otr.keys[buddy].genFingerCb
+			if (Cryptocat.buddies[buddy].otrKey.genFingerCb
 			&& state === OTR.CONST.STATUS_AKE_SUCCESS) {
-				Cryptocat.closeGenerateFingerprints(buddy, Cryptocat.otr.keys[buddy].genFingerCb)
-				;delete Cryptocat.otr.keys[buddy].genFingerCb
-				Cryptocat.authenticatedUsers.splice(Cryptocat.authenticatedUsers.indexOf(buddy), 1)
+				Cryptocat.closeGenerateFingerprints(buddy, Cryptocat.buddies[buddy].otrKey.genFingerCb)
+				;delete Cryptocat.buddies[buddy].otrKey.genFingerCb
+				Cryptocat.buddies[buddy].authenticated = false
 			}
 		}
 	} (buddy)))
-	Cryptocat.otr.keys[buddy].on('file', (function (buddy) {
+	Cryptocat.buddies[buddy].otrKey.on('file', (function (buddy) {
 		return function(type, key, filename) {
 			key = CryptoJS.SHA512(CryptoJS.enc.Latin1.parse(key))
 			key = key.toString(CryptoJS.enc.Latin1)
-			if (!Cryptocat.otr.fileKeys[buddy]) {
-				Cryptocat.otr.fileKeys[buddy] = {}
+			if (!Cryptocat.buddies[buddy].fileKey) {
+				Cryptocat.buddies[buddy].fileKey = {}
 			}
-			Cryptocat.otr.fileKeys[buddy][filename] = [
+			Cryptocat.buddies[buddy].fileKey[filename] = [
 				key.substring(0, 32), key.substring(32)
 			]
 		}
@@ -107,7 +105,7 @@ Cryptocat.otr.onSMPAnswer = function(nickname) {
 		}
 		if ((type === 'trust') && (act === 'asked')) {
 			if (data) {
-				Cryptocat.authenticatedUsers.push(nickname)
+				Cryptocat.buddies[nickname].authenticated = true
 				if ($('#authInfo').length) {
 					Cryptocat.showAuthenticated(nickname, 200)
 					window.setTimeout(function() {

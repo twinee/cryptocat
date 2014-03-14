@@ -23,9 +23,6 @@ CryptocatFirefox.init = function() {
 
 CryptocatFirefox.run = function() {
 	gBrowser.selectedTab = gBrowser.addTab('chrome://cryptocat/content/data/index.html')
-	window.addEventListener('cryptocatGenerateRandomBytes', function(evt) {
-		CryptocatFirefox.generateRandomBytes(evt)
-	}, false, true)
 	window.addEventListener('cryptocatFirefoxStorage', function(evt) {
 		var type = evt.target.getAttribute('type')
 		if (type === 'set') {
@@ -43,20 +40,6 @@ CryptocatFirefox.run = function() {
 			}
 		}
 	}, false, true)
-}
-
-CryptocatFirefox.random = Components.utils.import('chrome://cryptocat/content/generateRandomBytes.jsm')
-
-CryptocatFirefox.generateRandomBytes = function(evt) {
-	try {
-		CryptocatFirefox.random.WeaveCrypto.initNSS(ctypes.libraryName('nss3'))
-	}
-	catch(err) {
-		CryptocatFirefox.random.WeaveCrypto.path = Services.dirsvc.get('GreD', Ci.nsIFile)
-		CryptocatFirefox.random.WeaveCrypto.path.append(ctypes.libraryName('nss3'))
-		CryptocatFirefox.random.WeaveCrypto.initNSS(WeaveCrypto.path.path)
-	}
-	evt.target.setAttribute('randomValues', CryptocatFirefox.random.WeaveCrypto.generateRandomBytes(40))
 }
 
 window.addEventListener('load', CryptocatFirefox.init(), false)
