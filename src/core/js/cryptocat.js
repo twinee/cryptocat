@@ -13,6 +13,7 @@ Cryptocat.me = {
 	nickname: null,
 	newMessages: 0,
 	windowFocus: true,
+	typing: false,
 	otrKey: null,
 	fileKey: null,
 	mpPrivateKey: null,
@@ -64,7 +65,6 @@ $('#version').text(Cryptocat.version)
 Cryptocat.random.setSeed(Cryptocat.random.generateSeed())
 
 var conversationBuffers = {}
-var paused = false
 
 // Load favicon notification settings.
 Tinycon.setOptions({
@@ -888,6 +888,27 @@ var prepareKeysAndConnect = function() {
 	Cryptocat.me.mpFingerprint = Cryptocat.multiParty.genFingerprint()
 }
 
+// Check for nickname completion.
+// Called when pressing tab in user input.
+var nicknameCompletion = function(input) {
+	var suffix
+	for (var nickname in Cryptocat.buddies) {
+		if (!Cryptocat.buddies.hasOwnProperty(nickname)) {
+			continue
+		}
+		if (nickname === 'main-Conversation') {
+			continue
+		}
+		try { var match = nickname.match(input.match(/(\S)+$/)[0]) }
+		catch(err) {}
+		if (match) {
+			if (input.match(/\s/)) { suffix = ' ' }
+			else { suffix = ': ' }
+			return input.replace(/(\S)+$/, nickname + suffix)
+		}
+	}
+}
+
 /*
 -------------------
 USER INTERFACE BINDINGS
@@ -1016,24 +1037,15 @@ $('#userInput').submit(function() {
 $('#userInputText').keydown(function(e) {
 	if (e.keyCode === 9) {
 		e.preventDefault()
-		var nickname, match, suffix
-		for (nickname in Cryptocat.buddies) {
-			if (Cryptocat.buddies.hasOwnProperty(nickname) && (nickname !== 'main-Conversation')) {
-				try { match = nickname.match($(this).val().match(/(\S)+$/)[0]) }
-				catch(err) {}
-				if (match) {
-					if ($(this).val().match(/\s/)) { suffix = ' ' }
-					else { suffix = ': ' }
-					$(this).val($(this).val().replace(/(\S)+$/, nickname + suffix))
-				}
-			}
+		var nickComplete = nicknameCompletion($(this).val())
+		if (nickComplete) {
+			$(this).val(nickComplete)
 		}
 	}
 	else if (e.keyCode === 13) {
 		e.preventDefault()
 		$('#userInput').submit()
-		window.clearTimeout(paused)
-		paused = false
+		Cryptocat.me.typing = false
 		return true
 	}
 	var destination, type
@@ -1045,20 +1057,20 @@ $('#userInputText').keydown(function(e) {
 		destination = Cryptocat.me.currentBuddy.name
 		type = 'chat'
 	}
-	if (paused === false) {
+	if (!Cryptocat.me.typing) {
+		Cryptocat.me.typing = true
 		Cryptocat.xmpp.connection.muc.message(
 			Cryptocat.me.conversation + '@' + Cryptocat.xmpp.conferenceServer,
 			destination, '', null, type, 'composing'
 		)
+		window.setTimeout(function(d, t) {
+			Cryptocat.xmpp.connection.muc.message(
+				Cryptocat.me.conversation + '@' + Cryptocat.xmpp.conferenceServer,
+				d, '', null, t, 'paused'
+			)
+			Cryptocat.me.typing = false
+		}, 7000, destination, type)
 	}
-	window.clearTimeout(paused)
-	paused = window.setTimeout(function(d, t) {
-		Cryptocat.xmpp.connection.muc.message(
-			Cryptocat.me.conversation + '@' + Cryptocat.xmpp.conferenceServer,
-			d, '', null, t, 'paused'
-		)
-		paused = false
-	}, 5000, destination, type)
 })
 
 $('#userInputText').keyup(function(e) {
