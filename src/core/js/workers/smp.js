@@ -22,7 +22,7 @@
 		'../lib/otr.js'
 	]
 
-	function wrapPostMessage(method) {
+	var wrapPostMessage = function(method) {
 		return function () {
 			postMessage({
 				method: method,
@@ -32,7 +32,7 @@
 	}
 
 	var sm
-	onmessage = function (e) {
+	var onmessage = function(e) {
 		var data = e.data
 		switch (data.type) {
 			case 'seed':

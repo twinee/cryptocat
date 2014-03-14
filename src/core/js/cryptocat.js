@@ -207,16 +207,18 @@ Cryptocat.addToConversation = function(message, nickname, conversation, type) {
 // Show a preview for a received message from a buddy.
 // Message previews will not overlap and are removed after 5 seconds.
 Cryptocat.messagePreview = function(message, nickname) {
-	if (!$('#buddy-' + Cryptocat.buddies[nickname].id).attr('data-utip')) {
+	var buddyElement = $('#buddy-' + Cryptocat.buddies[nickname].id)
+	if (!buddyElement.attr('data-utip')) {
 		if (message.length > 15) {
 			message = message.substring(0, 15) + '..'
 		}
-		$('#buddy-' + Cryptocat.buddies[nickname].id).attr('data-utip', Strophe.xmlescape(message))
-		$('#buddy-' + Cryptocat.buddies[nickname].id).attr('data-utip-gravity', 'sw')
-		$('#buddy-' + Cryptocat.buddies[nickname].id).mouseenter()
+		buddyElement.attr({
+			'data-utip-gravity': 'sw',
+			'data-utip': Strophe.xmlescape(message)
+		}).mouseenter()
 		window.setTimeout(function() {
-			$('#buddy-' + Cryptocat.buddies[nickname].id).mouseleave()
-			$('#buddy-' + Cryptocat.buddies[nickname].id).removeAttr('data-utip')
+			buddyElement.mouseleave()
+			buddyElement.removeAttr('data-utip')
 		}, 0x1337)
 	}
 }
