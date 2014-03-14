@@ -1,5 +1,22 @@
 #Changelog
 
+##Cryptocat 2.1.21
+**Mar. 13 2014**
+
+- Cryptocat for Firefox now only supports Firefox 21 and higher. This allows us to remove some outdated hacks that were necessary to allow older versions of Firefox to support Cryptocat.  
+- Added Ukrainian translation.  
+- Small fixes were made to the Spanish translation.  
+- The authentication interface has been updated to clarify that question-based authentication is for private OTR chats only.  
+- Fixed a bug that would allow clients with malformed nicknames to cause a crash in other Cryptocat clients in a conversation.  
+- Fixed a bug that would allow clients with malformed nicknames to secretly join a Cryptocat conversation and obtain ciphertext. These clients would not be part of the conversation however and would not be able to obtain plaintext. 
+- Fixed a bug that wouldn't allow non-latin characters in question-based authentication.  
+- Fixed a bug in Cryptocat for Firefox that would not add a Cryptocat button to the Firefox toolbar.
+- Fixed a bug that would not allow the user to scroll up for a few seconds if they receive too many new messages in a short period of time.  
+- Many small improvements were made to the user interface.
+- Many improvements and optimizations were made to the Cryptocat code.
+- Updated Cryptocat dependencies to their latest versions.  
+
+
 ##Cryptocat 2.1.20
 **Feb. 4 2014**
 

@@ -6,7 +6,7 @@ GLOBAL VARIABLES
 -------------------
 */
 
-Cryptocat.version = '2.1.20' // Version number
+Cryptocat.version = '2.1.21' // Version number
 
 Cryptocat.me = {
 	conversation: null,
