@@ -1,6 +1,7 @@
 Cryptocat.storage = {}
 
 $(window).ready(function() {
+'use strict';
 
 // Cryptocat Storage API
 // This API uses different local storage solutions,

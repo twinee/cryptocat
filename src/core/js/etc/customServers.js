@@ -1,4 +1,5 @@
 $(window).ready(function() {
+'use strict';
 
 var updateCustomServers = function() {
 	var customServers = {}

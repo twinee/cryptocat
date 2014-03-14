@@ -1,3 +1,5 @@
+'use strict';
+
 Cryptocat.locale = {}
 
 // Get locale file, call other functions

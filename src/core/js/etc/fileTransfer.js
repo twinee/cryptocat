@@ -1,4 +1,5 @@
 $(window).ready(function() {
+'use strict';
 
 // Safari compatibility
 window.URL = window.URL || window.webkitURL

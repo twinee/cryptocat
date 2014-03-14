@@ -1,4 +1,5 @@
 // Cryptocat templates for use with mustache.js.
+'use strict';
 
 Cryptocat.templates = {
 

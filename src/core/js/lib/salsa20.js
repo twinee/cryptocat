@@ -2,10 +2,11 @@
 // Contributed by Dmitry Chestnykh
 // 21-01-2013
 
-(function () {
-  var global = this
+var Salsa20
 
-   var Salsa20 = function (key, nonce) {
+(function () {
+  'use strict';
+  Salsa20 = function (key, nonce) {
 		// Constants.
 		this.rounds = 20 // number of Salsa rounds
 		this.sigmaWords = [0x61707865, 0x3320646e, 0x79622d32, 0x6b206574]

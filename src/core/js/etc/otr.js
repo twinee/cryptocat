@@ -1,3 +1,5 @@
+'use strict';
+
 Cryptocat.otr = {}
 
 Cryptocat.otr.fileSize = 5120 // Maximum encrypted file sharing size, in kilobytes.

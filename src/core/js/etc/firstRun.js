@@ -1,4 +1,5 @@
 $(window).ready(function() {
+'use strict';
 
 var detectBrowser = function() {
 	if (navigator.userAgent.match('OPR')) {

@@ -12,6 +12,7 @@ if (typeof Cryptocat === 'undefined') {
 		factory(root.Cryptocat, root.Salsa20, false)
 	}
 }(this, function (Cryptocat, Salsa20, node) {
+'use strict';
 
 Cryptocat.random = {}
 

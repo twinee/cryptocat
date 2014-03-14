@@ -35,7 +35,7 @@
 		root.CryptoJS = factory(root.CryptoJS)
 	}
 }(this, function (CryptoJS) {
-
+    'use strict';
 	// This provides backwards compatibility with CryptoJS 3.0.2
 	// CryptoJS.enc.Base64.parse used to do this by default.
 	var _base64Parse = CryptoJS.enc.Base64.parse

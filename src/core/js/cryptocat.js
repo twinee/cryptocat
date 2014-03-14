@@ -51,6 +51,7 @@ END GLOBAL SCOPE
 */
 
 if (typeof(window) !== 'undefined') { $(window).ready(function() {
+'use strict';
 
 /*
 -------------------

@@ -14,6 +14,7 @@ Cryptocat.xmpp.conferenceServer = Cryptocat.xmpp.defaultConferenceServer
 Cryptocat.xmpp.relay = Cryptocat.xmpp.defaultRelay
 
 $(window).ready(function() {
+'use strict';
 
 // connect anonymously and join conversation.
 Cryptocat.xmpp.connect = function() {

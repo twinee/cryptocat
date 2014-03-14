@@ -8,6 +8,7 @@
 		root.CatFacts = CatFacts // <script>
 	}
 } (this, function (CatFacts) {
+'use strict';
 
 var lastCatFact
 var interestingFacts = [

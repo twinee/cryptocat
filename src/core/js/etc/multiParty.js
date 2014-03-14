@@ -1,5 +1,7 @@
 Cryptocat.multiParty = function() {};
+
 (function(){
+'use strict';
 
 var usedIVs = []
 

@@ -9,6 +9,7 @@
   }
 
 }(this, function (BigInt) {
+'use strict';
 
 // In order to generate a public value:
 //	priv = BigInt.randBigInt(256)
