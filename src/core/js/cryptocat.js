@@ -11,6 +11,8 @@ Cryptocat.version = '2.1.21' // Version number
 Cryptocat.me = {
 	conversation: null,
 	nickname: null,
+	newMessages: 0,
+	windowFocus: true,
 	otrKey: null,
 	fileKey: null,
 	mpPrivateKey: null,
@@ -62,8 +64,6 @@ $('#version').text(Cryptocat.version)
 Cryptocat.random.setSeed(Cryptocat.random.generateSeed())
 
 var conversationBuffers = {}
-var newMessages = 0
-var isFocused = true
 var paused = false
 
 // Load favicon notification settings.
@@ -201,7 +201,6 @@ Cryptocat.addToConversation = function(message, nickname, conversation, type) {
 	}
 	else if (type !== 'composing') {
 		$('#buddy-' + Cryptocat.buddies[conversation].id).addClass('newMessage')
-			.css('background-image', 'url("img/newMessage.png")')
 	}
 }
 
@@ -299,13 +298,15 @@ Cryptocat.removeBuddy = function(nickname) {
 		return
 	}
 	buddyElement.attr('status', 'offline')
-	if ((Cryptocat.me.currentBuddy.name !== nickname)
-		&& (buddyElement.css('background-image') === 'none')) {
+	buddyNotification(nickname, false)
+	if (Cryptocat.me.currentBuddy.name === nickname) {
+		return
+	}
+	if (!buddyElement.hasClass('newMessage')) {
 		buddyElement.slideUp(500, function() {
 			$(this).remove()
 		})
 	}
-	buddyNotification(nickname, false)
 }
 
 // Bind buddy click actions.
@@ -316,7 +317,6 @@ Cryptocat.onBuddyClick = function(buddyElement) {
 		$('#userInputText').focus()
 		return true
 	}
-	buddyElement.css('background-image', 'none')
 	if (nickname === 'main-Conversation') {
 		buddyElement
 			.css('background-image', 'url("img/groupChat.png")')
@@ -487,17 +487,12 @@ var buildConversationInfo = function(conversation) {
 
 // Switches the currently active conversation.
 var switchConversation = function(id) {
-	window.setTimeout(function() {
-		$('#buddy-' + id).addClass('currentConversation')
-	}, 1)
-	if (id !== 'main-Conversation') {
-		$('#buddy-' + id).css('background-image', 'none')
-	}
 	buildConversationInfo(Cryptocat.me.currentBuddy.name)
 	$('#conversationWindow').html(conversationBuffers[Cryptocat.me.currentBuddy.id])
 	bindSenderElement()
 	scrollDownConversation(0, false)
 	$('#userInputText').focus()
+	$('#buddy-' + id).addClass('currentConversation')
 	var buddyPosition = $('#buddy-' + id).prev().attr('id')
 	if ((buddyPosition === 'buddiesOnline') || ((buddyPosition === 'buddiesAway')
 		&& ($('#buddiesOnline').next().attr('id') === 'buddiesAway'))) {
@@ -510,8 +505,7 @@ var switchConversation = function(id) {
 	$('#buddyList div').each(function() {
 		if ($(this).attr('data-id') !== id) {
 			$(this).removeClass('currentConversation')
-			if (($(this).css('background-image') === 'none')
-				&& ($(this).attr('status') === 'offline')) {
+			if (!$(this).hasClass('newMessage') && ($(this).attr('status') === 'offline')) {
 				$(this).slideUp(500, function() { $(this).remove() })
 			}
 		}
@@ -651,9 +645,8 @@ var bindSenderElement = function(senderElement) {
 }
 
 var desktopNotification = function(image, title, body, timeout) {
-	newMessages++
-	Tinycon.setBubble(newMessages)
-	if (!Cryptocat.desktopNotifications || isFocused) { return false }
+	Tinycon.setBubble(++Cryptocat.me.newMessages)
+	if (!Cryptocat.desktopNotifications || Cryptocat.me.windowFocus) { return false }
 	// Mac
 	if (navigator.userAgent === 'Chrome (Mac app)') {
 		var iframe = document.createElement('IFRAME')
@@ -1164,17 +1157,17 @@ $('#loginForm').submit(function() {
 	return false
 })
 
-// When the window/tab is not selected, set `isFocused` to false.
-// The variable `isFocused` is used to know when to show desktop notifications.
+// When the window/tab is not selected, set `windowFocus` to false.
+// `windowFocus` is used to know when to show desktop notifications.
 $(window).blur(function() {
-	isFocused = false
+	Cryptocat.me.windowFocus = false
 })
 
 // On window focus, select text input field automatically if we are chatting.
-// Also set `isFocused` to true.
+// Also set `windowFocus` to true.
 $(window).focus(function() {
-	isFocused = true
-	newMessages = 0
+	Cryptocat.me.windowFocus = true
+	Cryptocat.me.newMessages = 0
 	Tinycon.setBubble()
 	if ($('#buddy-main-Conversation').attr('status') === 'online') {
 		$('#userInputText').focus()
