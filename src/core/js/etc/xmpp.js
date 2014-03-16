@@ -16,6 +16,18 @@ Cryptocat.xmpp.relay = Cryptocat.xmpp.defaultRelay
 $(window).ready(function() {
 'use strict';
 
+function afterConnect() {
+	$('.conversationName').animate({'background-color': '#97CEEC'})
+	// Cryptocat.xmpp.connection.ibb.addIBBHandler(Cryptocat.otr.ibbHandler)
+	/* jshint -W106 */
+	// Cryptocat.xmpp.connection.si_filetransfer.addFileHandler(Cryptocat.otr.fileHandler)
+	/* jshint +W106 */
+	if (Cryptocat.audioNotifications) {
+		Cryptocat.sounds.keygenLoop.pause()
+		Cryptocat.sounds.keygenEnd.play()
+	}
+}
+
 // connect anonymously and join conversation.
 Cryptocat.xmpp.connect = function() {
 	Cryptocat.me.conversation = Strophe.xmlescape($('#conversationName').val())
@@ -27,11 +39,7 @@ Cryptocat.xmpp.connect = function() {
 			$('#loginInfo').text(Cryptocat.locale['loginMessage']['connecting'])
 		}
 		else if (status === Strophe.Status.CONNECTED) {
-			$('.conversationName').animate({'background-color': '#97CEEC'})
-			Cryptocat.xmpp.connection.ibb.addIBBHandler(Cryptocat.otr.ibbHandler)
-			/* jshint -W106 */
-			Cryptocat.xmpp.connection.si_filetransfer.addFileHandler(Cryptocat.otr.fileHandler)
-			/* jshint +W106 */
+			afterConnect();
 			Cryptocat.xmpp.connection.muc.join(
 				Cryptocat.me.conversation + '@' + Cryptocat.xmpp.conferenceServer,
 				Cryptocat.me.nickname,
@@ -42,10 +50,6 @@ Cryptocat.xmpp.connect = function() {
 					if (Cryptocat.xmpp.onPresence(presence)) { return true }
 				}
 			)
-			if (Cryptocat.audioNotifications) {
-				Cryptocat.sounds.keygenLoop.pause()
-				Cryptocat.sounds.keygenEnd.play()
-			}
 			$('#fill').stop().animate({
 				'width': '100%', 'opacity': '1'
 			}, 250, 'linear', function() {
@@ -57,12 +61,7 @@ Cryptocat.xmpp.connect = function() {
 				Cryptocat.xmpp.onConnected()
 			}, 400)
 		}
-		else if (status === Strophe.Status.CONNFAIL) {
-			if (Cryptocat.loginError) {
-				Cryptocat.xmpp.reconnect()
-			}
-		}
-		else if (status === Strophe.Status.DISCONNECTED) {
+		else if ((status === Strophe.Status.CONNFAIL) || (status === Strophe.Status.DISCONNECTED)) {
 			if (Cryptocat.loginError) {
 				Cryptocat.xmpp.reconnect()
 			}
@@ -111,19 +110,11 @@ Cryptocat.xmpp.reconnect = function() {
 			$('.conversationName').animate({'background-color': '#F00'})
 		}
 		else if (status === Strophe.Status.CONNECTED) {
-			$('.conversationName').animate({'background-color': '#97CEEC'})
-			Cryptocat.xmpp.connection.ibb.addIBBHandler(Cryptocat.otr.ibbHandler)
-			/* jshint -W106 */
-			Cryptocat.xmpp.connection.si_filetransfer.addFileHandler(Cryptocat.otr.fileHandler)
-			/* jshint +W106 */
+			afterConnect();
 			Cryptocat.xmpp.connection.muc.join(
 				Cryptocat.me.conversation + '@' + Cryptocat.xmpp.conferenceServer,
 				Cryptocat.me.nickname
 			)
-			if (Cryptocat.audioNotifications) {
-				Cryptocat.sounds.keygenLoop.pause()
-				Cryptocat.sounds.keygenEnd.play()
-			}
 		}
 		else if ((status === Strophe.Status.CONNFAIL) || (status === Strophe.Status.DISCONNECTED)) {
 			if (Cryptocat.loginError) {
