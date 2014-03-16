@@ -46,7 +46,7 @@ Please see `SECURITY.md` for guidelines on reporting security issues.
 * [Server Deployment Instructions](https://github.com/cryptocat/cryptocat/wiki/Server-Deployment-Instructions)  
 * [Threat Model](https://github.com/cryptocat/cryptocat/wiki/Threat-Model)  
 * [Design and Functionality Overview](https://github.com/cryptocat/cryptocat/wiki/Design-and-Functionality)  
-* [Architecture and Lifecycle](https://project.crypto.cat/documents/a&l.pdf)  
+* [Architecture and Lifecycle](https://crypto.cat/documents/a&l.pdf)  
 
 ##Discussion & Blog
 * [Issue tracker](https://github.com/cryptocat/cryptocat/issues)  
