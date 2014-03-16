@@ -16,18 +16,6 @@ Cryptocat.xmpp.relay = Cryptocat.xmpp.defaultRelay
 $(window).ready(function() {
 'use strict';
 
-function afterConnect() {
-	$('.conversationName').animate({'background-color': '#97CEEC'})
-	// Cryptocat.xmpp.connection.ibb.addIBBHandler(Cryptocat.otr.ibbHandler)
-	/* jshint -W106 */
-	// Cryptocat.xmpp.connection.si_filetransfer.addFileHandler(Cryptocat.otr.fileHandler)
-	/* jshint +W106 */
-	if (Cryptocat.audioNotifications) {
-		Cryptocat.sounds.keygenLoop.pause()
-		Cryptocat.sounds.keygenEnd.play()
-	}
-}
-
 // connect anonymously and join conversation.
 Cryptocat.xmpp.connect = function() {
 	Cryptocat.me.conversation = Strophe.xmlescape($('#conversationName').val())
@@ -39,7 +27,7 @@ Cryptocat.xmpp.connect = function() {
 			$('#loginInfo').text(Cryptocat.locale['loginMessage']['connecting'])
 		}
 		else if (status === Strophe.Status.CONNECTED) {
-			afterConnect();
+			afterConnect()
 			Cryptocat.xmpp.connection.muc.join(
 				Cryptocat.me.conversation + '@' + Cryptocat.xmpp.conferenceServer,
 				Cryptocat.me.nickname,
@@ -110,7 +98,7 @@ Cryptocat.xmpp.reconnect = function() {
 			$('.conversationName').animate({'background-color': '#F00'})
 		}
 		else if (status === Strophe.Status.CONNECTED) {
-			afterConnect();
+			afterConnect()
 			Cryptocat.xmpp.connection.muc.join(
 				Cryptocat.me.conversation + '@' + Cryptocat.xmpp.conferenceServer,
 				Cryptocat.me.nickname
@@ -251,6 +239,19 @@ Cryptocat.xmpp.sendStatus = function() {
 	else {
 		Cryptocat.xmpp.connection.muc.setStatus(Cryptocat.me.conversation + '@'
 		+ Cryptocat.xmpp.conferenceServer, Cryptocat.me.nickname, '', '')
+	}
+}
+
+// Executed (manually) after connection.
+var afterConnect = function() {
+	$('.conversationName').animate({'background-color': '#97CEEC'})
+	// Cryptocat.xmpp.connection.ibb.addIBBHandler(Cryptocat.otr.ibbHandler)
+	/* jshint -W106 */
+	// Cryptocat.xmpp.connection.si_filetransfer.addFileHandler(Cryptocat.otr.fileHandler)
+	/* jshint +W106 */
+	if (Cryptocat.audioNotifications) {
+		Cryptocat.sounds.keygenLoop.pause()
+		Cryptocat.sounds.keygenEnd.play()
 	}
 }
 
