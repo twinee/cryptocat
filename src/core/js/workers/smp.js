@@ -32,7 +32,7 @@
 	}
 
 	var sm
-	var onmessage = function(e) {
+	onmessage = function(e) {
 		var data = e.data
 		switch (data.type) {
 			case 'seed':
