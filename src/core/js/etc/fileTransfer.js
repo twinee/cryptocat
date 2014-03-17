@@ -1,6 +1,12 @@
 $(window).ready(function() {
 'use strict';
 
+// Maximum encrypted file sharing size, in kilobytes.
+Cryptocat.otr.fileSize = 5120
+
+// Size in which file chunks are split, in bytes.
+Cryptocat.otr.chunkSize = 64511
+
 // Safari compatibility
 window.URL = window.URL || window.webkitURL
 
