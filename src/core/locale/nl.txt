@@ -13,7 +13,7 @@ Geef de naam op van het gesprek waar je aan wil deelnemen.
 Voer alstublieft een gespreksnaam in.
 Gespreksnaam mag enkel uit cijfers en/of letters bestaan.
 Voer een gebruikersnaam in.
-Die roepnaam mag enkel uit cijfers en/of letters bestaan.
+De roepnaam mag enkel uit cijfers en/of letters bestaan.
 Die roepnaam is reeds in gebruik.
 Authenticatie mislukt.
 Verbinding mislukt.
