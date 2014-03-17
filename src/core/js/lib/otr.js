@@ -1,6 +1,6 @@
 /*!
 
-  otr.js v0.2.10 - 2014-02-04
+  otr.js v0.2.10-dev - 2014-03-17
   (c) 2014 - Arlo Breault <arlolra@gmail.com>
   Freely distributed under the MPL v2.0 license.
 
@@ -1556,7 +1556,7 @@
 
     if (msg.type === 6) {
       this.init()
-      this.trigger('trust', [false])
+      this.trigger('abort')
       return
     }
 

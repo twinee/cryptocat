@@ -159,7 +159,7 @@ Cryptocat.xmpp.onMessage = function(message) {
 	}
 	// Check ifthis is a private OTR message.
 	else if (type === 'chat') {
-		Cryptocat.buddies[nickname].otrKey.receiveMsg(body)
+		Cryptocat.buddies[nickname].otr.receiveMsg(body)
 	}
 	return true
 }
