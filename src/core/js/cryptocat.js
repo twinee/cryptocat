@@ -184,12 +184,21 @@ Cryptocat.addToConversation = function(message, nickname, conversation, type) {
 		}
 		return true
 	}
-	message = message.replace(/:/g, '&#58;')
+	var authStatus = false
+	var authStatusText =
+		'User is not authenticated.<br /><strong>Learn more...</strong>' // Replace with localization string!
+	if ((nickname === Cryptocat.me.nickname)
+	|| Cryptocat.buddies[nickname].authenticated) {
+		authStatus = true
+		authStatusText = 'Authenticated' // Replace with localization string!
+	}
 	message = Mustache.render(Cryptocat.templates.message, {
 		lineDecoration: lineDecoration,
 		nickname: shortenString(nickname, 16),
 		currentTime: currentTime(true),
-		message: message
+		authStatus: authStatus,
+		authStatusText: authStatusText,
+		message: message.replace(/:/g, '&#58;')
 	})
 	if (type !== 'composing') {
 		conversationBuffers[Cryptocat.buddies[conversation].id] += message
@@ -632,25 +641,21 @@ var bindSenderElement = function(senderElement) {
 		senderElement = $('.sender')
 	}
 	senderElement.children().unbind('mouseenter,mouseleave')
-	senderElement.mouseenter(function() {
-		$(this).find('.nickname').text($(this).attr('timestamp'))
+	senderElement.find('.nickname').mouseenter(function() {
+		$(this).text($(this).parent().attr('data-timestamp'))
 	})
-	senderElement.mouseleave(function() {
-		$(this).find('.nickname').text($(this).attr('sender'))
+	senderElement.find('.nickname').mouseleave(function() {
+		$(this).text($(this).parent().attr('data-sender'))
 	})
-	/*
-	senderElement.find('.authStatusNo').mouseenter(function() {
+	senderElement.find('.authStatus').mouseenter(function() {
 		$(this).attr('data-utip-style', JSON.stringify({
-			'font-size': '11px',
-			'width': '130px',
+			'width': 'auto',
 			'cursor': 'pointer',
+			'max-width': '110px',
+			'font-size': '11px',
+			'background-color': $(this).css('background-color')
 		}))
-		$(this).find('.nickname').text($(this).attr('timestamp'))
 	})
-	senderElement.find('.authStatusNo').mouseleave(function() {
-		$(this).find('.nickname').text($(this).attr('sender'))
-	})
-	*/
 }
 
 var desktopNotification = function(image, title, body, timeout) {

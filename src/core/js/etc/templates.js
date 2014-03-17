@@ -57,9 +57,9 @@ Cryptocat.templates = {
 
 	missingRecipients: '<div class="missingRecipients">{{text}}</div>',
 
-	message: '<div class="line{{lineDecoration}}"><span class="sender" sender="{{nickname}}"'
-		+ ' timestamp="{{currentTime}}"><!--<span class="authStatusNo" data-utip-hoverable="hoverable" '
-		+ 'data-utip-gravity="w" data-utip="{{authStatus}}"></span>-->'
+	message: '<div class="line{{lineDecoration}}"><span class="sender" data-sender="{{nickname}}"'
+		+ ' data-timestamp="{{currentTime}}"><span class="authStatus" data-auth="{{authStatus}}" '
+		+ 'data-utip-gravity="sw" data-utip="{{authStatusText}}" data-utip-hoverable="hoverable"></span>'
 		+ '<span class="nickname">{{nickname}}</span></span>{{&message}}</div>',
 
 	composing: '<img src="img/typing.gif" class="typing" id="{{id}}" alt="" />',
