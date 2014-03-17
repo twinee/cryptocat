@@ -342,10 +342,6 @@ Cryptocat.onBuddyClick = function(buddyElement) {
 		$('#userInputText').focus()
 		return true
 	}
-	if (nickname === 'main-Conversation') {
-		buddyElement
-			.css('background-image', 'url("img/groupChat.png")')
-	}
 	if (Cryptocat.me.currentBuddy.id) {
 		var buddyStatus = $('#buddy-' + Cryptocat.me.currentBuddy.id)
 			.attr('status')
