@@ -265,6 +265,14 @@ var Buddy = function(nickname) {
 	this.otr = Cryptocat.otr.add(nickname)
 }
 
+Buddy.prototype = {
+	constructor: Buddy,
+	updateAuth: function (auth) {
+		this.authenticated = auth;
+		// add some UI updates
+	}
+}
+
 // Build new buddy.
 Cryptocat.addBuddy = function(nickname) {
 	var buddy = Cryptocat.buddies[nickname] = new Buddy(nickname)
@@ -799,7 +807,7 @@ var displayInfo = function(nickname) {
 				$('#authSubmit').unbind('click').bind('click', function(e) {
 					e.preventDefault()
 				})
-				buddy.authenticated = false
+				buddy.updateAuth(false)
 				buddy.otr.smpSecret(answer, question)
 			})
 		}

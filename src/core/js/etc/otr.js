@@ -34,8 +34,9 @@ var onStatusChange = function(nickname, state) {
 			Cryptocat.closeGenerateFingerprints(nickname)
 		} else if (buddy.fingerprint !== fingerprint) {
 			// re-aked with a different key
-			window.alert('we have a problem!')
-			buddy.authenticated = false
+			buddy.updateAuth(false)
+			// FIXME: injecting warning messages needs to be generalized
+			// Cryptocat.addToConversation('we have a problem!', 'warning')
 		}
 	}
 }
@@ -99,7 +100,7 @@ var onSMPAnswer = function(nickname, type, data, act) {
 	case 'trust':
 		if (act === 'asked') {
 			// set authentication result
-			buddy.authenticated = data
+			buddy.updateAuth(data)
 			if ($('#authInfo').length) {
 				if (buddy.authenticated) {
 					Cryptocat.showAuthenticated(nickname, 200)
@@ -114,7 +115,10 @@ var onSMPAnswer = function(nickname, type, data, act) {
 		}
 		break
 	case 'abort':
-		// flesh this out
+		if ($('#authInfo').length) {
+			$('#authSubmit').val(chatWindow.failed)
+				.animate({'background-color': '#F00'})
+		}
 		break
 	}
 }
