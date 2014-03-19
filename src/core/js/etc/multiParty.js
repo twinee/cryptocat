@@ -224,7 +224,7 @@ Cryptocat.multiParty.receiveMessage = function(sender, myName, message) {
 		}
 		// Detect public key request and send public key
 		else if (message['type'] === 'publicKeyRequest') {
-			Cryptocat.multiParty.sendPublicKey(sender)
+			Cryptocat.xmpp.sendPublicKey(sender)
 		}
 		else if (message['type'] === 'message') {
 			// Make sure message is being sent to all chat room participants
