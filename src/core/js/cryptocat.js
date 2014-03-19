@@ -423,7 +423,9 @@ Cryptocat.displayInfo = function(nickname) {
 	var isMe = nickname === Cryptocat.me.nickname,
 		infoDialog = isMe ? 'myInfo' : 'buddyInfo',
 		chatWindow = Cryptocat.locale.chatWindow
-
+	if (!Cryptocat.buddies.hasOwnProperty(nickname)) {
+		return false
+	}
 	infoDialog = Mustache.render(Cryptocat.templates[infoDialog], {
 		nickname: nickname,
 		otrFingerprint: chatWindow.otrFingerprint,
@@ -435,7 +437,6 @@ Cryptocat.displayInfo = function(nickname) {
 		ask: chatWindow.ask,
 		identityVerified: chatWindow.identityVerified
 	})
-
 	ensureOTRdialog(nickname, false, function() {
 		if (isMe) {
 			Cryptocat.dialogBox(infoDialog, 250, true)
