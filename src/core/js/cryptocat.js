@@ -185,19 +185,15 @@ Cryptocat.addToConversation = function(message, nickname, conversation, type) {
 		return true
 	}
 	var authStatus = false
-	var authStatusText =
-		'User is not authenticated.<br /><strong>Learn more...</strong>' // Replace with localization string!
 	if ((nickname === Cryptocat.me.nickname)
 	|| Cryptocat.buddies[nickname].authenticated) {
 		authStatus = true
-		authStatusText = 'Authenticated' // Replace with localization string!
 	}
 	message = Mustache.render(Cryptocat.templates.message, {
 		lineDecoration: lineDecoration,
 		nickname: shortenString(nickname, 16),
 		currentTime: currentTime(true),
 		authStatus: authStatus,
-		authStatusText: authStatusText,
 		message: message.replace(/:/g, '&#58;')
 	})
 	if (type !== 'composing') {
@@ -233,23 +229,6 @@ Cryptocat.messagePreview = function(message, nickname) {
 	}
 }
 
-// Modify the "Display Info" dialog to show that a user is authenticated.
-// `speed` is animation speed.
-Cryptocat.showAuthenticated = function(nickname, speed) {
-	$('#authInfo').children()
-		.not('#otrFingerprintWrapper')
-		.not('#authVerified')
-		.fadeOut(speed, function() { $(this).remove() })
-	window.setTimeout(function() {
-		$('#authInfo').animate({
-			'height': 100,
-			'background-color': '#97CEEC'
-		}, speed, function() {
-			$('#authVerified').fadeIn(speed)
-		})
-	}, speed)
-}
-
 // Handles login failures.
 Cryptocat.loginFail = function(message) {
 	$('#loginInfo').text(message)
@@ -276,9 +255,26 @@ var Buddy = function(nickname) {
 
 Buddy.prototype = {
 	constructor: Buddy,
-	updateAuth: function (auth) {
+	updateAuth: function(auth) {
 		this.authenticated = auth;
-		// add some UI updates
+		if (auth) {
+			$('#authenticated').attr('data-active', true)
+			$('#notAuthenticated').attr('data-active', false)
+			$('[data-sender=' + this.nickname + '] .authStatus').attr('data-auth', 'true')
+		}
+		else {
+			$('#authenticated').attr('data-active', false)
+			$('#notAuthenticated').attr('data-active', true)
+			$('[data-sender=' + this.nickname).find('.authStatus').attr('data-auth', 'false')
+		}
+		var authStatusBuffers = ['main-Conversation', Cryptocat.buddies[this.nickname].id]
+		for (var i in authStatusBuffers) {
+			var conversationBuffer = $(conversationBuffers[authStatusBuffers[i]])
+			conversationBuffer.find('[data-sender=' + this.nickname + '] .authStatus')
+				.attr('data-auth', auth)
+			conversationBuffers[authStatusBuffers[i]] = $('<div>').append($(conversationBuffer)
+				.clone()).html()
+		}
 	}
 }
 
@@ -418,6 +414,37 @@ Cryptocat.dialogBox = function(data, height, closeable, onAppear, onClose) {
 			}
 		})
 	}
+}
+
+// Display buddy information, including fingerprints and authentication.
+Cryptocat.displayInfo = function(nickname) {
+	var isMe = nickname === Cryptocat.me.nickname,
+		infoDialog = isMe ? 'myInfo' : 'buddyInfo',
+		chatWindow = Cryptocat.locale.chatWindow
+
+	infoDialog = Mustache.render(Cryptocat.templates[infoDialog], {
+		nickname: nickname,
+		otrFingerprint: chatWindow.otrFingerprint,
+		groupFingerprint: chatWindow.groupFingerprint,
+		authenticate: chatWindow.authenticate,
+		verifyUserIdentity: chatWindow.verifyUserIdentity,
+		secretQuestion: chatWindow.secretQuestion,
+		secretAnswer: chatWindow.secretAnswer,
+		ask: chatWindow.ask,
+		identityVerified: chatWindow.identityVerified
+	})
+
+	ensureOTRdialog(nickname, false, function() {
+		if (isMe) {
+			Cryptocat.dialogBox(infoDialog, 250, true)
+		}
+		else {
+			Cryptocat.dialogBox(infoDialog, 410, true)
+			bindAuthDialog(nickname)
+		}
+		$('#otrFingerprint').text(getFingerprint(nickname, true))
+		$('#multiPartyFingerprint').text(getFingerprint(nickname, false))
+	})
 }
 
 // Executes on user logout.
@@ -631,12 +658,39 @@ var addEmoticons = function(message) {
 		.replace(/(\s|^)\&lt\;3\b(?=(\s|$))/g, ' <span class="monospace">&#9829;</span> ')
 }
 
+// Bind `nickname`'s authentication dialog buttons and options.
+var bindAuthDialog = function(nickname) {
+	var buddy = Cryptocat.buddies[nickname]
+	Cryptocat.buddies[nickname].authenticated? buddy.updateAuth(true) : buddy.updateAuth(false)
+	$('#authenticated').unbind('click').bind('click', function(e) {
+		buddy.updateAuth(true)
+	})
+	$('#notAuthenticated').unbind('click').bind('click', function(e) {
+		buddy.updateAuth(false)
+	})
+	$('#authSubmit').unbind('click').bind('click', function(e) {
+		e.preventDefault()
+		var question = $('#authQuestion').val()
+		var answer = $('#authAnswer').val().toLowerCase()
+			.replace(/(\s|\.|\,|\'|\"|\;|\?|\!)/, '')
+		if (answer.length === 0) {
+			return
+		}
+		$('#authSubmit').val(chatWindow.asking)
+		$('#authSubmit').unbind('click').bind('click', function(e) {
+			e.preventDefault()
+		})
+		buddy.updateAuth(false)
+		buddy.otr.smpSecret(answer, question)
+	})
+}
+
 // Bind sender element to show authStatus information and timestamps.
 var bindSenderElement = function(senderElement) {
 	if (!senderElement) {
 		senderElement = $('.sender')
 	}
-	senderElement.children().unbind('mouseenter,mouseleave')
+	senderElement.children().unbind('mouseenter,mouseleave,click')
 	senderElement.find('.nickname').mouseenter(function() {
 		$(this).text($(this).parent().attr('data-timestamp'))
 	})
@@ -644,13 +698,28 @@ var bindSenderElement = function(senderElement) {
 		$(this).text($(this).parent().attr('data-sender'))
 	})
 	senderElement.find('.authStatus').mouseenter(function() {
+		if ($(this).attr('data-auth') === 'true') {
+			$(this).attr('data-utip', 'Authenticated') // Replace with localization string!
+		}
+		else {
+			$(this).attr('data-utip',
+				Mustache.render(Cryptocat.templates.authStatusFalseUtip, {
+					nickname: nickname,
+					text: 'User is not authenticated.', // Replace with localization string!
+					learnMore: 'Click to learn more...' // Replace with localization string!
+				})
+			)
+		}
 		$(this).attr('data-utip-style', JSON.stringify({
 			'width': 'auto',
-			'cursor': 'pointer',
 			'max-width': '110px',
 			'font-size': '11px',
 			'background-color': $(this).css('background-color')
 		}))
+		$(this).attr('data-utip-click', 'Cryptocat.displayInfo()')
+	})
+	senderElement.find('.authStatus').click(function() {
+		Cryptocat.displayInfo($(this).parent().attr('data-sender'))
 	})
 }
 
@@ -694,6 +763,7 @@ var buddyNotification = function(nickname, join) {
 		})
 		audioNotification = 'userLeave'
 	}
+	initializeConversationBuffer('main-Conversation')
 	conversationBuffers['main-Conversation'] += status
 	if (Cryptocat.me.currentBuddy.name !== 'main-Conversation') {
 		conversationBuffers[Cryptocat.me.currentBuddy.id] += status
@@ -715,7 +785,7 @@ var sendFile = function(nickname) {
 		fileTransferInfo: Cryptocat.locale['chatWindow']['fileTransferInfo']
 	})
 	ensureOTRdialog(nickname, false, function() {
-		Cryptocat.dialogBox(sendFileDialog, 240, true)
+		Cryptocat.dialogBox(sendFileDialog, 250, true)
 		$('#fileSelector').change(function(e) {
 			e.stopPropagation()
 			if (this.files) {
@@ -760,62 +830,12 @@ var ensureOTRdialog = function(nickname, close, cb) {
 		return cb()
 	}
 	var progressDialog = '<div id="progressBar"><div id="fill"></div></div>'
-	Cryptocat.dialogBox(progressDialog, 240, true)
+	Cryptocat.dialogBox(progressDialog, 250, true)
 	$('#progressBar').css('margin', '70px auto 0 auto')
 	$('#fill').animate({'width': '100%', 'opacity': '1'}, 10000, 'linear')
 	// add some state for status callback
 	buddy.genFingerState = { close: close, cb: cb }
 	buddy.otr.sendQueryMsg()
-}
-
-// Display buddy information, including fingerprints and authentication.
-var displayInfo = function(nickname) {
-	var isMe = nickname === Cryptocat.me.nickname,
-		buddy = Cryptocat.buddies[nickname],
-		infoDialog = isMe ? 'myInfo' : 'buddyInfo',
-		chatWindow = Cryptocat.locale.chatWindow
-
-	infoDialog = Mustache.render(Cryptocat.templates[infoDialog], {
-		nickname: nickname,
-		otrFingerprint: chatWindow.otrFingerprint,
-		groupFingerprint: chatWindow.groupFingerprint,
-		authenticate: chatWindow.authenticate,
-		verifyUserIdentity: chatWindow.verifyUserIdentity,
-		secretQuestion: chatWindow.secretQuestion,
-		secretAnswer: chatWindow.secretAnswer,
-		ask: chatWindow.ask,
-		identityVerified: chatWindow.identityVerified
-	})
-
-	ensureOTRdialog(nickname, false, function() {
-		if (isMe || buddy.authenticated) {
-			Cryptocat.dialogBox(infoDialog, 250, true)
-			if (!isMe) {
-				Cryptocat.showAuthenticated(nickname, 0)
-			}
-		}
-		else {
-			Cryptocat.dialogBox(infoDialog, 340, true)
-			$('#authSubmit').unbind('click').bind('click', function(e) {
-				e.preventDefault()
-				var question = $('#authQuestion').val()
-				var answer = $('#authAnswer').val().toLowerCase()
-					.replace(/(\s|\.|\,|\'|\"|\;|\?|\!)/, '')
-				if (answer.length === 0) {
-					// a secret is required!
-					return
-				}
-				$('#authSubmit').val(chatWindow.asking)
-				$('#authSubmit').unbind('click').bind('click', function(e) {
-					e.preventDefault()
-				})
-				buddy.updateAuth(false)
-				buddy.otr.smpSecret(answer, question)
-			})
-		}
-		$('#otrFingerprint').text(getFingerprint(nickname, true))
-		$('#multiPartyFingerprint').text(getFingerprint(nickname, false))
-	})
 }
 
 // Open a buddy's contact list context menu.
@@ -850,7 +870,7 @@ var openBuddyMenu = function(nickname) {
 		$contents.fadeIn(200)
 		$contents.find('.option1').click(function(e) {
 			e.stopPropagation()
-			displayInfo(nickname)
+			Cryptocat.displayInfo(nickname)
 			$menu.click()
 		})
 		$contents.find('.option2').click(function(e) {
@@ -951,7 +971,7 @@ $('#status').click(function() {
 
 // My info button.
 $('#myInfo').click(function() {
-	displayInfo(Cryptocat.me.nickname)
+	Cryptocat.displayInfo(Cryptocat.me.nickname)
 })
 
 // Desktop notifications button.
@@ -1155,7 +1175,7 @@ $('#loginForm').submit(function() {
 			text: Cryptocat.locale['loginMessage']['generatingKeys']
 		})
 		if (Cryptocat.audioNotifications) { Cryptocat.sounds.keygenStart.play() }
-		Cryptocat.dialogBox(progressForm, 240, false, prepareKeysAndConnect())
+		Cryptocat.dialogBox(progressForm, 250, false, prepareKeysAndConnect())
 		if (Cryptocat.locale['language'] === 'en') {
 			$('#progressInfo').append(
 				Mustache.render(Cryptocat.templates.catFact, {

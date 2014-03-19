@@ -576,27 +576,89 @@ DIALOG BOX
 	height: 80px;
 }
 
-#authInfo {
+#authenticated {
+	font-size: 0.9em;
+	cursor: pointer;
+	padding: 5px;
+	border: 1px solid #3992C0;
+	background-color: transparent;
+	box-shadow: 2px 2px #3992C0;
+	color: #3992C0;
+	text-align: center;
+	border-radius: 5px 0 5px 5px;
+	display: inline-block;
+	margin: 3px 25px 0 0;
+	opacity: 0.4;
+}
+
+#authenticated:hover {
+	opacity: 0.8;
+}
+
+#authenticated[data-active=true] {
+	color: #FFF;
+	background-color: #3992C0;
+	opacity: 1;
+}
+
+#notAuthenticated {
+	font-size: 0.9em;
+	cursor: pointer;
+	padding: 5px;
+	border: 1px solid #EF6C74;
+	background-color: transparent;
+	box-shadow: 2px 2px #EF6C74;
+	color: #EF6C74;
+	text-align: center;
+	border-radius: 5px 0 5px 5px;
+	display: inline-block;
+	opacity: 0.4;
+}
+
+#notAuthenticated:hover {
+	opacity: 0.8;
+}
+
+#notAuthenticated[data-active=true] {
+	color: #FFF;
+	background-color: #EF6C74;
+	opacity: 1;
+}
+
+#authLearnMore {
+	width: 230px;
+	font-size: 0.9em;
+	border: 1px dashed #76BDE5;
+	padding: 0 4px;
+	margin: 13px 0 5px 0;
+	display: inline-block;
+	border-radius: 3px 0 3px 3px;
+}
+
+#authLearnMore:hover {
+	cursor: pointer;
+	background: rgba(151, 206, 236, 0.1);
+}
+
+#authLearnMore:active {
+	background: rgba(151, 206, 236, 0.3);
+}
+
+.authInfo {
 	background: rgba(151, 206, 236, 0.4);
-	width: 90%;
-	height: 208px;
-	padding: 0 5px;
-	margin: -38px auto 0 auto;
+	height: 130px;
+	padding: 5px 8px;
+	margin: 5px auto 0 auto;
 	border-radius: 8px 0 8px 8px;
 }
 
-#authInfo h2 {
+.authInfo h2 {
 	font-size: 16px;
 	padding: 3px;
 	margin: 0 0 5px 0;
 }
 
-#authInfo p {
-	max-width: 500px;
-	margin-top: -10px;
-}
-
-#authInfo #authQuestion, #authInfo #authAnswer {
+.authInfo #authQuestion, .authInfo #authAnswer {
 	box-shadow: none;
 	background: rgba(151, 206, 236, 0.7);
 	padding: 4px;
@@ -606,7 +668,7 @@ DIALOG BOX
 	border-radius: 5px 0 5px 5px;
 }
 
-#authInfo #authSubmit {
+.authInfo #authSubmit {
 	float: right;
 	width: 100px;
 	height: 57px;
@@ -615,6 +677,7 @@ DIALOG BOX
 	font-size: 1.2em;
 	background: #97CEEC;
 	border: none;
+	word-wrap: break-word;
 }
 
 #authVerified {
@@ -715,7 +778,7 @@ DIALOG BOX
 	border-left: none;
 	background: #97CEEC;
 	max-width: 220px;
-	margin-bottom: 8px;
+	margin-bottom: 2px;
 	color: #FFF;
 	font-size: 1.5em;
 }
@@ -749,7 +812,7 @@ DIALOG BOX
 }
 
 #otrFingerprint, #multiPartyFingerprint {
-	font-weight: bold;
+	font-weight: 600;
 	font-size: 14px;
 	font-family: monospace;
 }
@@ -829,10 +892,11 @@ CONVERSATION WINDOW
 	background-image: url("../img/authStatusNo.png");
 	background-size: 16px 16px;
 	background-position: -2px 2px;
+	cursor: pointer;
 }
 
 #conversationWindow .authStatus[data-auth=true] {
-	background-color: #29A2A0;
+	background-color: #3992C0;
 	background-image: none;
 }
 

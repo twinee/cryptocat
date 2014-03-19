@@ -101,13 +101,12 @@ var onSMPAnswer = function(nickname, type, data, act) {
 		if (act === 'asked') {
 			// set authentication result
 			buddy.updateAuth(data)
-			if ($('#authInfo').length) {
+			if ($('.authSMP').length) {
 				if (buddy.authenticated) {
-					Cryptocat.showAuthenticated(nickname, 200)
-					window.setTimeout(function() {
-						$('#dialogBox').animate({'height': 250})
-					}, 200)
-				} else {
+					$('#authSubmit').val(chatWindow.identityVerified)
+					$('#authenticated').click()
+				}
+				else {
 					$('#authSubmit').val(chatWindow.failed)
 						.animate({'background-color': '#F00'})
 				}
@@ -115,7 +114,7 @@ var onSMPAnswer = function(nickname, type, data, act) {
 		}
 		break
 	case 'abort':
-		if ($('#authInfo').length) {
+		if ($('.authSMP').length) {
 			$('#authSubmit').val(chatWindow.failed)
 				.animate({'background-color': '#F00'})
 		}

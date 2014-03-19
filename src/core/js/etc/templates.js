@@ -28,14 +28,16 @@ Cryptocat.templates = {
 
 	buddyInfo: '<div class="title">{{nickname}}</div>'
 		+ '<div id="displayInfo">'
-		+ '{{groupFingerprint}}<br /><span id="multiPartyFingerprint"></span>'
-		+ '</div><div id="authInfo"><h2>{{authenticate}}</h2>'
-		+ '<p id="otrFingerprintWrapper">{{otrFingerprint}}<br /><span id="otrFingerprint"></span></p>'
-		+ '<p>{{verifyUserIdentity}}</p>'
+		+ '<span id="authenticated">Authenticated</span><span id="notAuthenticated">Not Authenticated</span><br />'
+		+ '<span id="authLearnMore">Learn more about authentication</span><br />'
+		+ '<div class="authInfo" style="height:95px">{{groupFingerprint}}<br />'
+		+ '<span id="multiPartyFingerprint"></span><br />'
+		+ '{{otrFingerprint}}<br /><span id="otrFingerprint"></span></div>'
+		+ '<div class="authInfo authSMP"><span>{{verifyUserIdentity}}</span><br /><br />'
 		+ '<form><input type="text" id="authQuestion" placeholder="{{secretQuestion}}" maxlength="64" />'
 		+ '<input type="password" id="authAnswer" placeholder="{{secretAnswer}}" maxlength="64" />'
 		+ '<input id="authSubmit" type="submit" value="{{ask}}" /></form>'
-		+ '<p id="authVerified">{{identityVerified}}</p>',
+		+ '<p id="authVerified">{{identityVerified}}</p></div></div>',
 
 	authRequest: '<div class="title">{{authenticate}}</div>'
 		+ '<p>{{authRequest}}<br />'
@@ -59,8 +61,10 @@ Cryptocat.templates = {
 
 	message: '<div class="line{{lineDecoration}}"><span class="sender" data-sender="{{nickname}}"'
 		+ ' data-timestamp="{{currentTime}}"><span class="authStatus" data-auth="{{authStatus}}" '
-		+ 'data-utip-gravity="sw" data-utip="{{authStatusText}}" data-utip-hoverable="hoverable"></span>'
+		+ 'data-utip-gravity="sw"></span>'
 		+ '<span class="nickname">{{nickname}}</span></span>{{&message}}</div>',
+
+	authStatusFalseUtip: '<div id="authStatusUtip">{{text}}<br /><strong>{{learnMore}}</strong></div>',
 
 	composing: '<img src="img/typing.gif" class="typing" id="{{id}}" alt="" />',
 
