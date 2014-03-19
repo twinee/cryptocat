@@ -269,11 +269,13 @@ Buddy.prototype = {
 		}
 		var authStatusBuffers = ['main-Conversation', Cryptocat.buddies[this.nickname].id]
 		for (var i in authStatusBuffers) {
-			var conversationBuffer = $(conversationBuffers[authStatusBuffers[i]])
-			conversationBuffer.find('[data-sender=' + this.nickname + '] .authStatus')
-				.attr('data-auth', auth)
-			conversationBuffers[authStatusBuffers[i]] = $('<div>').append($(conversationBuffer)
-				.clone()).html()
+			if (conversationBuffers[authStatusBuffers[i]]) {
+				var conversationBuffer = $(conversationBuffers[authStatusBuffers[i]])
+				conversationBuffer.find('[data-sender=' + this.nickname + '] .authStatus')
+					.attr('data-auth', auth)
+				conversationBuffers[authStatusBuffers[i]] = $('<div>').append($(conversationBuffer)
+					.clone()).html()
+			}
 		}
 	}
 }
@@ -661,11 +663,16 @@ var addEmoticons = function(message) {
 // Bind `nickname`'s authentication dialog buttons and options.
 var bindAuthDialog = function(nickname) {
 	var buddy = Cryptocat.buddies[nickname]
-	Cryptocat.buddies[nickname].authenticated? buddy.updateAuth(true) : buddy.updateAuth(false)
-	$('#authenticated').unbind('click').bind('click', function(e) {
+	if (Cryptocat.buddies[nickname].authenticated) {
+		buddy.updateAuth(true)
+	}
+	else {
+		buddy.updateAuth(false)
+	}
+	$('#authenticated').unbind('click').bind('click', function() {
 		buddy.updateAuth(true)
 	})
-	$('#notAuthenticated').unbind('click').bind('click', function(e) {
+	$('#notAuthenticated').unbind('click').bind('click', function() {
 		buddy.updateAuth(false)
 	})
 	$('#authSubmit').unbind('click').bind('click', function(e) {
@@ -676,7 +683,7 @@ var bindAuthDialog = function(nickname) {
 		if (answer.length === 0) {
 			return
 		}
-		$('#authSubmit').val(chatWindow.asking)
+		$('#authSubmit').val(Cryptocat.locale.chatWindow.asking)
 		$('#authSubmit').unbind('click').bind('click', function(e) {
 			e.preventDefault()
 		})
@@ -704,7 +711,6 @@ var bindSenderElement = function(senderElement) {
 		else {
 			$(this).attr('data-utip',
 				Mustache.render(Cryptocat.templates.authStatusFalseUtip, {
-					nickname: nickname,
 					text: 'User is not authenticated.', // Replace with localization string!
 					learnMore: 'Click to learn more...' // Replace with localization string!
 				})
