@@ -265,7 +265,7 @@ Buddy.prototype = {
 		else {
 			$('#authenticated').attr('data-active', false)
 			$('#notAuthenticated').attr('data-active', true)
-			$('[data-sender=' + this.nickname).find('.authStatus').attr('data-auth', 'false')
+			$('[data-sender=' + this.nickname + '] .authStatus').attr('data-auth', 'false')
 		}
 		var authStatusBuffers = ['main-Conversation', Cryptocat.buddies[this.nickname].id]
 		for (var i in authStatusBuffers) {
