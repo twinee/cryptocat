@@ -442,7 +442,13 @@ Cryptocat.displayInfo = function(nickname) {
 			Cryptocat.dialogBox(infoDialog, 250, true)
 		}
 		else {
-			Cryptocat.dialogBox(infoDialog, 410, true)
+			Cryptocat.dialogBox(infoDialog, 410, true, function() {
+				$('#authTutorial').html(
+					Mustache.render(Cryptocat.templates.authTutorial, {
+						nickname: nickname
+					})
+				)
+			})
 			bindAuthDialog(nickname)
 		}
 		$('#otrFingerprint').text(getFingerprint(nickname, true))
@@ -675,6 +681,33 @@ var bindAuthDialog = function(nickname) {
 	})
 	$('#notAuthenticated').unbind('click').bind('click', function() {
 		buddy.updateAuth(false)
+	})
+	$('#authLearnMore').unbind('click').bind('click', function() {
+		if ($(this).attr('data-active') === 'true') {
+			$('#authTutorial').fadeOut(function() {
+				$('#authLearnMore').attr('data-active', 'false')
+					.text('Learn more about authentication') // Replace with localization string!
+				$('.authInfo').fadeIn()
+			})
+		}
+		else {
+			$('.authInfo').fadeOut(function() {
+				$('#authLearnMore').attr('data-active', 'true')
+					.text('Back') // Replace with localization string!
+				$('#authTutorial').fadeIn(function() {
+					if ($('.bjqs-slide').length) {
+						return
+					}
+					$('#authTutorialSlides').bjqs({
+						width: 430,
+						height: 200,
+						responsive: true,
+						nexttext: '>',
+						prevtext: '<'
+					})
+				})
+			})
+		}
 	})
 	$('#authSubmit').unbind('click').bind('click', function(e) {
 		e.preventDefault()

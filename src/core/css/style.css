@@ -644,6 +644,15 @@ DIALOG BOX
 	background: rgba(151, 206, 236, 0.3);
 }
 
+#authTutorial {
+	margin-top: 10px;
+	display: none;
+}
+
+#authTutorial p {
+	max-width: 430px;
+}
+
 .authInfo {
 	background: rgba(151, 206, 236, 0.4);
 	height: 130px;
