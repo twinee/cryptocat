@@ -59,7 +59,6 @@ var onSMPQuestion = function(nickname, question) {
 	var chatWindow = Cryptocat.locale.chatWindow,
 		buddy = Cryptocat.buddies[nickname],
 		answer = false
-
 	var info = Mustache.render(Cryptocat.templates.authRequest, {
 		authenticate: chatWindow.authenticate,
 		authRequest: chatWindow.authRequest.replace('(NICKNAME)', nickname),
@@ -68,19 +67,22 @@ var onSMPQuestion = function(nickname, question) {
 		question: question,
 		answer: chatWindow.answer
 	})
-
 	$('#dialogBoxClose').click()
 	window.setTimeout(function() {
-		Cryptocat.dialogBox(info, 240, true, function() {
-			$('#authReplySubmit').unbind('click').bind('click', function(e) {
-				e.preventDefault()
-				answer = $('#authReply').val().toLowerCase()
-					.replace(/(\s|\.|\,|\'|\"|\;|\?|\!)/, '')
-				buddy.otr.smpSecret(answer)
-				$('#dialogBoxClose').click()
-			})
-		}, function() {
-			if (!answer) {
+		Cryptocat.dialogBox(info, {
+			height: 240,
+			closeable: true,
+			onAppear: function() {
+				$('#authReplySubmit').unbind('click').bind('click', function(e) {
+					e.preventDefault()
+					answer = $('#authReply').val().toLowerCase()
+						.replace(/(\s|\.|\,|\'|\"|\;|\?|\!)/, '')
+					buddy.otr.smpSecret(answer)
+					$('#dialogBoxClose').click()
+				})
+			},
+			onClose: function() {
+				if (answer) { return }
 				buddy.otr.smpSecret(
 					Cryptocat.random.encodedBytes(16, CryptoJS.enc.Hex)
 				)

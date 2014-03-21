@@ -41,11 +41,11 @@ Cryptocat.templates = {
 		+ '<div id="authTutorial"></div></div>',
 
 	authTutorial: '<div id="authTutorialSlides"><ul class="bjqs">'
-		+ '<li><img src="../img/authTutorial/1.png" title="Every time you have a Cryptocat conversation, you need to authenticate the persons you are talking to."></li>'
-		+ '<li><img src="../img/authTutorial/2.png" title="One way you can authenticate is by using Cryptocat to ask {{nickname}} a secret question that only they would know the answer to."></li>'
-		+ '<li><img src="../img/authTutorial/3.png" title="You can also contact {{nickname}} via a trusted channel, such as by phone, and ask them to read their fingerprints."></li>'
-		+ '<li><img src="../img/authTutorial/4.png" title="Fingerprints are identifiers that allow you to authenticate persons. They can change between every Cryptocat conversation."></li>'
-		+ '<li><img src="../img/authTutorial/5.png" title="Without authentication, someone could be impersonating {{nickname}} or intercepting your communications."></li>'
+		+ '<li><img src="../img/authTutorial/1.png" title="{{slide1}}"></li>'
+		+ '<li><img src="../img/authTutorial/2.png" title="{{slide2}}"></li>'
+		+ '<li><img src="../img/authTutorial/3.png" title="{{slide3}}"></li>'
+		+ '<li><img src="../img/authTutorial/4.png" title="{{slide4}}"></li>'
+		+ '<li><img src="../img/authTutorial/5.png" title="{{slide5}}"></li>'
 		+ '</ul></div>',
 
 	authRequest: '<div class="title">{{authenticate}}</div>'

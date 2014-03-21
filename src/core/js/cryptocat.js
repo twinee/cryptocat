@@ -379,19 +379,22 @@ Cryptocat.closeGenerateFingerprints = function(nickname) {
 }
 
 // Displays a pretty dialog box with `data` as the content HTML.
-// If `closeable = true`, then the dialog box has a close button on the top right.
-// `height` is the height of the dialog box, in pixels.
-// onAppear may be defined as a callback function to execute on dialog box appear.
-// onClose may be defined as a callback function to execute on dialog box close.
-Cryptocat.dialogBox = function(data, height, closeable, onAppear, onClose) {
-	if (closeable) {
+Cryptocat.dialogBox = function(data, options) {
+	if (options.closeable) {
 		$('#dialogBoxClose').css('width', 18)
 		$('#dialogBoxClose').css('font-size', 12)
+		$(document).keydown(function(e) {
+			if (e.keyCode === 27) {
+				e.stopPropagation()
+				$('#dialogBoxClose').click()
+				$(document).unbind('keydown')
+			}
+		})
 	}
 	$('#dialogBoxContent').html(data)
-	$('#dialogBox').css('height', height)
+	$('#dialogBox').css('height', options.height)
 	$('#dialogBox').fadeIn(200, function() {
-		if (onAppear) { onAppear() }
+		if (options.onAppear) { options.onAppear() }
 	})
 	$('#dialogBoxClose').unbind('click').click(function(e) {
 		e.stopPropagation()
@@ -403,19 +406,10 @@ Cryptocat.dialogBox = function(data, height, closeable, onAppear, onClose) {
 			$('#dialogBoxContent').empty()
 			$('#dialogBoxClose').css('width', '0')
 			$('#dialogBoxClose').css('font-size', '0')
-			if (onClose) { onClose() }
+			if (options.onClose) { options.onClose() }
 		})
 		$('#userInputText').focus()
 	})
-	if (closeable) {
-		$(document).keydown(function(e) {
-			if (e.keyCode === 27) {
-				e.stopPropagation()
-				$('#dialogBoxClose').click()
-				$(document).unbind('keydown')
-			}
-		})
-	}
 }
 
 // Display buddy information, including fingerprints and authentication.
@@ -423,9 +417,6 @@ Cryptocat.displayInfo = function(nickname) {
 	var isMe = nickname === Cryptocat.me.nickname,
 		infoDialog = isMe ? 'myInfo' : 'buddyInfo',
 		chatWindow = Cryptocat.locale.chatWindow
-	if (!Cryptocat.buddies.hasOwnProperty(nickname)) {
-		return false
-	}
 	infoDialog = Mustache.render(Cryptocat.templates[infoDialog], {
 		nickname: nickname,
 		otrFingerprint: chatWindow.otrFingerprint,
@@ -439,15 +430,27 @@ Cryptocat.displayInfo = function(nickname) {
 	})
 	ensureOTRdialog(nickname, false, function() {
 		if (isMe) {
-			Cryptocat.dialogBox(infoDialog, 250, true)
+			Cryptocat.dialogBox(infoDialog, {
+				height: 250,
+				closeable: true
+			})
 		}
 		else {
-			Cryptocat.dialogBox(infoDialog, 410, true, function() {
-				$('#authTutorial').html(
-					Mustache.render(Cryptocat.templates.authTutorial, {
-						nickname: nickname
-					})
-				)
+			// Replace with localization strings!
+			var authTutorial = Mustache.render(Cryptocat.templates.authTutorial, {
+				nickname: nickname,
+				slide1: 'Every time you have a Cryptocat conversation, you need to authenticate the persons you are talking to.',
+				slide2: 'One way you can authenticate is by using Cryptocat to ask {{nickname}} a secret question that only they would know the answer to.',
+				slide3: 'You can also contact {{nickname}} via a trusted channel, such as by phone, and ask them to read their fingerprints.',
+				slide4: 'Fingerprints are identifiers that allow you to authenticate persons. They can change between every Cryptocat conversation.',
+				slide5: 'Without authentication, someone could be impersonating {{nickname}} or intercepting your communications.'
+			})
+			Cryptocat.dialogBox(infoDialog, {
+				height: 410,
+				closeable: true,
+				onAppear: function() {
+					$('#authTutorial').html(authTutorial)
+				}
 			})
 			bindAuthDialog(nickname)
 		}
@@ -825,7 +828,10 @@ var sendFile = function(nickname) {
 		fileTransferInfo: Cryptocat.locale['chatWindow']['fileTransferInfo']
 	})
 	ensureOTRdialog(nickname, false, function() {
-		Cryptocat.dialogBox(sendFileDialog, 250, true)
+		Cryptocat.dialogBox(sendFileDialog, {
+			height: 250,
+			closeable: true
+		})
 		$('#fileSelector').change(function(e) {
 			e.stopPropagation()
 			if (this.files) {
@@ -870,7 +876,10 @@ var ensureOTRdialog = function(nickname, close, cb) {
 		return cb()
 	}
 	var progressDialog = '<div id="progressBar"><div id="fill"></div></div>'
-	Cryptocat.dialogBox(progressDialog, 250, true)
+	Cryptocat.dialogBox(progressDialog, {
+		height: 250,
+		closeable: true
+	})
 	$('#progressBar').css('margin', '70px auto 0 auto')
 	$('#fill').animate({'width': '100%', 'opacity': '1'}, 10000, 'linear')
 	// add some state for status callback
@@ -1215,7 +1224,11 @@ $('#loginForm').submit(function() {
 			text: Cryptocat.locale['loginMessage']['generatingKeys']
 		})
 		if (Cryptocat.audioNotifications) { Cryptocat.sounds.keygenStart.play() }
-		Cryptocat.dialogBox(progressForm, 250, false, prepareKeysAndConnect())
+		Cryptocat.dialogBox(progressForm, {
+			height: 250,
+			closeable: false,
+			onAppear: prepareKeysAndConnect()
+		})
 		if (Cryptocat.locale['language'] === 'en') {
 			$('#progressInfo').append(
 				Mustache.render(Cryptocat.templates.catFact, {
