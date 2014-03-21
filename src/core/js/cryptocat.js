@@ -440,10 +440,10 @@ Cryptocat.displayInfo = function(nickname) {
 			var authTutorial = Mustache.render(Cryptocat.templates.authTutorial, {
 				nickname: nickname,
 				slide1: 'Every time you have a Cryptocat conversation, you need to authenticate the persons you are talking to.',
-				slide2: 'One way you can authenticate is by using Cryptocat to ask {{nickname}} a secret question that only they would know the answer to.',
-				slide3: 'You can also contact {{nickname}} via a trusted channel, such as by phone, and ask them to read their fingerprints.',
+				slide2: 'One way you can authenticate is by using Cryptocat to ask your friend a secret question that only they would know the answer to.',
+				slide3: 'You can also contact them via a trusted channel, such as by phone, and ask them to read their fingerprints.',
 				slide4: 'Fingerprints are identifiers that allow you to authenticate persons. They can change between every Cryptocat conversation.',
-				slide5: 'Without authentication, someone could be impersonating {{nickname}} or intercepting your communications.'
+				slide5: 'Without authentication, someone could be impersonating or intercepting your communications.'
 			})
 			Cryptocat.dialogBox(infoDialog, {
 				height: 410,
