@@ -51,7 +51,6 @@ Cryptocat.templates = {
 		+ '<li><img src="../img/authTutorial/2.png" title="{{slide2}}"></li>'
 		+ '<li><img src="../img/authTutorial/3.png" title="{{slide3}}"></li>'
 		+ '<li><img src="../img/authTutorial/4.png" title="{{slide4}}"></li>'
-		+ '<li><img src="../img/authTutorial/5.png" title="{{slide5}}"></li>'
 		+ '</ul></div>',
 
 	authRequest: '<div class="title">{{authenticate}}</div>'
@@ -76,7 +75,7 @@ Cryptocat.templates = {
 
 	message: '<div class="line{{lineDecoration}}"><span class="sender" data-sender="{{nickname}}"'
 		+ ' data-timestamp="{{currentTime}}"><span class="authStatus" data-auth="{{authStatus}}" '
-		+ 'data-utip-gravity="sw"></span>'
+		+ 'data-utip-gravity="se"></span>'
 		+ '<span class="nickname">{{nickname}}</span></span>{{&message}}</div>',
 
 	authStatusFalseUtip: '<div id="authStatusUtip">{{text}}<br /><strong>{{learnMore}}</strong></div>',
