@@ -37,6 +37,7 @@ var onStatusChange = function(nickname, state) {
 		}
 		else if (buddy.fingerprint !== fingerprint) {
 			// re-aked with a different key
+			buddy.fingerprint = fingerprint
 			onReAKE(nickname)
 		}
 	}
