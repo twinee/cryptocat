@@ -143,21 +143,22 @@ Cryptocat.xmpp.onMessage = function(message) {
 		Cryptocat.addToConversation('', nickname, conversation, 'composing')
 		return true
 	}
-	// Check if message has an 'active' or 'paused' (stopped writing) notification.
-	if ($(message).find('active').length || $(message).find('paused').length) {
-		if ($('#composing-' + Cryptocat.buddies[nickname].id).length) {
-			$('#composing-' + Cryptocat.buddies[nickname].id).parent().fadeOut(100).remove()
-		}
+	// Check if we have a 'composing' bubble for that buddy.
+	// Check if message has a 'paused' (stopped writing) notification.
+	if (
+		$('#composing-' + Cryptocat.buddies[nickname].id).length
+		&& $(message).find('paused').length
+	) {
+		$('#composing-' + Cryptocat.buddies[nickname].id).parent().fadeOut(100).remove()
 	}
 	// Check if message is a group chat message.
-	if (type === 'groupchat') {
-		if(!body.length) { return true }
+	else if (type === 'groupchat' && body.length) {
 		body = Cryptocat.multiParty.receiveMessage(nickname, Cryptocat.me.nickname, body)
 		if (typeof(body) === 'string') {
 			Cryptocat.addToConversation(body, nickname, 'main-Conversation', 'message')
 		}
 	}
-	// Check ifthis is a private OTR message.
+	// Check if this is a private OTR message.
 	else if (type === 'chat') {
 		Cryptocat.buddies[nickname].otr.receiveMsg(body)
 	}

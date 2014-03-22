@@ -189,20 +189,32 @@ Cryptocat.addToConversation = function(message, nickname, conversation, type) {
 	|| Cryptocat.buddies[nickname].authenticated) {
 		authStatus = true
 	}
-	message = Mustache.render(Cryptocat.templates.message, {
+	message = message.replace(/:/g, '&#58;')
+	var renderedMessage = Mustache.render(Cryptocat.templates.message, {
 		lineDecoration: lineDecoration,
 		nickname: shortenString(nickname, 16),
 		currentTime: currentTime(true),
 		authStatus: authStatus,
-		message: message.replace(/:/g, '&#58;')
+		message: message
 	})
 	if (type !== 'composing') {
-		conversationBuffers[Cryptocat.buddies[conversation].id] += message
+		conversationBuffers[Cryptocat.buddies[conversation].id] += renderedMessage
 	}
 	if (conversation === Cryptocat.me.currentBuddy.name) {
-		$('#conversationWindow').append(message)
-		$('.line' + lineDecoration).last().animate({'top': '0', 'opacity': '1'}, 100)
-		bindSenderElement($('.line' + lineDecoration).last().find('.sender'))
+		if (
+			(nickname === Cryptocat.me.nickname) ||
+			!$('#composing-' + Cryptocat.buddies[nickname].id).length
+		) {
+			$('#conversationWindow').append(renderedMessage)
+			$('.line' + lineDecoration).last().animate({'top': '0', 'opacity': '1'}, 100)
+			bindSenderElement($('.line' + lineDecoration).last().find('.sender'))
+		}
+		else {
+			var composingElement = $('#composing-' + Cryptocat.buddies[nickname].id)
+			if (composingElement.length) {
+				composingElement.replaceWith(message)
+			}
+		}
 		scrollDownConversation(400, true)
 	}
 	else if (type !== 'composing') {
