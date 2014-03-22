@@ -127,7 +127,7 @@ Cryptocat.addToConversation = function(message, nickname, conversation, type) {
 	else if (Cryptocat.buddies[nickname].ignored) {
 		return false
 	}
-	initializeConversationBuffer(conversation)
+	initializeConversationBuffer(Cryptocat.buddies[conversation].id)
 	if (type === 'file') {
 		if (!message.length) { return false }
 		if (nickname !== Cryptocat.me.nickname) {
@@ -391,6 +391,9 @@ Cryptocat.dialogBox = function(data, options) {
 			}
 		})
 	}
+	if (options.extraClasses) {
+		$('#dialogBox').addClass(options.extraClasses)
+	}
 	$('#dialogBoxContent').html(data)
 	$('#dialogBox').css('height', options.height)
 	$('#dialogBox').fadeIn(200, function() {
@@ -403,6 +406,9 @@ Cryptocat.dialogBox = function(data, options) {
 			return false
 		}
 		$('#dialogBox').fadeOut(100, function() {
+			if (options.extraClasses) {
+				$('#dialogBox').removeClass(options.extraClasses)
+			}
 			$('#dialogBoxContent').empty()
 			$('#dialogBoxClose').css('width', '0')
 			$('#dialogBoxClose').css('font-size', '0')

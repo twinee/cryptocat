@@ -65,6 +65,7 @@ img {
 	background: #97CEEC;
 	border: none;
 	cursor: pointer;
+	border-radius: 4px 0 4px 4px;
 }
 
 [type=button]:active, [type=submit]:active {
@@ -537,6 +538,16 @@ DIALOG BOX
 	font-family: 'Monda';
 }
 
+.dialogBoxError {
+	border-color: #F00 !important;
+	box-shadow: 5px 5px #F00 !important;
+}
+
+.dialogBoxError #openAuth {
+	padding: 10px;
+	margin: 20px auto 0 auto;
+}
+
 #dialogBox [type=text], #dialogBox [type=password], #dialogBox [type=submit] {
 	color: #FFF;
 	float: left;
@@ -557,6 +568,10 @@ DIALOG BOX
 	cursor: pointer;
 	font-family: Helvetica, Arial, Verdana;
 	font-weight: bold;
+}
+
+.dialogBoxError #dialogBoxClose {
+	background: #F00 !important;
 }
 
 #dialogBoxContent {
@@ -790,6 +805,10 @@ DIALOG BOX
 	margin-bottom: 2px;
 	color: #FFF;
 	font-size: 1.5em;
+}
+
+#dialogBox .errorTitle {
+	background: #F00 !important;
 }
 
 #dialogBox #fileSelectButton {

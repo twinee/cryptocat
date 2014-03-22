@@ -26,6 +26,12 @@ Cryptocat.templates = {
 		+ '{{groupFingerprint}}<br /><span id="multiPartyFingerprint"></span><br />'
 		+ '{{otrFingerprint}}<br /><span id="otrFingerprint"></span></div>',
 
+	errorAKE: '<div class="title errorTitle">{{nickname}}</div>'
+		+ '<div id="displayInfo">'
+		+ '{{errorText}}<br />'
+		+ '<input type="button" id="openAuth" value="{{openAuth}}" />'
+		+ '</div>',
+
 	buddyInfo: '<div class="title">{{nickname}}</div>'
 		+ '<div id="displayInfo">'
 		+ '<span id="authenticated">Authenticated</span><span id="notAuthenticated">Not Authenticated</span><br />'

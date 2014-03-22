@@ -18,7 +18,9 @@ var onIncoming = function(nickname, msg, encrypted) {
 // Handle outgoing messages.
 var onOutgoing = function(nickname, message) {
 	Cryptocat.xmpp.connection.muc.message(
-		Cryptocat.me.conversation + '@' + Cryptocat.xmpp.conferenceServer,
+		Cryptocat.me.conversation
+			+ '@'
+			+ Cryptocat.xmpp.conferenceServer,
 		nickname, message, null, 'chat', 'active'
 	)
 }
@@ -32,13 +34,43 @@ var onStatusChange = function(nickname, state) {
 		if (buddy.fingerprint === null) {
 			buddy.fingerprint = fingerprint
 			Cryptocat.closeGenerateFingerprints(nickname)
-		} else if (buddy.fingerprint !== fingerprint) {
+		}
+		else if (buddy.fingerprint !== fingerprint) {
 			// re-aked with a different key
-			buddy.updateAuth(false)
-			// FIXME: injecting warning messages needs to be generalized
-			// Cryptocat.addToConversation('we have a problem!', 'warning')
+			onReAKE(nickname)
 		}
 	}
+}
+
+// Handle a detected re-AKE.
+var onReAKE = function(nickname) {
+	var buddy = Cryptocat.buddies[nickname]
+	var openAuth = false
+	buddy.updateAuth(false)
+	// Replace with localization text!
+	var errorAKE = Mustache.render(
+		Cryptocat.templates.errorAKE, {
+			nickname: nickname,
+			errorText: 'The authentication fingerprints for this contact have changed. This is not supposed to happen and could indicate suspicious behaviour. Please authenticate this contact before chatting with them.',
+			openAuth: Cryptocat.locale.chatWindow.authenticate
+		}
+	)
+	Cryptocat.dialogBox(errorAKE, {
+		extraClasses: 'dialogBoxError',
+		closeable: true,
+		height: 250,
+		onAppear: function() {
+			$('#openAuth').unbind().bind('click', function() {
+				openAuth = true
+				$('#dialogBoxClose').click()
+			})
+		},
+		onClose: function() {
+			if (openAuth) {
+				Cryptocat.displayInfo(nickname)
+			}
+		}
+	})
 }
 
 // Store received filename.
