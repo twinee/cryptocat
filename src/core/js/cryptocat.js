@@ -713,7 +713,7 @@ var bindAuthDialog = function(nickname) {
 		else {
 			$('.authInfo').fadeOut(function() {
 				$('#authLearnMore').attr('data-active', 'true')
-					.text('Back') // Replace with localization string!
+					.text(Cryptocat.locale.chatWindow.continue)
 				$('#authTutorial').fadeIn(function() {
 					if ($('.bjqs-slide').length) {
 						return
