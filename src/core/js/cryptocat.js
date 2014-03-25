@@ -251,6 +251,37 @@ Cryptocat.loginFail = function(message) {
 	$('#loginInfo').animate({'background-color': '#E93028'}, 200)
 }
 
+// Handle detected new keys.
+Cryptocat.onReAKE = function(nickname) {
+	var buddy = Cryptocat.buddies[nickname]
+	var openAuth = false
+	buddy.updateAuth(false)
+	// Replace with localization text!
+	var errorAKE = Mustache.render(
+		Cryptocat.templates.errorAKE, {
+			nickname: nickname,
+			errorText: 'The authentication fingerprints for this contact have changed. This is not supposed to happen and could indicate suspicious behaviour. Please authenticate this contact before chatting with them.',
+			openAuth: Cryptocat.locale.chatWindow.authenticate
+		}
+	)
+	Cryptocat.dialogBox(errorAKE, {
+		extraClasses: 'dialogBoxError',
+		closeable: true,
+		height: 250,
+		onAppear: function() {
+			$('#openAuth').unbind().bind('click', function() {
+				openAuth = true
+				$('#dialogBoxClose').click()
+			})
+		},
+		onClose: function() {
+			if (openAuth) {
+				Cryptocat.displayInfo(nickname)
+			}
+		}
+	})
+}
+
 // Buddy constructor
 var Buddy = function(nickname) {
 	this.id = getUniqueBuddyID()
@@ -268,6 +299,11 @@ var Buddy = function(nickname) {
 
 Buddy.prototype = {
 	constructor: Buddy,
+	updateMpKeys: function(publicKey) {
+		this.mpPublicKey = publicKey
+		this.mpFingerprint = Cryptocat.multiParty.genFingerprint(this.nickname)
+		this.mpSecretKey = Cryptocat.multiParty.genSharedSecret(this.nickname)
+	},
 	updateAuth: function(auth) {
 		this.authenticated = auth;
 		if (auth) {
@@ -718,6 +754,9 @@ var bindAuthDialog = function(nickname) {
 			e.preventDefault()
 		})
 		buddy.updateAuth(false)
+		if (buddy.mpFingerprint) {
+			answer += Cryptocat.me.mpFingerprint + buddy.mpFingerprint
+		}
 		buddy.otr.smpSecret(answer, question)
 	})
 }
