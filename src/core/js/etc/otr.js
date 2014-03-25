@@ -48,7 +48,7 @@ var onReAKE = function(nickname) {
 	var buddy = Cryptocat.buddies[nickname]
 	var openAuth = false
 	buddy.updateAuth(false)
-	// Replace with localization text!
+	// Replace with localization string!
 	var errorAKE = Mustache.render(
 		Cryptocat.templates.errorAKE, {
 			nickname: nickname,

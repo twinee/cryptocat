@@ -76,3 +76,4 @@ One way you can authenticate is by using Cryptocat to ask your friend a secret q
 You can also contact them via a trusted channel, such as by phone, and ask them to read their fingerprints.
 Fingerprints are identifiers that allow you to authenticate persons. They can change between every Cryptocat conversation.
 Without authentication, someone could be impersonating or intercepting your communications.
+The authentication fingerprints for this contact have changed. This is not supposed to happen and could indicate suspicious behaviour. Please authenticate this contact before chatting with them.
