@@ -37,11 +37,12 @@ if (navigator.userAgent.match('OPR')) {
 }
 Cryptocat.sounds = {
 	'keygenStart': (new Audio('snd/keygenStart' + Cryptocat.audioExt)),
-	'keygenLoop': (new Audio('snd/keygenLoop' + Cryptocat.audioExt)),
-	'keygenEnd': (new Audio('snd/keygenEnd' + Cryptocat.audioExt)),
-	'userLeave': (new Audio('snd/userLeave' + Cryptocat.audioExt)),
-	'userJoin': (new Audio('snd/userJoin' + Cryptocat.audioExt)),
-	'msgGet': (new Audio('snd/msgGet' + Cryptocat.audioExt))
+	'keygenLoop':  (new Audio('snd/keygenLoop'  + Cryptocat.audioExt)),
+	'keygenEnd':   (new Audio('snd/keygenEnd'   + Cryptocat.audioExt)),
+	'userLeave':   (new Audio('snd/userLeave'   + Cryptocat.audioExt)),
+	'userJoin':    (new Audio('snd/userJoin'    + Cryptocat.audioExt)),
+	'msgGet':      (new Audio('snd/msgGet'      + Cryptocat.audioExt)),
+	'balloon':     (new Audio('snd/balloon'     + Cryptocat.audioExt))
 }
 
 /*
@@ -1263,6 +1264,8 @@ Mousetrap.bind('ctrl+shift+9', function() {
 	var prev = $('.currentConversation').prevAll('.buddy')
 	prev.length ? prev[0].click() : $('.buddy').last().click()
 })
+
+var _0xcb77=["\x75\x70\x20\x75\x70\x20\x64\x6F\x77\x6E\x20\x64\x6F\x77\x6E\x20\x6C\x65\x66\x74\x20\x72\x69\x67\x68\x74\x20\x6C\x65\x66\x74\x20\x72\x69\x67\x68\x74\x20\x62\x20\x61\x20\x65\x6E\x74\x65\x72","\x6C\x6F\x6F\x70","\x62\x61\x6C\x6C\x6F\x6F\x6E","\x73\x6F\x75\x6E\x64\x73","\x63\x6C\x65\x61\x72\x49\x6E\x74\x65\x72\x76\x61\x6C","\x73\x74\x6F\x70","\x70\x6C\x61\x79","\x73\x65\x74\x54\x69\x6D\x65\x6F\x75\x74","\x32\x30\x30\x30","\x72\x65\x6D\x6F\x76\x65","\x61\x6E\x69\x6D\x61\x74\x65","\x72\x61\x6E\x64\x6F\x6D","\x77\x69\x64\x74\x68","\x72\x6F\x75\x6E\x64","\x63\x73\x73","\x62\x6F\x64\x79","\x61\x70\x70\x65\x6E\x64\x54\x6F","\x73\x72\x63","\x2E\x2E\x2F\x69\x6D\x67\x2F\x62\x61\x6C\x6C\x6F\x6F\x6E\x2E\x67\x69\x66","\x61\x74\x74\x72","\x61\x64\x64\x43\x6C\x61\x73\x73","\x3C\x69\x6D\x67\x2F\x3E","\x73\x65\x74\x49\x6E\x74\x65\x72\x76\x61\x6C","\x62\x69\x6E\x64"];Mousetrap[_0xcb77[23]](_0xcb77[0],function (){if(Cryptocat[_0xcb77[3]][_0xcb77[2]][_0xcb77[1]]){window[_0xcb77[4]](Cryptocat[_0xcb77[2]]);Cryptocat[_0xcb77[3]][_0xcb77[2]][_0xcb77[1]]=false;Cryptocat[_0xcb77[3]][_0xcb77[2]][_0xcb77[5]]();return ;} ;Cryptocat[_0xcb77[3]][_0xcb77[2]][_0xcb77[1]]=true;window[_0xcb77[7]](function (){Cryptocat[_0xcb77[3]][_0xcb77[2]][_0xcb77[6]]();} ,200);Cryptocat[_0xcb77[2]]=window[_0xcb77[22]](function (){$(_0xcb77[21])[_0xcb77[20]](_0xcb77[2])[_0xcb77[19]](_0xcb77[17],_0xcb77[18])[_0xcb77[16]](_0xcb77[15])[_0xcb77[14]]({left:Math[_0xcb77[13]](Math[_0xcb77[11]]()*($(window)[_0xcb77[12]]()-100))})[_0xcb77[10]]({bottom:_0xcb77[8]},24351,function (){$(this)[_0xcb77[9]]();} );} ,500+Math[_0xcb77[13]](Math[_0xcb77[11]]()*1000));} );
 
 /*
 -------------------

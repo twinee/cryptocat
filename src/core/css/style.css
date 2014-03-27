@@ -1163,3 +1163,11 @@ EMOTICONS
 .eWinkTongue { background-image: url('../img/emoticon/winkTongue.png')}
 .eHappy { background-image: url('../img/emoticon/happy.png')}
 .eShut { background-image: url('../img/emoticon/shut.png')}
+
+.balloon {
+	position: fixed;
+	bottom: -100px;
+	z-index: 100;
+	height: 100px;
+	width: auto;
+}
