@@ -11,6 +11,7 @@
 	<script type="application/javascript" src="js/lib/jquery/jquery.color.js"></script>
 	<script type="application/javascript" src="js/lib/jquery/jquery.utip.js"></script>
 	<script type="application/javascript" src="js/lib/mustache.js"></script>
+	<script type="application/javascript" src="js/lib/mousetrap.js"></script>
 	<script type="application/javascript" src="js/lib/strophe/strophe.js"></script>
 	<script type="application/javascript" src="js/lib/strophe/strophe.ibb.js"></script>
 	<script type="application/javascript" src="js/lib/strophe/strophe.si-filetransfer.js"></script>
@@ -135,7 +136,7 @@
 				</div>
 			</div>
 			<form id="userInput">
-				<textarea id="userInputText"></textarea>
+				<textarea id="userInputText" class="mousetrap"></textarea>
 				<input type="submit" value="►" id="userInputSend" />
 			</form>
 		</div>
@@ -145,8 +146,6 @@
 		</div>
 		<div id="buddyWrapper">
 			<div id="buddyList">
-				<span id="currentConversation"></span>
-				<span id="buddiesOnline"></span>
 				<div class="buddy"
 					id="buddy-main-Conversation"
 					style="display:block"
@@ -155,6 +154,7 @@
 				>
 					<span id="conversationTag"></span>
 				</div>
+				<span id="buddiesOnline"></span>
 				<span id="buddiesAway"></span>
 			</div>
 		</div>

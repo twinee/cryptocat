@@ -352,22 +352,38 @@ Cryptocat.onBuddyClick = function(buddyElement) {
 		$('#userInputText').focus()
 		return true
 	}
-	if (Cryptocat.me.currentBuddy.id) {
-		var buddyStatus = $('#buddy-' + Cryptocat.me.currentBuddy.id)
-			.attr('status')
-		if (buddyStatus === 'online') {
-			$('#buddy-' + Cryptocat.me.currentBuddy.id)
-				.insertAfter('#buddiesOnline').slideDown(100)
-		}
-		else if (buddyStatus === 'away') {
-			$('#buddy-' + Cryptocat.me.currentBuddy.id)
-				.insertAfter('#buddiesAway').slideDown(100)
-		}
-	}
 	Cryptocat.me.currentBuddy.name = nickname
 	Cryptocat.me.currentBuddy.id = buddyElement.attr('data-id')
 	initializeConversationBuffer(Cryptocat.me.currentBuddy.id)
-	switchConversation(Cryptocat.me.currentBuddy.id)
+	var id = Cryptocat.me.currentBuddy.id
+	// Render conversation info bar.
+	$('.conversationName').text(
+		Cryptocat.me.nickname + '@' + Cryptocat.me.conversation
+	)
+	$('#groupConversation').text(Cryptocat.me.currentBuddy.name)
+	if (Cryptocat.me.currentBuddy.name === 'main-Conversation') {
+		$('#groupConversation').text(
+			Cryptocat.locale['chatWindow']['groupConversation']
+		)
+	}
+	// Switch currently active conversation.
+	$('#conversationWindow').html(conversationBuffers[id])
+	bindSenderElement()
+	scrollDownConversation(0, false)
+	$('#userInputText').focus()
+	$('#buddy-' + id).addClass('currentConversation')
+	// Clean up finished conversations.
+	$('#buddyList div').each(function() {
+		if ($(this).attr('data-id') !== id) {
+			$(this).removeClass('currentConversation')
+			if (
+				!$(this).hasClass('newMessage') &&
+				($(this).attr('status') === 'offline')
+			) {
+				$(this).slideUp(500, function() { $(this).remove() })
+			}
+		}
+	})
 	$('#conversationWindow').children().addClass('visibleLine')
 }
 
@@ -545,48 +561,6 @@ var initializeConversationBuffer = function(id) {
 	if (!conversationBuffers.hasOwnProperty(id)) {
 		conversationBuffers[id] = ''
 	}
-}
-
-// Creates a template for the conversation info bar at the top of each conversation.
-var buildConversationInfo = function(conversation) {
-	$('.conversationName').text(
-		Cryptocat.me.nickname + '@' + Cryptocat.me.conversation
-	)
-	if (conversation === 'main-Conversation') {
-		$('#groupConversation').text(
-			Cryptocat.locale['chatWindow']['groupConversation']
-		)
-	}
-	else {
-		$('#groupConversation').text(conversation)
-	}
-}
-
-// Switches the currently active conversation.
-var switchConversation = function(id) {
-	buildConversationInfo(Cryptocat.me.currentBuddy.name)
-	$('#conversationWindow').html(conversationBuffers[Cryptocat.me.currentBuddy.id])
-	bindSenderElement()
-	scrollDownConversation(0, false)
-	$('#userInputText').focus()
-	$('#buddy-' + id).addClass('currentConversation')
-	var buddyPosition = $('#buddy-' + id).prev().attr('id')
-	if ((buddyPosition === 'buddiesOnline') || ((buddyPosition === 'buddiesAway')
-		&& ($('#buddiesOnline').next().attr('id') === 'buddiesAway'))) {
-		$('#buddy-' + id).insertAfter('#currentConversation')
-	}
-	else {
-		$('#buddy-' + id).insertAfter('#currentConversation').slideDown(100)
-	}
-	// Clean up finished conversations.
-	$('#buddyList div').each(function() {
-		if ($(this).attr('data-id') !== id) {
-			$(this).removeClass('currentConversation')
-			if (!$(this).hasClass('newMessage') && ($(this).attr('status') === 'offline')) {
-				$(this).slideUp(500, function() { $(this).remove() })
-			}
-		}
-	})
 }
 
 // Get a unique buddy identifier.
@@ -1271,6 +1245,30 @@ $('#loginForm').submit(function() {
 	}
 	return false
 })
+
+/*
+-------------------
+KEYBOARD SHORTCUTS
+-------------------
+*/
+
+// Select next buddy
+Mousetrap.bind('ctrl+shift+0', function() {
+	var next = $('.currentConversation').nextAll('.buddy')
+	next.length ? next[0].click() : $('.buddy').first().click()
+})
+
+// Select previous buddy
+Mousetrap.bind('ctrl+shift+9', function() {
+	var prev = $('.currentConversation').prevAll('.buddy')
+	prev.length ? prev[0].click() : $('.buddy').last().click()
+})
+
+/*
+-------------------
+WINDOW EVENT BINDINGS
+-------------------
+*/
 
 // When the window/tab is not selected, set `windowFocus` to false.
 // `windowFocus` is used to know when to show desktop notifications.

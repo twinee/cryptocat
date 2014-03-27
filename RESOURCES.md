@@ -32,6 +32,10 @@ License: MIT
 Origin: https://github.com/janl/mustache.js/  
 License: MIT  
 
+##Moustrap
+Origin: https://github.com/ccampbell/mousetrap  
+License: ???  
+
 ##OTR.js
 Origin: https://github.com/arlolra/otr/  
 License: MPL 2.0  

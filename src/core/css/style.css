@@ -411,11 +411,13 @@ BUDDY LIST
 	text-align: left;
 	cursor: default;
 	z-index: 15;
-	transition: background-color 0.5s;
+	transition: background-color 0.25s;
 }
+
 .buddy[status=away] {
 	color: #778;
 }
+
 .buddy[status=offline] {
 	background-color: #222;
 	color: #BBB;
@@ -425,7 +427,6 @@ BUDDY LIST
 .buddy.currentConversation {
 	background-color: #97CEEC;
 }
-
 
 .buddy.ignored span {
 	text-decoration: line-through;
