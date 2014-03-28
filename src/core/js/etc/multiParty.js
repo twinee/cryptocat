@@ -257,9 +257,9 @@ Cryptocat.multiParty.receiveMessage = function(sender, myName, message) {
 			if (!Cryptocat.buddies[sender].mpSecretKey) {
 				return false
 			}
-			//Sort recipients
+			// Sort recipients
 			var sortedRecipients = Object.keys(message['text']).sort()
-			//Check HMAC
+			// Check HMAC
 			var hmac = CryptoJS.lib.WordArray.create()
 			var i
 			for (i = 0; i !== sortedRecipients.length; i++) {
@@ -271,20 +271,20 @@ Cryptocat.multiParty.receiveMessage = function(sender, myName, message) {
 				Cryptocat.multiParty.messageWarning(sender)
 				return false
 			}
-			//Check IV reuse
+			// Check IV reuse
 			if (usedIVs.indexOf(message['text'][myName]['iv']) >= 0) {
 				console.log('multiParty: IV reuse detected, possible replay attack')
 				Cryptocat.multiParty.messageWarning(sender)
 				return false
 			}
 			usedIVs.push(message['text'][myName]['iv'])
-			//Decrypt
+			// Decrypt
 			var plaintext = decryptAES(
 				message['text'][myName]['message'],
 				Cryptocat.buddies[sender].mpSecretKey['message'],
 				message['text'][myName]['iv']
 			)
-			//Check tag
+			// Check tag
 			var messageTag = plaintext.clone()
 			for (i = 0; i !== sortedRecipients.length; i++) {
 				messageTag.concat(CryptoJS.enc.Base64.parse(message['text'][sortedRecipients[i]]['hmac']))
@@ -294,14 +294,14 @@ Cryptocat.multiParty.receiveMessage = function(sender, myName, message) {
 				Cryptocat.multiParty.messageWarning(sender)
 				return false
 			}
-			//Remove padding
+			// Remove padding
 			if (plaintext.sigBytes < 64) {
 				console.log('multiParty: invalid plaintext size')
 				Cryptocat.multiParty.messageWarning(sender)
 				return false
 			}
 			plaintext = CryptoJS.lib.WordArray.create(plaintext.words, plaintext.sigBytes-64)
-			//Convert to UTF8
+			// Convert to UTF8
 			return plaintext.toString(CryptoJS.enc.Utf8)
 		}
 		else {
