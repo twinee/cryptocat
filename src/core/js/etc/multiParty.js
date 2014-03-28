@@ -222,13 +222,13 @@ Cryptocat.multiParty.receiveMessage = function(sender, myName, message) {
 				!BigInt.equals(buddy.mpPublicKey, publicKey)
 			) {
 				buddy.updateMpKeys(publicKey)
-				Cryptocat.onReAKE(sender)
+				Cryptocat.removeAuthAndWarn(sender)
 			}
 			// if we're missing their key, make sure we aren't already
 			// authenticated (prevents a possible active attack)
 			else if (!buddy.mpPublicKey && buddy.authenticated) {
 				buddy.updateMpKeys(publicKey)
-				Cryptocat.onReAKE(sender)
+				Cryptocat.removeAuthAndWarn(sender)
 			} else {
 				buddy.updateMpKeys(publicKey)
 			}

@@ -38,7 +38,7 @@ var onStatusChange = function(nickname, state) {
 		else if (buddy.fingerprint !== fingerprint) {
 			// re-aked with a different key
 			buddy.fingerprint = fingerprint
-			Cryptocat.onReAKE(nickname)
+			Cryptocat.removeAuthAndWarn(nickname)
 		}
 	}
 }
@@ -77,11 +77,8 @@ var onSMPQuestion = function(nickname, question) {
 			onAppear: function() {
 				$('#authReplySubmit').unbind('click').bind('click', function(e) {
 					e.preventDefault()
-					answer = $('#authReply').val().toLowerCase()
-						.replace(/(\s|\.|\,|\'|\"|\;|\?|\!)/, '')
-					if (buddy.mpFingerprint) {
-						answer += buddy.mpFingerprint + Cryptocat.me.mpFingerprint
-					}
+					answer = $('#authReply').val()
+					answer = Cryptocat.prepareAnswer(answer, false, buddy.mpFingerprint)
 					buddy.otr.smpSecret(answer)
 					$('#dialogBoxClose').click()
 				})

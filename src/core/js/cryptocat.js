@@ -252,7 +252,7 @@ Cryptocat.loginFail = function(message) {
 }
 
 // Handle detected new keys.
-Cryptocat.onReAKE = function(nickname) {
+Cryptocat.removeAuthAndWarn = function(nickname) {
 	var buddy = Cryptocat.buddies[nickname]
 	var openAuth = false
 	buddy.updateAuth(false)
@@ -571,6 +571,17 @@ Cryptocat.logout = function() {
 	})
 }
 
+Cryptocat.prepareAnswer = function(answer, ask, buddyMpFingerprint) {
+	var first, second
+	answer = answer.toLowerCase().replace(/(\s|\.|\,|\'|\"|\;|\?|\!)/, '')
+	if (buddyMpFingerprint) {
+		first = ask ? Cryptocat.me.mpFingerprint : buddyMpFingerprint
+		second = ask ? buddyMpFingerprint : Cryptocat.me.mpFingerprint
+		answer += ';' + first + ';' + second
+	}
+	return answer
+}
+
 /*
 -------------------
 PRIVATE INTERFACE FUNCTIONS
@@ -744,8 +755,7 @@ var bindAuthDialog = function(nickname) {
 	$('#authSubmit').unbind('click').bind('click', function(e) {
 		e.preventDefault()
 		var question = $('#authQuestion').val()
-		var answer = $('#authAnswer').val().toLowerCase()
-			.replace(/(\s|\.|\,|\'|\"|\;|\?|\!)/, '')
+		var answer = $('#authAnswer').val()
 		if (answer.length === 0) {
 			return
 		}
@@ -754,9 +764,7 @@ var bindAuthDialog = function(nickname) {
 			e.preventDefault()
 		})
 		buddy.updateAuth(false)
-		if (buddy.mpFingerprint) {
-			answer += Cryptocat.me.mpFingerprint + buddy.mpFingerprint
-		}
+		answer = Cryptocat.prepareAnswer(answer, true, buddy.mpFingerprint)
 		buddy.otr.smpSecret(answer, question)
 	})
 }
