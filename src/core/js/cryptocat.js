@@ -179,7 +179,15 @@ Cryptocat.addToConversation = function(message, nickname, conversation, type) {
 		})
 		conversationBuffers[Cryptocat.buddies[conversation].id] += message
 		if (conversation === Cryptocat.me.currentBuddy.name) {
-			$('#conversationWindow').append(message)
+			if (
+				(nickname === Cryptocat.me.nickname) ||
+				!$('#composing-' + Cryptocat.buddies[nickname].id).length
+			) {
+				$('#conversationWindow').append(message)
+			}
+			else {
+				$('#composing-' + Cryptocat.buddies[nickname].id).parent().before(message)
+			}
 			$('.missingRecipients').last().animate({'top': '0', 'opacity': '1'}, 100)
 			scrollDownConversation(400, true)
 		}
