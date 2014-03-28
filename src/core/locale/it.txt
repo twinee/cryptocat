@@ -64,5 +64,16 @@ Identità verificata.
 (NICKNAME) vuole verificare la tua identità. Rispondi alla domanda segreta qui sotto per autenticarti:
 La tua risposta deve corrispondere esattamente a quella fornita da (NICKNAME).
 Rispondi
-Attenzione: Hai ricevuto un messaggio illeggibile da (NICKNAME). Ciò può indicare un utente inaffidabile o messaggi che non sono stati ricevuti correttamente.
+Attenzione: Hai ricevuto un messaggio illeggibile da (NICKNAME). Questo potrebbe indicare un utente inaffidabile o messaggi che non sono stati ricevuti. Potresti anche stare usando una vecchia versione di Cryptocat. Si prega di verificare la disponibilità di aggiornamenti.
 Attenzione: La tua versione di Cryptocat non è aggiornata. L'aggiornamento alla versione più recente è fortemente consigliato! Non procedere senza aggiornare alla versione più recente.
+Attenzione: non è stato possibile inviare il messaggio a (NICKNAME)
+Autentificato
+Utente non autenticato.
+Clicca per saperne di più
+Scopri di più sull'autenticazione
+Ogni volta che hai una conversazione con Cryptocat, devi autenticare la persona con cui stai conversando.
+Un modo per autenticarti è usando Cryptocat per chiedere ad un amico una domanda segreta al quale solo lui conosce la risposta.
+Puoi contattare loro anche attraverso un canale sicuro, per esempio via telefono, e chiedergli di leggere la loro fingerprints.
+Le fingerprints sono identificatori che ti permettono di autenticare persone. Possono cambiare tra diverse conversazioni in Cryptocat.
+Senza autenticazione, qualcuno potrebbe impersonarsi o intercettare le tue conversazioni.
+Le fingerprints per questa conversazione sono cambiate. Questo non dovrebbe accadere e potrebbe indicarne un comportamento sospetto. SI prega di autenticare questo contatto prima di chattare con lui.

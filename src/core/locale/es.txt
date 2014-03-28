@@ -1,7 +1,7 @@
 ltr
 "Helvetica Neue", Helvetica, Arial, Verdana
 Conversaciones privadas para todos.
-Bienvenido a Cryptocat. Algunos consejos útiles: <ul><li>Cryptocat no es una panacea. No ponga su vida en las manos de un programa informático.</li><li class="key">Cryptocat no puede protegerle de personas poco fiables y key loggers. Tampoco anonimiza su conexión.</li></ul>
+Bienvenido a Cryptocat. Algunos consejos útiles: <ul><li>Cryptocat no es una panacea. No ponga su vida en manos de un programa informático.</li><li class="key">Cryptocat no puede protegerle de personas poco fiables y keyloggers. Tampoco anonimiza su conexión.</li></ul>
 Blog
 Servidor personalizado
 Reiniciar
@@ -64,5 +64,16 @@ Identidad verificada.
 (NICKNAME) quiere verificar su identidad. Por favor, conteste la siguiente pregunta para autenticarse:
 Su respuesta debe coincidir exactamente con la que ha escrito (NICKNAME).
 Respuesta
-Advertencia: Se ha recibido un mensaje ilegible de (NICKNAME). Esto puede indicar un usuario no fiable o mensajes que no se pudieron recibir.
+Advertencia: Ha recibido un mensaje ilegible de (NICKNAME). Esto puede deberse a que el usuario no es confiable o a que los mensajes no fueron recibidos con éxito. También puede ser que esté usando una versión antigua de Cryptocat. Revise si hay actualizaciones.
 Advertencia: Tu versión de Cryptocat no está actualizada. ¡La actualización a la última versión es muy recomendable! No procedas sin actualizar a la última versión.
+Advertencia: no se pudo enviar este mensaje a (NICKNAME)
+Autenticado
+El usuario no está autenticado.
+Haz clic para aprender más...
+Aprende más sobre la autenticación
+Cada que tienes una conversación por Cryptocat, tienes que autenticar a las personas a quienes les estás hablando.
+Una manera de autenticar es usar Cryptocat para preguntarle a tu amigo una pregunta secreta cuya respuesta solo él conoce.
+También puedes contactarlos por medio de un canal confiable, como un teléfono, y pedirles que lean sus huellas digitales.
+Las huellas digitales son identificadores que te permiten autenticar personas. Pueden cambiar entre cada conversación en Cryptocat.
+Sin autenticación, alguien puede suplantar o interceptar tus comunicaciones.
+Las huellas de autenticación para este contacto han cambiado. No se supone que eso suceda y pudiera indicar comportamiento sospechoso. Por favor, autentifica a este contacto antes de conversar con él.

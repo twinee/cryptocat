@@ -1,68 +1,79 @@
 ltr
 "Helvetica Neue", Helvetica, Arial, Verdana
-Conversa privada para todos.
-Bem-vindo à Cryptocat. Aqui estão algumas dicas úteis: <ul><li>A Cryptocat não é uma bala mágica. Nunca deverá confiar em nenhum software com a sua vida.</li><li class="key">A Cryptocat não o pode proteger contra pessoas desonestas ou calculadores de chaves, e não anonimiza a sua ligação.</li></ul>
+Conversas Privadas para Todos.
+Bem-vindo ao Cryptocat. Seguem algumas dicas úteis: <ul><li>O Cryptocat não é uma solução mágica. Você nunca deve confiar em nenhum software quando se trata da sua vida.</li><li class="key">O Cryptocat não pode protegê-lo contra pessoas não confiáveis ou keyloggers, e não torna sua conexão anônima.</li></ul>
 Blog
-Servidor
+Servidor personalizado
 Redefinir
 nome da conversa
-nome
+apelido
 conectar
 Introduza um nome para a sua conversa e compartilhe-o com as pessoas com quem gostaria de falar, ou entre na <strong>sala pública</strong> para conhecer novas pessoas!
 Digite o nome da conversa para participar.
-Digite um nome da conversa, por favor.
-O nome da conversa tem de ser alfanumérico
-Digite um nome, por favor.
-O seu nome tem de ser alfanumérico
-Nome em uso.
-A autenticação falhou.
+Por favor digite um nome de conversa.
+O nome da conversa deve ser alfanumérica.
+Por favor digite um apelido.
+O apelido deve ser alfanumérico.
+Apelido em uso.
+Falha na autenticação.
 Conexão falhou.
-Obrigado por ter usado o Cryptocat.
+Obrigado por utilizar o Cryptocat.
 Registrando...
 Conectando...
 Conectado.
-Por favor, digite o mais aleatoriamente possível no seu teclado por alguns segundos.
-Gerando chaves criptográficas...
-Conversa em grupo. Clique em um usuário para iniciar uma conversa privada.
-Impressao digital OTR (para conversas privadas):
-Impressão digital de conversa de grupo:
-Redefinir minhas chaves de encriptação.
-Redefinir suas chaves de encriptação irá desconectá-lo. As suas impressões digitais também serão modificadas.
+Por favor digite em seu teclado o mais aleatoriamente possível por alguns segundos.
+Gerando chaves de criptografia...
+Conversa em grupo. Clique em um usuário para conversa privada.
+Impressão digital OTR (para conversas privadas):
+Impressão digital da conversa em grupo:
+Redefinir minhas chaves de criptografia
+Redefinir suas chaves de criptografia irá desconectá-lo. Suas impressões digitais também mudarão.
 Continuar
-Status: Disponível
-Status: Ausente
-Minhas informações
-Notificações no desktop ligadas
-Notificações no desktop desligadas
-Notificações por audio ligadas
-Notificações por audio desligadas
-Lembrar meu nome.
-Não lembrar o meu nome.
+Estado: Disponível
+Estado: Ausente
+Minhas Informações
+Notificações no Desktop Ligadas
+Notificações no Desktop Desligadas
+Notificações por Áudio Ligadas
+Notificações por Áudio Desligadas
+Lembrar meu apelido
+Não lembrar o meu apelido
 Sair
-Exibir informações
-Enviar arquivo encriptado
-Ver imagem
-baixar documento
+Exibir Informações
+Enviar arquivo criptografado
+visualizar imagem
+baixar arquivo
 Conversa
-Apenas arquivos de extensão ZIP e imagens são permitidos, com tamanho máximo de  (SIZE) MB.
-Erro: Por favor, verifique se o arquivo possui extensão ZIP ou uma imagem.
-Erro: O Arquivo não pode ser maior do que (SIZE) MB.
-Início da vídeo-conferência
-Fim da vídeo-conferência
-(NICKNAME) gostaria de iniciar uma conversa de vídeo consigo.
+Apenas arquivos ZIP e imagens são aceitas. Tamanho máximo de arquivo: (SIZE) MB.
+Erro: Por favor tenha certeza de que seu arquivo é um arquivo ZIP ou uma imagem.
+Erro: O arquivo não pode ser maior do que (SIZE) MB.
+Iniciar vídeo-conferência
+Encerrar vídeo-conferência
+(NICKNAME) gostaria de iniciar uma conversa por vídeo com você.
 Cancelar
-Ignore
-Considerar
+Ignorar
+Não ignorar mais
 Autenticar
-Verifique a identidade deste utilizador fazendo-lhe uma pergunta secreta. As respostas devem coincidir!
+Verificar a identidade desse usuário fazendo uma pergunta secreta. As respostas precisam coincidir de forma exata!
 Pergunta secreta
 Resposta secreta
 Perguntar
-A perguntar...
-Falhado
+Solicitando...
+Falha
 Identidade verificada.
-(NICKNAME) quer verificar a sua identidade. Por favor responda à pergunta secreta abaixo para se autenticar:
-A sua resposta deve coincidir com a resposta dada por (NICKNAME).
-Resposta
-Avisou: Recebeu uma mensagem ilegível de (NICKNAME). Isto pode indicar um remetente duvidoso ou mensagens que não foram recebidas.
-Aviso: A sua versão de Cryptocat está desatualizada. Recomendamos vivamente a atualização para a última versão. Não continue sem atualizar para a última versão.
+(NICKNAME) deseja verificar sua identidade. Responda a pergunta secreta abaixo para identificar-se:
+Sua resposta precisa coincidir de forma exata com a fornecida por (NICKNAME).
+Responder
+Aviso: Você recebeu uma mensagem ilegível do usuário (NICKNAME). Isto pode indicar um usuário não confiável ou mensagens que não foram recebidas corretamente. Você também pode estar executando uma versão desatualizada do Cryptocat. Por favor, verifique se há atualizações.
+Aviso: sua versão do Cryptocat está desatualizada. É altamente recomendado fazer a atualização para a última versão! Não prossiga sem atualizar para a última versão.
+Aviso: esta mensagem não pôde ser enviado para (NICKNAME)
+Autenticado
+O usuário não está autenticado.
+Clique para aprender mais...
+Aprenda mais sobre autenticação
+Toda vez que você participa de uma conversa Cryptocat, é preciso que as pessoas com quem você conversa estejam autenticadas.
+Uma maneira de autenticação é usar o Cryptocat para perguntar aos seus amigos uma questão secreta que apenas eles saberão responder.
+Pode-se também usar um canal confiável para entrar em contato com eles, como via telefone, e pedir que eles leiam suas chaves de identidade.
+Chaves de identidade são identificadores que permitem autenticar pessoas. Elas podem mudar entre cada conversa Cryptocat.
+Sem autenticação, uma pessoa poderia estar se passando por outra ou interceptando suas comunicações.
+As chaves de identidade para este contato mudaram. Isto não deveria ocorrer e pode indicar comportamento suspeito. Favor autenticar este contato antes de conversar com ele.

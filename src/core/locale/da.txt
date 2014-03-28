@@ -64,5 +64,16 @@ Identitet godkendt.
 (NICKNAME) ønsker at verificere din identitet. Svar venligst nedenstående hemmelige spørgsmål, for at autentificere dig selv:
 Dit svar skal svare præcist til det givet af (NICKNAME).
 Svar
-Advarsel: Du har modtaget en ulæselig meddelelse fra (NICKNAME). Det kunne dreje sig om en upålidelig bruger eller om meddelelser, som ikke blev modtaget.
+Advarsel: Du har modtaget en ulæselig meddelelse fra (NICKNAME). Dette kan indikere at brugeren ikke er troværdig eller beskeden ikke kunne modtages. Du kan også bruge en forældet version af Cryptocat. Check for opdateringer.
 Advarsel: Din version af Cryptocat er forældet. Vi anbefaler stærkt, at du opdaterer til den seneste version. Fortsæt ikke uden først at opdatere til den seneste version.
+Advarsel: denne besked kunne ikke sendes til (NICKNAME)
+Godkendt
+Bruger er ikke godkendt
+Klik her for at få mere at vide...
+Lær mere om godkendelse
+Hver gang du fører en Cryptocat samtale, behøver du at godkende den person du har samtale med
+En måde at godkende på, er at bruge Cryptocat til at spørge en ven et hemmeligt spørgsmål som kun personen kender svaret på.
+Du kan kontakte dem gennem sikker kanal som pr. telefon, og bede den læse deres fingerprint
+Fingerprint er identifikatorer der tillader dig at godkende personen. Disse kan skifte mellem hver Cryptocat samtale.
+Uden godkendelse kan andre udgives sig for en person og opfange jeres samtaler.
+Godkendelselses fingerprint for denne kontakt er forandret. Dette skulle ikke ske og kan indikere mistanke.

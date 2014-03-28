@@ -1,68 +1,79 @@
 ltr
 "Helvetica Neue", Helvetica, Arial, Verdana
 Private Unterhaltungen für alle.
-Willkommen bei Cryptocat. Ein paar hilfreiche Tipps: <ul><li>Cryptocat ist keine magische Glaskugel. Du solltest niemals einer Software Ihr Leben anvertrauen.</li><li class="key">Cryptocat kann dich nicht vor unvertrauenswürdige Menschen oder Keylogger schützen und anonymisiert deine Internetverbindung nicht.</li></ul>
+Willkommen bei Cryptocat. Ein paar hilfreiche Tipps: <ul><li>Cryptocat ist kein Wundermittel. Du solltest dein Leben niemals einer Software anvertrauen.</li><li class="key">Cryptocat kann dich nicht vor vertrauensunwürdigen Menschen oder Keyloggern schützen und anonymisiert auch deine Internetverbindung nicht.</li></ul>
 Blog
 Benutzerdefinierter Server
 Zurücksetzen
 Name der Unterhaltung
 Nickname
-verbinden
+Verbinden
 Gib einen Namen für deine Unterhaltung ein und teile sie mit Leuten, mit denen du dich unterhalten möchtest, oder besuche die <strong>Lobby</strong>, um neue Leute zu treffen!
-Gib den Namen der Unterhaltung ein, der du beitreten möchtest.
-Bitte gib einen Namen für die Unterhaltung ein.
-Der Name der Unterhaltung darf nur aus Buchstaben und Zahlen bestehen. 
-Gebe bitte einen Nickname ein.
-Der Nickname darf nur aus Buchstaben und Zahlen bestehen.
-Dieser Nickname wird bereits verwendet.
+Gib den Namen einer Unterhaltung ein, um ihr beizutreten.
+Bitte gib den Namen einer Unterhaltung ein.
+Name der Unterhaltung alphanumerisch sein.
+Bitte gib einen Nicknamen ein.
+Nickname muss alphanumerisch sein.
+Nickname wird bereits verwendet.
 Authentifizierungsfehler.
 Verbindung fehlgeschlagen.
-Danke, dass du Cryptocat verwendest.
-Registrieren...
-Verbinden...
+Vielen Dank, dass du Cryptocat verwendest.
+Registriere...
+Verbinde...
 Verbunden.
-Tipp bitte für einige Sekunden so zufällig wie möglich auf der Tastatur.
-Generiere Verschlüsselungscodes...
-Gruppenunterhaltung. Klicke auf einen Teilnehmer, um eine private Unterhaltung zu beginnen.
-OTR-Fingerabdruck (für private Konversationen):
+Bitte tippe ein paar Sekunden so zufällig wie möglich auf Deine Tastatur.
+Generiere Verschlüsselungsschlüssel...
+Gruppenunterhaltung. Klicke auf einen Teilnehmer für eine private Unterhaltung.
+OTR-Fingerabdruck (für private Unterhaltungen):
 Fingerabdruck der Gruppenunterhaltung:
-Meine Verschlüsselungscodes zurücksetzen
-Das Zurücksetzen deiner Verschlüsselungscodes wird die Verbindung beenden. Deine Fingerabdrücke werden sich dadurch auch ändern.
+Meine Verschlüsselungsschlüssel zurücksetzen
+Das Zurücksetzen deiner Verschlüsselungsschlüssel wird die Verbindung trennen. Deine Fingerabdrücke werden sich ebenfalls ändern.
 Fortsetzen
 Status: Verfügbar
 Status: Abwesend
-Meine Info
-Desktop-Benachrichtigungen an
-Desktop-Benachrichtigungen aus
-Benachrichtigungstöne an
-Benachrichtigungstöne aus
+Meine Information
+Desktop-Benachrichtigung An
+Desktop-Benachrichtigung Aus
+Audio-Benachrichtigung An
+Audio-Benachrichtigung Aus
 Meinen Nicknamen merken
 Meinen Nicknamen nicht merken
 Abmelden
-Info anzeigen
+Information anzeigen
 Verschlüsselte Datei senden
 Bild anzeigen
 Datei herunterladen
 Unterhaltung
 Es werden nur ZIP-Dateien und Bilder akzeptiert. Maximale Dateigröße: (SIZE) MB.
-Fehler: Bitte stelle sicher, dass deine Datei eine ZIP-Datei oder ein Bild ist.
+Fehler: Deine Datei muss eine ZIP-Datei oder ein Bild sein.
 Fehler: Datei darf nicht größer als (SIZE) MB sein.
 Video-Chat starten
 Video-Chat beenden
-(NICKNAME) möchte einen Video-Chat mit dir beginnen.
+(NICKNAME) möchte einen Video-Chat mit dir starten.
 Abbrechen
 Ignorieren
 Ignorieren rückgängig machen
 Authentifizieren
-Prüfung der Identität dieses Benutzers durch eine Sicherheitsfrage. Antworten müssen exakt übereinstimmen!
+Prüfe die Identität dieses Benutzers durch eine Sicherheitsfrage. Antworten müssen exakt übereinstimmen!
 Sicherheitsfrage
 Geheime Antwort
 Fragen
 Frage...
 Fehlgeschlagen
 Identität bestätigt.
-(NICKNAME) möchte deine Identität prüfen. Bitte beantworte die unten stehende Sicherheitsfrage, um dich zu authentifizieren.
-Deine Antwort muss derjenigen von (NICKNAME) exakt übereinstimmen.
+(NICKNAME) möchte deine Identität prüfen. Bitte beantworte die unten stehende Sicherheitsfrage, um dich zu authentifizieren:
+Deine Antwort muss exakt mit der von (NICKNAME) übereinstimmen.
 Antwort
-Achtung: Du hast von (NICKNAME) eine nicht lesbare Nachricht erhalten. Dies kann auf einen nicht vertrauenswürdigen Nutzer hinweisen oder auf Nachrichten, welche nicht richtig empfangen wurden.
-Achtung: Deine Version von Cryptocat ist veraltet. Wir empfehlen dir dringend die neueste Version! Aktualisiere auf die neuste Version, bevor Du weitermachst.
+Warnung: Du hast eine unlesbare Nachricht von (NICKNAME) erhalten. Das kann durch einen vertrauensunwürdigen Benutzer oder durch Netzwerkprobleme verursacht worden sein. Vielleicht verwendest du auch eine veraltete Version von Cryptocat. Bitte prüfe auf Aktualisierungen.
+Warnung: Deine Version von Cryptocat ist veraltet. Wir empfehlen dir dringend, die neueste Version zu verwenden! Aktualisiere unbedingt auf die neueste Version, bevor Du weitergehst.
+Achtung: Diese Nachricht konnte nicht zu (NICKNAME) gesendet werden.
+Authentifiziert.
+Benutzer ist nicht authentifizert.
+Klick, um mehr zu erfahren.
+Erfahre mehr über die Authentifizierung.
+Bei jeder Cryptocat-Konversation musst Du die Person, mit der Du sprichst, authentifizieren.
+Eine Möglichkeit der Authentifizierung ist, über Cryptocat Deinen Freund eine geheime Frage zu stellen, die niemand anderer sonst beantworten kann.
+Du kannst sie auch über einen vertrauenswürdigen Kanal, wie z.b. via Telefon bitten, ihre Fingerprints vorzulesen.
+Fingerprints sind Kennungen, die Dir erlauben, eine Person zu authentifizieren. Diese können sich bei jeder Cryptocat-Konversation ändern.
+Ohne Authentifizierung könnte jemand sich als jemand anders ausgeben, oder Deine Kommunikation abhören.
+Die Authentifizerungs-Fingerprints für diesen Kontakt haben sich geändert. Dies ist nicht vorgesehen und sieht nach einem verdächten Verhalten aus . Bitte authentifiziere diesen Kontakt, bevor Du mit ihm chattest.

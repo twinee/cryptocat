@@ -114,7 +114,20 @@ Cryptocat.locale.buildObject = function(locale, language) {
 		},
 		'warnings': {
 			'messageWarning': language[i++],
-			'updateWarning': language[i++]
+			'updateWarning': language[i++],
+			'missingRecipientWarning': language[i++]
+		},
+		'auth': {
+			'authenticated': language[i++],
+			'userNotAuthenticated': language[i++],
+			'clickToLearnMore': language[i++],
+			'learnMoreAuth': language[i++],
+			'authSlide1': language[i++],
+			'authSlide2': language[i++],
+			'authSlide3': language[i++],
+			'authSlide4': language[i++],
+			'authSlide5': language[i++],
+			'authWarning': language[i++]
 		}
 	}
 	var decodeFileSize = function (str) { return str.replace('(SIZE)', (Cryptocat.otr.fileSize / 1024)) }

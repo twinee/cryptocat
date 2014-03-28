@@ -64,5 +64,16 @@ Identity verified.
 (NICKNAME) wants to verify your identity. Please answer the below secret question to authenticate yourself:
 Your answer must exactly match the one given by (NICKNAME).
 Answer
-Warning: You have received an unreadable message from (NICKNAME). This may indicate an untrustworthy user or messages that failed to be received.
+Warning: You have received an unreadable message from (NICKNAME). This may indicate an untrustworthy user or messages that failed to be received. You may also be running an outdated version of Cryptocat. Please check for updates.
 Warning: Your version of Cryptocat is outdated. Updating to the latest version is strongly recommended! Do not proceed without updating to the latest version.
+Warning: this message could not be sent to (NICKNAME)
+Authenticated
+User is not authenticated.
+Click to learn more...
+Learn more about authentication
+Every time you have a Cryptocat conversation, you need to authenticate the persons you are talking to.
+One way you can authenticate is by using Cryptocat to ask your friend a secret question that only they would know the answer to.
+You can also contact them via a trusted channel, such as by phone, and ask them to read their fingerprints.
+Fingerprints are identifiers that allow you to authenticate persons. They can change between every Cryptocat conversation.
+Without authentication, someone could be impersonating or intercepting your communications.
+The authentication fingerprints for this contact have changed. This is not supposed to happen and could indicate suspicious behaviour. Please authenticate this contact before chatting with them.

@@ -17,7 +17,7 @@ Pseudonim może być tylko alfanumeryczny.
 Pseudonim jest w użyciu.
 Błąd uwierzytelniania.
 Połączenie nieudane.
-Dzięki, że  skorzystałeś z Cryptocata.
+Dzięki, że  skorzystałeś z Cryptocat.
 Rejestruję...
 Łączę...
 Połączony
@@ -64,5 +64,16 @@ Tożsamość potwierdzona.
 (NICKNAME) chce zweryfikować Twoją tożsamość. Odpowiedz na poniższe sekretne pytanie, aby ją potwierdzić.
 Twoja odpowiedź musi być zgodna z odpowiedzią podaną przez (NICKNAME).
 Odpowiedz
-Ostrzeżenie: Otrzymano nieczytelną wiadomość od (NICKNAME). Może to wskazywać na niewiarygodnego użytkownika lub wiadomości, które nie mogły zostać odebrane.
+UWAGA: Otrzymałeś nieczytelną wiadomość od (NICKNAME). To może oznaczać, że ten użytkownik jest niezaufany lub wiadomość nie udało się otrzymać. Możesz także używać nieaktualną wersję Cyrptocat. Proszę sprawdź czy są dostępne aktualizacje.
 Ostrzeżenie: Twoja wersja Cryptocat jest nieaktualna. Zalecana jest aktualizacja do najnowszej wersji! Nie kontynuuj bez aktualizacji do najnowszej wersji.
+UWAGA: nie można wysłać tej wiadomości do (NICKNAME)
+Uwierzytelniony
+Użytkownik nie jest uwierzytelniony.
+Kliknij, aby dowiedzieć się więcej...
+Dowiedz się więcej o uwierzytelnianiu
+Za każdym razem, gdy prowadzisz rozmowę w Cryptocat, musisz uwierzytelnić osoby, z którymi rozmawiasz.
+Jednym ze sposobów uwierzytelnia, jest zapytanie twojego przyjaciela o tajne pytanie, na które tylko on zna odpowiedź.
+Możesz również skontaktować się z nimi za pośrednictwem zaufanego kanału, takiego jak przez telefon, i poprosić ich, aby przeczytali swoje klucze identyfikacyjne.
+Klucze identyfikacyjne są identyfikatorami, które pozwalają na uwierzytelnienie osób. Mogą się zmieniać pomiędzy każdą rozmową w Cryptocat.
+Bez uwierzytelniania, ktoś może podać się za ciebie lub podsłuchiwać twoje komunikacje.
+Klucze identyfikacyjne uwierzytelniania dla tego kontaktu zostały zmienione. To nie powinno się zdarzyć i może wskazywać na podejrzane zachowania. Proszę uwierzytelnić ten kontakt przed rozpoczęciem z nim rozmowy.
