@@ -666,7 +666,13 @@ DIALOG BOX
 }
 
 #authTutorial p {
-	max-width: 430px;
+	max-width: 410px;
+	width: 410px;
+	margin-bottom: 10px;
+	padding: 5px 10px;
+	background: #76BDE5;
+	border-radius: 0 0 5px 5px;
+	color: #FFF;
 }
 
 .authInfo {

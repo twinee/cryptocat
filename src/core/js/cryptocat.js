@@ -480,7 +480,7 @@ Cryptocat.displayInfo = function(nickname) {
 				slide4: 'Without authentication, someone could be impersonating or intercepting your communications.'
 			})
 			Cryptocat.dialogBox(infoDialog, {
-				height: 410,
+				height: 420,
 				closeable: true,
 				onAppear: function() {
 					$('#authTutorial').html(authTutorial)
@@ -696,6 +696,7 @@ var bindAuthDialog = function(nickname) {
 					$('#authTutorialSlides').bjqs({
 						width: 430,
 						height: 230,
+						animduration: 250,
 						animspeed: 7000,
 						responsive: true,
 						nexttext: '>',

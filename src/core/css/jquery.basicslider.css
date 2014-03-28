@@ -26,23 +26,18 @@ ul.bjqs-controls.v-centered li a:hover{
 	color:#fff;
 }
 
-ol.bjqs-markers li a{
-	padding:0 6px;
+ol.bjqs-markers li a {
+	padding: 5px 8px;
+	border-radius: 5px 0 5px 5px;
 	line-height:13px;
-	background:#000;
-	color:#fff;
-	margin:0 10px;
-	font-size: 0.6em;
+	background: rgba(118, 189, 229, 0.5);
+	color: #FFF;
+	margin: 0 20px 0 0;
+	font-size: 1em;
 	text-decoration: none;
 }
 
 ol.bjqs-markers li.active-marker a,
 ol.bjqs-markers li a:hover{
-	background: #76BDE5;
-}
-
-p.bjqs-caption{
-	background: rgba(151, 206, 236, 0.8);
-	border-radius: 0 0 10px 10px;
-	color: #FFF;
+	background: rgba(118, 189, 229, 1);
 }
