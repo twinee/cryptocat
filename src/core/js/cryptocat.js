@@ -1166,7 +1166,7 @@ $('#languageSelect').click(function() {
 		'color': '#97CEEC',
 		'font-weight': 'bold'
 	})
-	$('#footer').animate({'height': 180}, function() {
+	$('#footer').animate({'height': 190}, function() {
 		$('#languages').fadeIn()
 	})
 	$('#languages li').click(function() {
