@@ -1287,7 +1287,7 @@ Mousetrap.bind('up up down down left right left right b a enter', function() {
 	}, 200)
 	Cryptocat.balloon = window.setInterval(function() {
 		$('<img/>').addClass('balloon')
-		.attr('src', '../img/balloon.gif')
+		.attr('src', 'img/balloon.gif')
 		.appendTo('body')
 		.css({
 			left: Math.round(

@@ -47,10 +47,10 @@ Cryptocat.templates = {
 		+ '<div id="authTutorial"></div></div>',
 
 	authTutorial: '<div id="authTutorialSlides"><ul class="bjqs">'
-		+ '<li><img src="../img/authTutorial/1.png" title="{{slide1}}"></li>'
-		+ '<li><img src="../img/authTutorial/2.png" title="{{slide2}}"></li>'
-		+ '<li><img src="../img/authTutorial/3.png" title="{{slide3}}"></li>'
-		+ '<li><img src="../img/authTutorial/4.png" title="{{slide4}}"></li>'
+		+ '<li><img src="img/authTutorial/1.png" title="{{slide1}}"></li>'
+		+ '<li><img src="img/authTutorial/2.png" title="{{slide2}}"></li>'
+		+ '<li><img src="img/authTutorial/3.png" title="{{slide3}}"></li>'
+		+ '<li><img src="img/authTutorial/4.png" title="{{slide4}}"></li>'
 		+ '</ul></div>',
 
 	authRequest: '<div class="title">{{authenticate}}</div>'
