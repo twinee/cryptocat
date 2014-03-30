@@ -1335,16 +1335,16 @@ KEYBOARD SHORTCUTS
 -------------------
 */
 
-// Select next buddy
-Mousetrap.bind('ctrl+shift+0', function() {
-	var next = $('.currentConversation').nextAll('.buddy')
-	next.length ? next[0].click() : $('.buddy').first().click()
-})
-
 // Select previous buddy
-Mousetrap.bind('ctrl+shift+9', function() {
+Mousetrap.bind('ctrl+1', function() {
 	var prev = $('.currentConversation').prevAll('.buddy')
 	prev.length ? prev[0].click() : $('.buddy').last().click()
+})
+
+// Select next buddy
+Mousetrap.bind('ctrl+2', function() {
+	var next = $('.currentConversation').nextAll('.buddy')
+	next.length ? next[0].click() : $('.buddy').first().click()
 })
 
 // ???
