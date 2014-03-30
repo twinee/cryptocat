@@ -38,40 +38,9 @@ var onStatusChange = function(nickname, state) {
 		else if (buddy.fingerprint !== fingerprint) {
 			// re-aked with a different key
 			buddy.fingerprint = fingerprint
-			onReAKE(nickname)
+			Cryptocat.removeAuthAndWarn(nickname)
 		}
 	}
-}
-
-// Handle a detected re-AKE.
-var onReAKE = function(nickname) {
-	var buddy = Cryptocat.buddies[nickname]
-	var openAuth = false
-	buddy.updateAuth(false)
-	// Replace with localization string!
-	var errorAKE = Mustache.render(
-		Cryptocat.templates.errorAKE, {
-			nickname: nickname,
-			errorText: 'The authentication fingerprints for this contact have changed. This is not supposed to happen and could indicate suspicious behaviour. Please authenticate this contact before chatting with them.',
-			openAuth: Cryptocat.locale.chatWindow.authenticate
-		}
-	)
-	Cryptocat.dialogBox(errorAKE, {
-		extraClasses: 'dialogBoxError',
-		closeable: true,
-		height: 250,
-		onAppear: function() {
-			$('#openAuth').unbind().bind('click', function() {
-				openAuth = true
-				$('#dialogBoxClose').click()
-			})
-		},
-		onClose: function() {
-			if (openAuth) {
-				Cryptocat.displayInfo(nickname)
-			}
-		}
-	})
 }
 
 // Store received filename.
@@ -108,8 +77,8 @@ var onSMPQuestion = function(nickname, question) {
 			onAppear: function() {
 				$('#authReplySubmit').unbind('click').bind('click', function(e) {
 					e.preventDefault()
-					answer = $('#authReply').val().toLowerCase()
-						.replace(/(\s|\.|\,|\'|\"|\;|\?|\!)/, '')
+					answer = $('#authReply').val()
+					answer = Cryptocat.prepareAnswer(answer, false, buddy.mpFingerprint)
 					buddy.otr.smpSecret(answer)
 					$('#dialogBoxClose').click()
 				})

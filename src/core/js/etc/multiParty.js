@@ -199,6 +199,7 @@ Cryptocat.multiParty.sendMessage = function(message) {
 
 // Receive message. Detects requests/reception of public keys.
 Cryptocat.multiParty.receiveMessage = function(sender, myName, message) {
+	var buddy = Cryptocat.buddies[sender]
 	try {
 		message = JSON.parse(message)
 	}
@@ -208,17 +209,28 @@ Cryptocat.multiParty.receiveMessage = function(sender, myName, message) {
 	}
 	if (typeof(message['text'][myName]) === 'object') {
 		// Detect public key reception, store public key and generate shared secret
-		if (message['type'] === 'publicKey') {
-			if (typeof(message['text'][myName]['message']) !== 'string') {
+		if (message.type === 'publicKey') {
+			var msg = message.text[myName].message
+			if (typeof(msg) !== 'string') {
 				console.log('multiParty: publicKey without message field')
 				return false
 			}
-			if (!Cryptocat.buddies[sender].mpPublicKey) {
-				var publicKey = BigInt.base642bigInt(message['text'][myName]['message'])
-				Cryptocat.buddies[sender].mpPublicKey   = publicKey
-				Cryptocat.buddies[sender].mpFingerprint = Cryptocat.multiParty.genFingerprint(sender)
-				Cryptocat.buddies[sender].mpSecretKey   = Cryptocat.multiParty.genSharedSecret(sender)
-				Cryptocat.xmpp.sendPublicKey(sender)
+			var publicKey = BigInt.base642bigInt(msg)
+			// if we already have a public key for this buddy, make sure it's
+			// the one we have
+			if (buddy.mpPublicKey &&
+				!BigInt.equals(buddy.mpPublicKey, publicKey)
+			) {
+				buddy.updateMpKeys(publicKey)
+				Cryptocat.removeAuthAndWarn(sender)
+			}
+			// if we're missing their key, make sure we aren't already
+			// authenticated (prevents a possible active attack)
+			else if (!buddy.mpPublicKey && buddy.authenticated) {
+				buddy.updateMpKeys(publicKey)
+				Cryptocat.removeAuthAndWarn(sender)
+			} else {
+				buddy.updateMpKeys(publicKey)
 			}
 			return false
 		}
