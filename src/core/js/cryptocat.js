@@ -259,6 +259,37 @@ Cryptocat.loginFail = function(message) {
 	$('#loginInfo').animate({'background-color': '#E93028'}, 200)
 }
 
+// Handle detected new keys.
+Cryptocat.removeAuthAndWarn = function(nickname) {
+	var buddy = Cryptocat.buddies[nickname]
+	var openAuth = false
+	buddy.updateAuth(false)
+	// Replace with localization text!
+	var errorAKE = Mustache.render(
+		Cryptocat.templates.errorAKE, {
+			nickname: nickname,
+			errorText: 'The authentication fingerprints for this contact have changed. This is not supposed to happen and could indicate suspicious behaviour. Please authenticate this contact before chatting with them.',
+			openAuth: Cryptocat.locale.chatWindow.authenticate
+		}
+	)
+	Cryptocat.dialogBox(errorAKE, {
+		extraClasses: 'dialogBoxError',
+		closeable: true,
+		height: 250,
+		onAppear: function() {
+			$('#openAuth').unbind().bind('click', function() {
+				openAuth = true
+				$('#dialogBoxClose').click()
+			})
+		},
+		onClose: function() {
+			if (openAuth) {
+				Cryptocat.displayInfo(nickname)
+			}
+		}
+	})
+}
+
 // Buddy constructor
 var Buddy = function(nickname) {
 	this.id = getUniqueBuddyID()
@@ -276,6 +307,11 @@ var Buddy = function(nickname) {
 
 Buddy.prototype = {
 	constructor: Buddy,
+	updateMpKeys: function(publicKey) {
+		this.mpPublicKey = publicKey
+		this.mpFingerprint = Cryptocat.multiParty.genFingerprint(this.nickname)
+		this.mpSecretKey = Cryptocat.multiParty.genSharedSecret(this.nickname)
+	},
 	updateAuth: function(auth) {
 		this.authenticated = auth;
 		if (auth) {
@@ -543,6 +579,17 @@ Cryptocat.logout = function() {
 	})
 }
 
+Cryptocat.prepareAnswer = function(answer, ask, buddyMpFingerprint) {
+	var first, second
+	answer = answer.toLowerCase().replace(/(\s|\.|\,|\'|\"|\;|\?|\!)/, '')
+	if (buddyMpFingerprint) {
+		first = ask ? Cryptocat.me.mpFingerprint : buddyMpFingerprint
+		second = ask ? buddyMpFingerprint : Cryptocat.me.mpFingerprint
+		answer += ';' + first + ';' + second
+	}
+	return answer
+}
+
 /*
 -------------------
 PRIVATE INTERFACE FUNCTIONS
@@ -717,8 +764,7 @@ var bindAuthDialog = function(nickname) {
 	$('#authSubmit').unbind('click').bind('click', function(e) {
 		e.preventDefault()
 		var question = $('#authQuestion').val()
-		var answer = $('#authAnswer').val().toLowerCase()
-			.replace(/(\s|\.|\,|\'|\"|\;|\?|\!)/, '')
+		var answer = $('#authAnswer').val()
 		if (answer.length === 0) {
 			return
 		}
@@ -727,6 +773,7 @@ var bindAuthDialog = function(nickname) {
 			e.preventDefault()
 		})
 		buddy.updateAuth(false)
+		answer = Cryptocat.prepareAnswer(answer, true, buddy.mpFingerprint)
 		buddy.otr.smpSecret(answer, question)
 	})
 }
