@@ -86,7 +86,7 @@ Cryptocat.storage = (function() {
 // Initialize language settings.
 Cryptocat.storage.getItem('language', function(key) {
 	if (key) {
-		Cryptocat.locale.set(key, true)
+		Cryptocat.locale.set(key)
 	}
 	else {
 		Cryptocat.locale.set(window.navigator.language.toLowerCase())
