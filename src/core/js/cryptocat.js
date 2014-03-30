@@ -175,7 +175,8 @@ Cryptocat.addToConversation = function(message, nickname, conversation, type) {
 		if (!message.length) { return false }
 		message = message.join(', ')
 		message = Mustache.render(Cryptocat.templates.missingRecipients, {
-			text: 'Warning: this message could not be sent to ' + message // Replace with localization string!
+			text: Cryptocat.locale.warnings.missingRecipientWarning
+				.replace('(NICKNAME)', message)
 		})
 		conversationBuffers[Cryptocat.buddies[conversation].id] += message
 		if (conversation === Cryptocat.me.currentBuddy.name) {
@@ -259,6 +260,37 @@ Cryptocat.loginFail = function(message) {
 	$('#loginInfo').animate({'background-color': '#E93028'}, 200)
 }
 
+// Handle detected new keys.
+Cryptocat.removeAuthAndWarn = function(nickname) {
+	var buddy = Cryptocat.buddies[nickname]
+	var openAuth = false
+	buddy.updateAuth(false)
+	// Replace with localization text!
+	var errorAKE = Mustache.render(
+		Cryptocat.templates.errorAKE, {
+			nickname: nickname,
+			errorText: 'The authentication fingerprints for this contact have changed. This is not supposed to happen and could indicate suspicious behaviour. Please authenticate this contact before chatting with them.',
+			openAuth: Cryptocat.locale.chatWindow.authenticate
+		}
+	)
+	Cryptocat.dialogBox(errorAKE, {
+		extraClasses: 'dialogBoxError',
+		closeable: true,
+		height: 250,
+		onAppear: function() {
+			$('#openAuth').unbind().bind('click', function() {
+				openAuth = true
+				$('#dialogBoxClose').click()
+			})
+		},
+		onClose: function() {
+			if (openAuth) {
+				Cryptocat.displayInfo(nickname)
+			}
+		}
+	})
+}
+
 // Buddy constructor
 var Buddy = function(nickname) {
 	this.id = getUniqueBuddyID()
@@ -276,6 +308,11 @@ var Buddy = function(nickname) {
 
 Buddy.prototype = {
 	constructor: Buddy,
+	updateMpKeys: function(publicKey) {
+		this.mpPublicKey = publicKey
+		this.mpFingerprint = Cryptocat.multiParty.genFingerprint(this.nickname)
+		this.mpSecretKey = Cryptocat.multiParty.genSharedSecret(this.nickname)
+	},
 	updateAuth: function(auth) {
 		this.authenticated = auth;
 		if (auth) {
@@ -479,13 +516,12 @@ Cryptocat.displayInfo = function(nickname) {
 			})
 		}
 		else {
-			// Replace with localization strings!
 			var authTutorial = Mustache.render(Cryptocat.templates.authTutorial, {
 				nickname: nickname,
-				slide1: 'Every time you have a Cryptocat conversation, you need to authenticate the persons you are talking to.',
-				slide2: 'One way you can authenticate is by using Cryptocat to ask your friend a secret question that only they would know the answer to.',
-				slide3: 'You can also contact them via a trusted channel, such as by phone, and ask them to read their fingerprints.',
-				slide4: 'Without authentication, someone could be impersonating or intercepting your communications.'
+				slide1: Cryptocat.locale.auth.authSlide1,
+				slide2: Cryptocat.locale.auth.authSlide2,
+				slide3: Cryptocat.locale.auth.authSlide3,
+				slide4: Cryptocat.locale.auth.authSlide4
 			})
 			Cryptocat.dialogBox(infoDialog, {
 				height: 420,
@@ -541,6 +577,17 @@ Cryptocat.logout = function() {
 			})
 		})
 	})
+}
+
+Cryptocat.prepareAnswer = function(answer, ask, buddyMpFingerprint) {
+	var first, second
+	answer = answer.toLowerCase().replace(/(\s|\.|\,|\'|\"|\;|\?|\!)/, '')
+	if (buddyMpFingerprint) {
+		first = ask ? Cryptocat.me.mpFingerprint : buddyMpFingerprint
+		second = ask ? buddyMpFingerprint : Cryptocat.me.mpFingerprint
+		answer += ';' + first + ';' + second
+	}
+	return answer
 }
 
 /*
@@ -685,18 +732,26 @@ var bindAuthDialog = function(nickname) {
 	$('#notAuthenticated').unbind('click').bind('click', function() {
 		buddy.updateAuth(false)
 	})
+	// If the current locale doesn't have the translation
+	// for the auth slides yet, then don't display the option
+	// for opening the auth tutorial.
+	// This is temporary until all translations are ready.
+	// — Nadim, March 29 2014
+	if (!Cryptocat.locale.auth.learnMoreAuth) {
+		$('#authLearnMore').hide()
+	}
 	$('#authLearnMore').unbind('click').bind('click', function() {
 		if ($(this).attr('data-active') === 'true') {
 			$('#authTutorial').fadeOut(function() {
 				$('#authLearnMore').attr('data-active', 'false')
-					.text('Learn more about authentication') // Replace with localization string!
+					.text(Cryptocat.locale.auth.learnMoreAuth)
 				$('.authInfo').fadeIn()
 			})
 		}
 		else {
 			$('.authInfo').fadeOut(function() {
 				$('#authLearnMore').attr('data-active', 'true')
-					.text(Cryptocat.locale.chatWindow.continue)
+					.text(Cryptocat.locale.chatWindow.cont)
 				$('#authTutorial').fadeIn(function() {
 					if ($('.bjqs-slide').length) {
 						return
@@ -717,8 +772,7 @@ var bindAuthDialog = function(nickname) {
 	$('#authSubmit').unbind('click').bind('click', function(e) {
 		e.preventDefault()
 		var question = $('#authQuestion').val()
-		var answer = $('#authAnswer').val().toLowerCase()
-			.replace(/(\s|\.|\,|\'|\"|\;|\?|\!)/, '')
+		var answer = $('#authAnswer').val()
 		if (answer.length === 0) {
 			return
 		}
@@ -727,6 +781,7 @@ var bindAuthDialog = function(nickname) {
 			e.preventDefault()
 		})
 		buddy.updateAuth(false)
+		answer = Cryptocat.prepareAnswer(answer, true, buddy.mpFingerprint)
 		buddy.otr.smpSecret(answer, question)
 	})
 }
@@ -745,13 +800,13 @@ var bindSenderElement = function(senderElement) {
 	})
 	senderElement.find('.authStatus').mouseenter(function() {
 		if ($(this).attr('data-auth') === 'true') {
-			$(this).attr('data-utip', 'Authenticated') // Replace with localization string!
+			$(this).attr('data-utip', Cryptocat.locale.auth.authenticated)
 		}
 		else {
 			$(this).attr('data-utip',
 				Mustache.render(Cryptocat.templates.authStatusFalseUtip, {
-					text: 'User is not authenticated.', // Replace with localization string!
-					learnMore: 'Click to learn more...' // Replace with localization string!
+					text: Cryptocat.locale.auth.userNotAuthenticated,
+					learnMore: Cryptocat.locale.auth.clickToLearnMore
 				})
 			)
 		}
@@ -1181,7 +1236,7 @@ $('#languageSelect').click(function() {
 	$('#languages li').click(function() {
 		var lang = $(this).attr('data-locale')
 		$('#languages').fadeOut(200, function() {
-			Cryptocat.locale.set(lang)
+			Cryptocat.locale.set(lang, true)
 			Cryptocat.storage.setItem('language', lang)
 			$('#footer').animate({'height': 14})
 		})

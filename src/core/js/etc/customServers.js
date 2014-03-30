@@ -49,7 +49,7 @@ $('#customServer').click(function() {
 			Cryptocat.storage.removeItem('conferenceServer')
 			Cryptocat.storage.removeItem('relay')
 		})
-		$('#customServerSubmit').val(Cryptocat.locale['chatWindow']['continue']).click(function() {
+		$('#customServerSubmit').val(Cryptocat.locale['chatWindow']['cont']).click(function() {
 			$('#customServerDialog').fadeOut(200, function() {
 				$('#footer').animate({'height': 14})
 			})

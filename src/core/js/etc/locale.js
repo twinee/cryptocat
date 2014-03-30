@@ -2,8 +2,12 @@
 
 Cryptocat.locale = {}
 
+$(function() {
+
+var languageObject
+
 // Get locale file, call other functions
-Cryptocat.locale.set = function(locale) {
+Cryptocat.locale.set = function(locale, refresh) {
 	locale = Cryptocat.locale.handleAliases(locale.toLowerCase())
 	$.ajax({
 		url : 'locale/' + locale + '.txt',
@@ -14,7 +18,7 @@ Cryptocat.locale.set = function(locale) {
 			try {
 				var language = data.responseText.split('\n')
 				if (language.length < 5) { // data too small, dismiss
-					Cryptocat.locale.set('en')
+					Cryptocat.locale.set('en', true)
 					return false
 				}
 				for (var i in language) {
@@ -22,15 +26,17 @@ Cryptocat.locale.set = function(locale) {
 						language[i] = $.trim(language[i])
 					}
 				}
-				var languageObject = Cryptocat.locale.buildObject(locale, language)
-				Cryptocat.locale.refresh(languageObject)
+				languageObject = Cryptocat.locale.buildObject(locale, language)
+				if (refresh) {
+					Cryptocat.locale.refresh(languageObject)
+				}
 			}
 			catch(err) {
-				Cryptocat.locale.set('en')
+				Cryptocat.locale.set('en', true)
 			}
 		},
 		error: function() {
-			Cryptocat.locale.set('en')
+			Cryptocat.locale.set('en', true)
 		}
 	})
 }
@@ -38,96 +44,109 @@ Cryptocat.locale.set = function(locale) {
 // Build and deliver language object
 Cryptocat.locale.buildObject = function(locale, language) {
 	var i = 0
-	var languageObject = {
-		'language': locale,
-		'direction': language[i++],
-		'font-family': language[i++],
-		'loginWindow': {
-			'introHeader': language[i++],
-			'introParagraph': language[i++],
-			'blog': language[i++],
-			'customServer': language[i++],
-			'reset': language[i++],
-			'conversationName': language[i++],
-			'nickname': language[i++],
-			'connect': language[i++],
-			'conversationNameTooltip': language[i++],
-			'enterConversation': language[i++]
+	languageObject = {
+		language:                     locale,
+		direction:                    language[i++],
+		fonts:                        language[i++],
+		loginWindow: {
+			introHeader:              language[i++],
+			introParagraph:           language[i++],
+			blog:                     language[i++],
+			customServer:             language[i++],
+			reset:                    language[i++],
+			conversationName:         language[i++],
+			nickname:                 language[i++],
+			connect:                  language[i++],
+			conversationNameTooltip:  language[i++],
+			enterConversation:        language[i++]
 		},
-		'loginMessage': {
-			'enterConversation': language[i++],
-			'conversationAlphanumeric': language[i++],
-			'enterNickname': language[i++],
-			'nicknameAlphanumeric': language[i++],
-			'nicknameInUse': language[i++],
-			'authenticationFailure': language[i++],
-			'connectionFailed': language[i++],
-			'thankYouUsing': language[i++],
-			'registering': language[i++],
-			'connecting': language[i++],
-			'connected': language[i++],
-			'typeRandomly': language[i++],
-			'generatingKeys': language[i++]
+		loginMessage: {
+			enterConversation:        language[i++],
+			conversationAlphanumeric: language[i++],
+			enterNickname:            language[i++],
+			nicknameAlphanumeric:     language[i++],
+			nicknameInUse:            language[i++],
+			authenticationFailure:    language[i++],
+			connectionFailed:         language[i++],
+			thankYouUsing:            language[i++],
+			registering:              language[i++],
+			connecting:               language[i++],
+			connected:                language[i++],
+			typeRandomly:             language[i++],
+			generatingKeys:           language[i++]
 		},
-		'chatWindow': {
-			'groupConversation': language[i++],
-			'otrFingerprint': language[i++],
-			'groupFingerprint': language[i++],
-			'resetKeys': language[i++],
-			'resetKeysWarn': language[i++],
-			'continue': language[i++],
-			'statusAvailable': language[i++],
-			'statusAway': language[i++],
-			'myInfo': language[i++],
-			'desktopNotificationsOn': language[i++],
-			'desktopNotificationsOff': language[i++],
-			'audioNotificationsOn': language[i++],
-			'audioNotificationsOff': language[i++],
-			'rememberNickname': language[i++],
-			'doNotRememberNickname': language[i++],
-			'logout': language[i++],
-			'displayInfo': language[i++],
-			'sendEncryptedFile': language[i++],
-			'viewImage': language[i++],
-			'downloadFile': language[i++],
-			'conversation': language[i++],
-			'fileTransferInfo': language[i++],
-			'fileTypeError': language[i++],
-			'fileSizeError': language[i++],
-			'startVideoChat': language[i++],
-			'endVideoChat': language[i++],
-			'videoChatQuery': language[i++],
-			'cancel': language[i++],
-			'ignore': language[i++],
-			'unignore': language[i++],
-			'authenticate': language[i++],
-			'verifyUserIdentity': language[i++],
-			'secretQuestion': language[i++],
-			'secretAnswer': language[i++],
-			'ask': language[i++],
-			'asking': language[i++],
-			'failed': language[i++],
-			'identityVerified': language[i++],
-			'authRequest': language[i++],
-			'answerMustMatch': language[i++],
-			'answer': language[i++]
+		chatWindow: {
+			groupConversation:        language[i++],
+			otrFingerprint:           language[i++],
+			groupFingerprint:         language[i++],
+			resetKeys:                language[i++],
+			resetKeysWarn:            language[i++],
+			cont:                     language[i++],
+			statusAvailable:          language[i++],
+			statusAway:               language[i++],
+			myInfo:                   language[i++],
+			desktopNotificationsOn:   language[i++],
+			desktopNotificationsOff:  language[i++],
+			audioNotificationsOn:     language[i++],
+			audioNotificationsOff:    language[i++],
+			rememberNickname:         language[i++],
+			doNotRememberNickname:    language[i++],
+			logout:                   language[i++],
+			displayInfo:              language[i++],
+			sendEncryptedFile:        language[i++],
+			viewImage:                language[i++],
+			downloadFile:             language[i++],
+			conversation:             language[i++],
+			fileTransferInfo:         language[i++],
+			fileTypeError:            language[i++],
+			fileSizeError:            language[i++],
+			startVideoChat:           language[i++],
+			endVideoChat:             language[i++],
+			videoChatQuery:           language[i++],
+			cancel:                   language[i++],
+			ignore:                   language[i++],
+			unignore:                 language[i++],
+			authenticate:             language[i++],
+			verifyUserIdentity:       language[i++],
+			secretQuestion:           language[i++],
+			secretAnswer:             language[i++],
+			ask:                      language[i++],
+			asking:                   language[i++],
+			failed:                   language[i++],
+			identityVerified:         language[i++],
+			authRequest:              language[i++],
+			answerMustMatch:          language[i++],
+			answer:                   language[i++]
 		},
-		'warnings': {
-			'messageWarning': language[i++],
-			'updateWarning': language[i++],
-			'missingRecipientWarning': language[i++]
+		warnings: {
+			messageWarning:           language[i++]
+			                            || languageObject.warnings.messageWarning,
+			updateWarning:            language[i++]
+			                            || languageObject.warnings.updateWarning,
+			missingRecipientWarning:  language[i++]
+			                            || languageObject.warnings.missingRecipientWarning
 		},
-		'auth': {
-			'authenticated': language[i++],
-			'userNotAuthenticated': language[i++],
-			'clickToLearnMore': language[i++],
-			'learnMoreAuth': language[i++],
-			'authSlide1': language[i++],
-			'authSlide2': language[i++],
-			'authSlide3': language[i++],
-			'authSlide4': language[i++],
-			'authSlide5': language[i++],
-			'authWarning': language[i++]
+		auth: {
+			authenticated:            language[i++]
+			                            || languageObject.auth.authenticated,
+			userNotAuthenticated:     language[i++]
+			                            || languageObject.auth.userNotAuthenticated,
+			clickToLearnMore:         language[i++]
+			                            || languageObject.auth.clickToLearnMore,
+			learnMoreAuth:            language[i++]
+                                        || languageObject.auth.learnMoreAuth,
+			authSlide1:               language[i++]
+			                            || languageObject.auth.authSlide1,
+			authSlide2:               language[i++]
+			                            || languageObject.auth.authSlide2,
+			authSlide3:               language[i++]
+			                            || languageObject.auth.authSlide3,
+			authSlide4:               language[i++]
+			                            || languageObject.auth.authSlide4,
+			authSlide5:               language[i++]
+			                            || languageObject.auth.authSlide5,
+			AKEWarning:               language[i++]
+			                            || languageObject.auth.AKEWarning
 		}
 	}
 	var decodeFileSize = function (str) { return str.replace('(SIZE)', (Cryptocat.otr.fileSize / 1024)) }
@@ -150,7 +169,7 @@ Cryptocat.locale.refresh = function(languageObject) {
 	else {
 		$('body').css({'font-size': '11px'})
 	}
-	$('body').css('font-family', languageObject['font-family'])
+	$('body').css('font-family', languageObject['fonts'])
 	$('#introHeader').text(languageObject['loginWindow']['introHeader'])
 	$('#introParagraph').html(languageObject['loginWindow']['introParagraph'])
 	$('#customServer').text(languageObject['loginWindow']['customServer'])
@@ -190,3 +209,8 @@ Cryptocat.locale.handleAliases = function(locale) {
 	}
 	return locale
 }
+
+// Populate language
+Cryptocat.locale.set('en', false)
+
+})
