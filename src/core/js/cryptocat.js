@@ -498,6 +498,8 @@ Cryptocat.displayInfo = function(nickname) {
 		chatWindow = Cryptocat.locale.chatWindow
 	infoDialog = Mustache.render(Cryptocat.templates[infoDialog], {
 		nickname: nickname,
+		authenticated: Cryptocat.locale.auth.authenticated + ':',
+		learnMoreAuth: Cryptocat.locale.auth.learnMoreAuth,
 		otrFingerprint: chatWindow.otrFingerprint,
 		groupFingerprint: chatWindow.groupFingerprint,
 		authenticate: chatWindow.authenticate,
@@ -520,10 +522,10 @@ Cryptocat.displayInfo = function(nickname) {
 				slide1: Cryptocat.locale.auth.authSlide1,
 				slide2: Cryptocat.locale.auth.authSlide2,
 				slide3: Cryptocat.locale.auth.authSlide3,
-				slide4: Cryptocat.locale.auth.authSlide4
+				slide4: Cryptocat.locale.auth.authSlide5
 			})
 			Cryptocat.dialogBox(infoDialog, {
-				height: 420,
+				height: 430,
 				closeable: true,
 				onAppear: function() {
 					$('#authTutorial').html(authTutorial)
@@ -736,7 +738,9 @@ var bindAuthDialog = function(nickname) {
 	// for opening the auth tutorial.
 	// This is temporary until all translations are ready.
 	// — Nadim, March 29 2014
-	if (!Cryptocat.locale.auth.learnMoreAuth) {
+	if (
+		Cryptocat.locale.language !== 'en' &&
+		Cryptocat.locale.auth.learnMoreAuth === 'Learn more about authentication') {
 		$('#authLearnMore').hide()
 	}
 	$('#authLearnMore').unbind('click').bind('click', function() {

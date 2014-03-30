@@ -34,8 +34,9 @@ Cryptocat.templates = {
 
 	buddyInfo: '<div class="title">{{nickname}}</div>'
 		+ '<div id="displayInfo">'
-		+ '<span id="authenticated">Authenticated</span><span id="notAuthenticated">Not Authenticated</span><br />'
-		+ '<span id="authLearnMore">Learn more about authentication</span><br />'
+		+ '<h2>{{authenticated}}</h2>'
+		+ '<span id="authenticated">&#x2713</span><span id="notAuthenticated">X</span><br />'
+		+ '<span id="authLearnMore">{{learnMoreAuth}}</span><br />'
 		+ '<div class="authInfo" style="height:95px">{{groupFingerprint}}<br />'
 		+ '<span id="multiPartyFingerprint"></span><br />'
 		+ '{{otrFingerprint}}<br /><span id="otrFingerprint"></span></div>'

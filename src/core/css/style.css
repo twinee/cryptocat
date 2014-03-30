@@ -592,10 +592,18 @@ DIALOG BOX
 	height: 80px;
 }
 
+#displayInfo h2 {
+	color: #000;
+	margin: 0;
+	font-size: 13px;
+	margin-right: 10px;
+}
+
 #authenticated {
 	font-size: 0.9em;
 	cursor: pointer;
-	padding: 5px;
+	padding: 1px 30px;
+	height: 20px;
 	border: 1px solid #3992C0;
 	background-color: transparent;
 	box-shadow: 2px 2px #3992C0;
@@ -620,7 +628,8 @@ DIALOG BOX
 #notAuthenticated {
 	font-size: 0.9em;
 	cursor: pointer;
-	padding: 5px;
+	padding: 1px 30px;
+	height: 20px;
 	border: 1px solid #EF6C74;
 	background-color: transparent;
 	box-shadow: 2px 2px #EF6C74;
