@@ -9,19 +9,19 @@ GLOBAL VARIABLES
 Cryptocat.version = '2.1.21' // Version number
 
 Cryptocat.me = {
-	conversation: null,
-	nickname: null,
-	newMessages: 0,
-	windowFocus: true,
-	typing: false,
-	otrKey: null,
-	fileKey: null,
-	mpPrivateKey: null,
-	mpPublicKey: null,
+	windowFocus:   true,
+	typing:        false,
+	conversation:  null,
+	nickname:      null,
+	otrKey:        null,
+	fileKey:       null,
+	mpPrivateKey:  null,
+	mpPublicKey:   null,
 	mpFingerprint: null,
+	newMessages:   0,
 	currentBuddy: {
 		name: null,
-		id: null
+		id:   null
 	}
 }
 
@@ -293,16 +293,16 @@ Cryptocat.removeAuthAndWarn = function(nickname) {
 // Buddy constructor
 var Buddy = function(nickname) {
 	this.id = getUniqueBuddyID()
-	this.ignored = false
-	this.fingerprint = null
-	this.authenticated = false
-	this.fileKey = null
-	this.mpPublicKey = null
-	this.mpFingerprint = null
-	this.mpSecretKey = null
-	this.nickname = nickname
+	this.ignored        = false
+	this.fingerprint    = null
+	this.authenticated  = false
+	this.fileKey        = null
+	this.mpPublicKey    = null
+	this.mpFingerprint  = null
+	this.mpSecretKey    = null
+	this.nickname       = nickname
 	this.genFingerState = null
-	this.otr = Cryptocat.otr.add(nickname)
+	this.otr            = Cryptocat.otr.add(nickname)
 }
 
 Buddy.prototype = {
