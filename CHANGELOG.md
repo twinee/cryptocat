@@ -1,5 +1,19 @@
 #Changelog
 
+<!--
+##Cryptocat 2.1.22
+**Apr. ? 2014**
+
+- Authentication is completely redone. Now, Cryptocat has a new, better and more useful authentication interface that reminds users to authenticate, shows authentication status, and even includes a slideshow tutorial on what authentication is and why it's important.  
+- Authenticating via secret questions (SMP) now authenticates both group conversations and private conversations.  
+- Keyboard shortcuts! Press `ctrl+2` to switch to the next buddy, and `ctrl+1` to move back to the previous buddy.  
+- Important user interface change: the active conversation no longer switches to the top of the buddy list. This is done so that keyboard shortcuts can work better.  
+- Fixed a bug that made conversation content "jump" when a user finished sending a message for which there was a "typing" icon.  
+- Many improvements to the user interface.  
+- Many small improvements and tweaks.  
+- Many translations have been updated.  
+-->
+
 ##Cryptocat 2.1.21
 **Mar. 13 2014**
 
@@ -8,12 +22,12 @@
 - Small fixes were made to the Spanish translation.  
 - The authentication interface has been updated to clarify that question-based authentication is for private OTR chats only.  
 - Fixed a bug that would allow clients with malformed nicknames to cause a crash in other Cryptocat clients in a conversation.  
-- Fixed a bug that would allow clients with malformed nicknames to secretly join a Cryptocat conversation and obtain ciphertext. These clients would not be part of the conversation however and would not be able to obtain plaintext. 
+- Fixed a bug that would allow clients with malformed nicknames to secretly join a Cryptocat conversation and obtain ciphertext. These clients would not be part of the conversation however and would not be able to obtain plaintext.  
 - Fixed a bug that wouldn't allow non-latin characters in question-based authentication.  
-- Fixed a bug in Cryptocat for Firefox that would not add a Cryptocat button to the Firefox toolbar.
+- Fixed a bug in Cryptocat for Firefox that would not add a Cryptocat button to the Firefox toolbar.  
 - Fixed a bug that would not allow the user to scroll up for a few seconds if they receive too many new messages in a short period of time.  
-- Many small improvements were made to the user interface.
-- Many improvements and optimizations were made to the Cryptocat code.
+- Many small improvements were made to the user interface.  
+- Many improvements and optimizations were made to the Cryptocat code.  
 - Updated Cryptocat dependencies to their latest versions.  
 
 
