@@ -346,7 +346,7 @@ Cryptocat.addBuddy = function(nickname) {
 			nickname: nickname,
 			shortNickname: shortenString(nickname, 12)
 		})
-		$(buddyTemplate).insertAfter('#buddiesOnline').slideDown(100, function() {
+		$(buddyTemplate).insertBefore('#buddiesAway').slideDown(100, function() {
 			$('#buddy-' + buddy.id)
 				.unbind('click')
 				.click(function() {
