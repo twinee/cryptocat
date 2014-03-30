@@ -701,21 +701,36 @@ var addLinks = function(message) {
 
 // Convert text emoticons to graphical emoticons.
 var addEmoticons = function(message) {
-	return message
-		.replace(/(\s|^)(:|(=))-?3(?=(\s|$))/gi, ' <div class="emoticon eCat">$&</div> ')
-		.replace(/(\s|^)(:|(=))-?\&apos;\((?=(\s|$))/gi, ' <div class="emoticon eCry">$&</div> ')
-		.replace(/(\s|^)(:|(=))-?o(?=(\s|$))/gi, ' <div class="emoticon eGasp">$&</div> ')
-		.replace(/(\s|^)(:|(=))-?D(?=(\s|$))/gi, ' <div class="emoticon eGrin">$&</div> ')
-		.replace(/(\s|^)(:|(=))-?\((?=(\s|$))/gi, ' <div class="emoticon eSad">$&</div> ')
-		.replace(/(\s|^)(:|(=))-?\)(?=(\s|$))/gi, ' <div class="emoticon eSmile">$&</div> ')
-		.replace(/(\s|^)-_-(?=(\s|$))/gi, ' <div class="emoticon eSquint">$&</div> ')
-		.replace(/(\s|^)(:|(=))-?p(?=(\s|$))/gi, ' <div class="emoticon eTongue">$&</div> ')
-		.replace(/(\s|^)(:|(=))-?(\/|s)(?=(\s|$))/gi, ' <div class="emoticon eUnsure">$&</div> ')
-		.replace(/(\s|^);-?\)(?=(\s|$))/gi, ' <div class="emoticon eWink">$&</div> ')
-		.replace(/(\s|^);-?\p(?=(\s|$))/gi, ' <div class="emoticon eWinkTongue">$&</div> ')
-		.replace(/(\s|^)\^(_|\.)?\^(?=(\s|$))/gi, ' <div class="emoticon eHappy">$&</div> ')
-		.replace(/(\s|^)(:|(=))-?x\b(?=(\s|$))/gi, ' <div class="emoticon eShut">$&</div> ')
-		.replace(/(\s|^)\&lt\;3\b(?=(\s|$))/g, ' <span class="monospace">&#9829;</span> ')
+	var emoticons = {
+		cat:                  /(\s|^)(:|(=))-?3(?=(\s|$))/gi,
+		cry:                 /(\s|^)(:|(=))-?\&apos;\((?=(\s|$))/gi,
+		gasp:               /(\s|^)(:|(=))-?o(?=(\s|$))/gi,
+		grin:              /(\s|^)(:|(=))-?D(?=(\s|$))/gi,
+		sad:              /(\s|^)(:|(=))-?\((?=(\s|$))/gi,
+		smile:           /(\s|^)(:|(=))-?\)(?=(\s|$))/gi,
+		squint:         /(\s|^)-_-(?=(\s|$))/gi,
+		tongue:        /(\s|^)(:|(=))-?p(?=(\s|$))/gi,
+		unsure:       /(\s|^)(:|(=))-?(\/|s)(?=(\s|$))/gi,
+		wink:        /(\s|^);-?\)(?=(\s|$))/gi,
+		winkTongue: /(\s|^);-?\p(?=(\s|$))/gi,
+		happy:     /(\s|^)\^(_|\.)?\^(?=(\s|$))/gi,
+		shut:     /(\s|^)(:|(=))-?x\b(?=(\s|$))/gi,
+	}
+	for (var e in emoticons) {
+		if (emoticons.hasOwnProperty(e)) {
+			message = message.replace(
+				emoticons[e],
+				Mustache.render(Cryptocat.templates.emoticon, {
+					emoticon: e
+				})
+			)
+		}
+	}
+	return message.replace(
+		/(\s|^)\&lt\;3\b(?=(\s|$))/g,
+		' <span class="monospace">&#9829;</span> '
+	)
+
 }
 
 // Bind `nickname`'s authentication dialog buttons and options.

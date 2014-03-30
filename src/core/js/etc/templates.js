@@ -79,6 +79,8 @@ Cryptocat.templates = {
 		+ 'data-utip-gravity="se"></span>'
 		+ '<span class="nickname">{{nickname}}</span></span>{{&message}}</div>',
 
+	emoticon: ' <img class="emoticon" src="img/emoticon/{{emoticon}}.png" alt="" /> ',
+
 	authStatusFalseUtip: '<div id="authStatusUtip">{{text}}<br /><strong>{{learnMore}}</strong></div>',
 
 	composing: '<img src="img/typing.gif" class="typing" id="{{id}}" alt="" />',
