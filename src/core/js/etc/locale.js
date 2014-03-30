@@ -1,4 +1,4 @@
-$(function() {
+(function() {
 'use strict';
 
 Cryptocat.locale = {}
@@ -209,6 +209,8 @@ Cryptocat.locale.handleAliases = function(locale) {
 }
 
 // Populate language
-Cryptocat.locale.set('en', false)
+if (typeof(window) !== 'undefined') {
+	Cryptocat.locale.set('en', false)
+}
 
-})
+})()
