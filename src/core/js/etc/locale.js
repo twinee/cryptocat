@@ -162,7 +162,7 @@ Cryptocat.locale.buildObject = function(locale, language) {
 Cryptocat.locale.refresh = function(languageObject) {
 	var smallType = ['bo', 'ar', 'in']
 	if (smallType.indexOf(languageObject['language']) >= 0) {
-		$('body').css({'font-size': '12px'})
+		$('body').css({'font-size': '13px'})
 	}
 	else {
 		$('body').css({'font-size': '11px'})

@@ -176,7 +176,8 @@ Cryptocat.addToConversation = function(message, nickname, conversation, type) {
 		message = message.join(', ')
 		message = Mustache.render(Cryptocat.templates.missingRecipients, {
 			text: Cryptocat.locale.warnings.missingRecipientWarning
-				.replace('(NICKNAME)', message)
+				.replace('(NICKNAME)', message),
+			dir: Cryptocat.locale.direction
 		})
 		conversationBuffers[Cryptocat.buddies[conversation].id] += message
 		if (conversation === Cryptocat.me.currentBuddy.name) {
