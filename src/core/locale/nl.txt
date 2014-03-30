@@ -1,43 +1,43 @@
 ltr
 "Helvetica Neue", Helvetica, Arial, Verdana
 Privégesprekken voor iedereen.
-Welkom bij Cryptocat. Hier volgen een paar handige tips: <ul><li>Cryptocat is geen wondermiddel. Vertrouw nooit uw leven toe aan software.</li><li class="key">Cryptocat kan u niet beschermen tegen onbetrouwbare mensen of keyloggers en houdt uw verbinding niet anoniem.</li></ul>
+Welkom bij Cryptocat. Hier volgen een paar handige tips: <ul><li>Cryptocat is geen wondermiddel. Vertrouw nooit je leven toe aan een stukje software.</li><li class="key">Cryptocat kan u niet beschermen tegen onbetrouwbare mensen of keyloggers en maakt niet uw verbinding anoniem.</li></ul>
 Blog
-Andere server
+Aangepaste server
 Reset
-conversatie
-roepnaam
+gespreksnaam
+gebruikersnaam
 verbinden
-Geef je gesprek een naam en deel die met mensen waarmee je wil praten, of ga naar de  <strong>lobby</strong> om nieuwe mensen te ontmoeten!
+Geef je gesprek een naam en deel deze met mensen waarmee je wil praten, of bezoek de <strong>lobby</strong> om nieuwe mensen te ontmoeten!
 Geef de naam op van het gesprek waar je aan wil deelnemen.
 Voer alstublieft een gespreksnaam in.
 Gespreksnaam mag enkel uit cijfers en/of letters bestaan.
 Voer een gebruikersnaam in.
-De roepnaam mag enkel uit cijfers en/of letters bestaan.
-Die roepnaam is reeds in gebruik.
+Gebruikersnaam mag enkel uit cijfers en/of letters bestaan.
+Gebruikersnaam is reeds in gebruik.
 Authenticatie mislukt.
 Verbinding mislukt.
 Bedankt voor het gebruik van Cryptocat.
 Bezig met registratie...
-Verbinden...
+Initiatie verbinding...
 Verbonden.
 Sla gedurende enkele seconden lukraak toetsen op uw toetsenbord aan.
 Bezig met aanmaak van encryptiesleutels...
 Groepsgesprek. Klik op een gebruiker voor een privégesprek.
 OTR vingerafdruk (voor privégesprekken):
-Vingerafdruk groepsconversatie:
+Vingerafdruk groepsgesprek:
 Reset mijn encryptiesleutels
 Het resetten van uw encryptiesleutels verbreekt de verbinding. Uw digitale vingerafdruk verandert eveneens.
 Doorgaan
 Status: Beschikbaar
 Status: Afwezig
 Mijn gegevens
-Bureaubladmeldingen Aan
-Bureaubladmeldingen Uit.
+Meldingen Bureaublad Aan
+Meldingen Bureaublad Uit.
 Geluidsmeldingen Aan
 Geluidsmeldingen Uit
-Mijn roepnaam onthouden
-Mijn roepnaam niet onthouden
+Mijn gebruikersnaam onthouden
+Mijn gebruikersnaam niet onthouden
 Afmelden
 Toon Info
 Verstuur versleuteld bestand
@@ -45,14 +45,14 @@ afbeelding bekijken
 bestand downloaden
 Gesprek
 Enkel ZIP-bestanden en afbeeldingen worden aanvaard. Maximale bestandgrootte: (SIZE) MB.
-Fout: Zorg ervoor dat je bestand een ZIP-bestand of afbeelding is.
+Fout: Controleer of je bestand een ZIP-bestand of afbeelding is.
 Fout: Bestand mag niet groter zijn dan (SIZE) MB.
-Begin beeldgesprek
-Beëindig beeldgesprek
+Begin videogesprek
+Beëindig videogesprek
 (NICKNAME) wil graag een videochat met u beginnen.
 Annuleren
-Negeren
-Niet meer negeren
+Negeer
+Stop met negeren
 Bevestigen
 Controleer de identiteit van deze gebruiker door een geheime vraag te stellen. Antwoorden moeten precies overeenkomen!
 Geheime vraag
@@ -60,9 +60,20 @@ Geheime antwoord
 Vraag
 Aan het vragen...
 Mislukt
-Identiteit gecontroleerd.
-(NICKNAME) wil uw identiteit verifieren. Antwoord de geheime vraag hieronder om uw identiteit te bevestigen.
-Uw antwoord moet precies overeenkomen met het antwoord gegeven door (NICKNAME).
+Identiteit geverifieerd.
+(NICKNAME) wil uw identiteit verifiëren. Gelieve de geheime vraag hieronder te beantwoorden om uw identiteit te bevestigen:
+Uw antwoord moet precies overeenkomen met het antwoord welke door (NICKNAME) gegeven is.
 Antwoord
-Waarschuwing: U heeft een onleesbaar bericht van (NICKNAME) ontvangen. Dit kan duiden op een onbetrouwbare gebruiker of op berichten die niet ontvangen konden worden.
-Waarschuwing: Uw versie van Cryptocat is verlopen. Bijwerken naar de laatste versie wordt sterk aanbevolen! Ga niet verder zonder bijgewerkt te hebben tot de laatste versie.
+Waarschuwing: u heeft een onleesbaar bericht van (NICKNAME) ontvangen. Dit kan een onbetrouwbare gebruiker zijn of berichten die niet kunnen worden ontvangen. Het kan ook zijn dat u een verouderde versie van Cryptocat gebruikt. Gelieve te controleren op updates.
+Waarschuwing: Uw versie van Cryptocat is verlopen. Bijwerken naar de meest recente versie wordt sterk aanbevolen! Ga niet verder zolang u niet huidige versie gebruikt.
+Waarschuwing: dit bericht kan niet verzonden worden naar (NICKNAME)
+Geauthenticeerd
+Gebruiker is niet geauthenticeerd.
+Klik hier om meer te weten te komen...
+Kom meer te weten over authenticatie
+Iedere keer als je een gesprek in Cryptocat hebt, moet je je de gene waar tegen je praat authenticeren.
+Een manier om je identiteit te verifiëren is door Cryptocat te gebruiken om een vriend een geheime vraag te stellen waar hij alleen het antwoord op kent.
+Je kunt hen ook contacteren via een betrouwbaar kanaal, zoals je telefoon, en hen vragen om hun vingerafdruk te lezen.
+Vingerafdrukken zijn identificatiemiddelen die het toelaten om iemands identiteit te verifiëren. Ze kunnen veranderen na elk Cryptocat gesprek.
+Zonder verifiëring zou iemand zich kunnen voordoen als een andere persoon of je gesprekken onderscheppen.
+De vingerafdrukken van deze contactpersoon zijn veranderd. Dit is niet de bedoeling en zou kunnen wijzen op verdacht gedrag. Controleer deze contactpersoon alstublieft voor je ermee begint te chatten.
