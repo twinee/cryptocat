@@ -1,9 +1,7 @@
+$(function() {
 'use strict';
 
 Cryptocat.locale = {}
-
-$(function() {
-
 var languageObject
 
 // Get locale file, call other functions

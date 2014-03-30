@@ -265,11 +265,10 @@ Cryptocat.removeAuthAndWarn = function(nickname) {
 	var buddy = Cryptocat.buddies[nickname]
 	var openAuth = false
 	buddy.updateAuth(false)
-	// Replace with localization text!
 	var errorAKE = Mustache.render(
 		Cryptocat.templates.errorAKE, {
 			nickname: nickname,
-			errorText: 'The authentication fingerprints for this contact have changed. This is not supposed to happen and could indicate suspicious behaviour. Please authenticate this contact before chatting with them.',
+			errorText: Cryptocat.locale.auth.AKEWarning,
 			openAuth: Cryptocat.locale.chatWindow.authenticate
 		}
 	)
