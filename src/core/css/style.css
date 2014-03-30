@@ -376,7 +376,7 @@ BUDDY LIST
 #buddyWrapper {
 	overflow: hidden;
 	width: 107px;
-	height: 450px;
+	height: 480px;
 	display: none;
 	position: absolute;
 	right: 0;
@@ -385,7 +385,7 @@ BUDDY LIST
 }
 
 #buddyList {
-	height: 449px;
+	height: 479px;
 	width: 140px;
 	overflow-y: scroll;
 	overflow-x: hidden;
