@@ -27,6 +27,12 @@
     [CryptocatDockIconController sharedManager];
 	[self openChatWindow:nil];
 	_isReinitializing = FALSE;
+	// Disable Debug
+    [[NSUserDefaults standardUserDefaults] setBool:FALSE forKey:@"WebKitDeveloperExtras"];
+	[[NSUserDefaults standardUserDefaults] synchronize];
+    // Enable Debug (comment out for production!)
+	// [[NSUserDefaults standardUserDefaults] setBool:TRUE forKey:@"WebKitDeveloperExtras"];
+	// [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void) refreshTorMenuIcon{

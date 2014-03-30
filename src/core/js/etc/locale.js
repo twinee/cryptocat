@@ -150,16 +150,16 @@ Cryptocat.locale.buildObject = function(locale, language) {
 	var decodeFileSize = function (str) { return str.replace('(SIZE)', (Cryptocat.otr.fileSize / 1024)) }
 	languageObject.chatWindow.fileTransferInfo = decodeFileSize(languageObject.chatWindow.fileTransferInfo)
 	languageObject.chatWindow.fileSizeError = decodeFileSize(languageObject.chatWindow.fileSizeError)
-	return languageObject
-}
-
-// Deliver new strings and refresh login page
-Cryptocat.locale.refresh = function(languageObject) {
 	for (var o in languageObject) {
 		if (languageObject.hasOwnProperty(o)) {
 			Cryptocat.locale[o] = languageObject[o]
 		}
 	}
+	return languageObject
+}
+
+// Re-render login page with new strings
+Cryptocat.locale.refresh = function(languageObject) {
 	var smallType = ['bo', 'ar', 'in']
 	if (smallType.indexOf(languageObject['language']) >= 0) {
 		$('body').css({'font-size': '12px'})
@@ -210,7 +210,7 @@ Cryptocat.locale.handleAliases = function(locale) {
 
 // Populate language
 if (typeof(window) !== 'undefined') {
-	Cryptocat.locale.set('en', false)
+	Cryptocat.locale.set('en', true)
 }
 
 })()

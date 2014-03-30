@@ -1402,7 +1402,7 @@ $(window).unload(function() {
 // Determine whether we are showing a top margin
 // Depending on window size
 if ($(window).height() > 595) {
-	$('#bubble').css('margin-top', '1.5%')
+	$('#bubble').css('margin-top', '1%')
 }
 
 // Show main window.
