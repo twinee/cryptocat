@@ -1,3 +1,8 @@
+// WARNING:
+// This Gruntfile is not being maintained and is out of date.
+// Please use the Makefile instead.
+// — Nadim, March 31 2014
+
 'use strict';
 
 module.exports = function (grunt) {
