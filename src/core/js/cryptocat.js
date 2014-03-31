@@ -703,19 +703,19 @@ var addLinks = function(message) {
 // Convert text emoticons to graphical emoticons.
 var addEmoticons = function(message) {
 	var emoticons = {
-		cat:                  /(\s|^)(:|(=))-?3(?=(\s|$))/gi,
-		cry:                 /(\s|^)(:|(=))-?\&apos;\((?=(\s|$))/gi,
+		cry:                   /(\s|^)(:|(=))-?\&apos;\((?=(\s|$))/gi,
+		unsure:               /(\s|^)(:|(=))-?(\/|s)(?=(\s|$))/gi,
+		cat:                 /(\s|^)(:|(=))-?3(?=(\s|$))/gi,
 		gasp:               /(\s|^)(:|(=))-?o(?=(\s|$))/gi,
 		grin:              /(\s|^)(:|(=))-?D(?=(\s|$))/gi,
 		sad:              /(\s|^)(:|(=))-?\((?=(\s|$))/gi,
 		smile:           /(\s|^)(:|(=))-?\)(?=(\s|$))/gi,
-		squint:         /(\s|^)-_-(?=(\s|$))/gi,
-		tongue:        /(\s|^)(:|(=))-?p(?=(\s|$))/gi,
-		unsure:       /(\s|^)(:|(=))-?(\/|s)(?=(\s|$))/gi,
+		tongue:         /(\s|^)(:|(=))-?p(?=(\s|$))/gi,
+		happy:         /(\s|^)\^(_|\.)?\^(?=(\s|$))/gi,
+		shut:         /(\s|^)(:|(=))-?x\b(?=(\s|$))/gi,
 		wink:        /(\s|^);-?\)(?=(\s|$))/gi,
 		winkTongue: /(\s|^);-?\p(?=(\s|$))/gi,
-		happy:     /(\s|^)\^(_|\.)?\^(?=(\s|$))/gi,
-		shut:     /(\s|^)(:|(=))-?x\b(?=(\s|$))/gi,
+		squint:    /(\s|^)-_-(?=(\s|$))/gi,
 	}
 	for (var e in emoticons) {
 		if (emoticons.hasOwnProperty(e)) {
@@ -731,7 +731,6 @@ var addEmoticons = function(message) {
 		/(\s|^)\&lt\;3\b(?=(\s|$))/g,
 		' <span class="monospace">&#9829;</span> '
 	)
-
 }
 
 // Bind `nickname`'s authentication dialog buttons and options.
