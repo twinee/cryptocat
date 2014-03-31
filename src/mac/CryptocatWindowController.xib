@@ -16,16 +16,18 @@
         <customObject id="-3" userLabel="Application"/>
         <window title="Cryptocat" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="MainWindow" animationBehavior="default" id="3">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
-            <rect key="contentRect" x="335" y="121" width="755" height="640"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1058"/>
+            <rect key="contentRect" x="335" y="121" width="755" height="628"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
             <view key="contentView" id="4">
-                <rect key="frame" x="0.0" y="0.0" width="755" height="640"/>
+                <rect key="frame" x="0.0" y="0.0" width="755" height="628"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <webView maintainsBackForwardList="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5">
-                        <rect key="frame" x="0.0" y="0.0" width="755" height="640"/>
+                        <rect key="frame" x="0.0" y="0.0" width="755" height="628"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <webPreferences key="preferences" defaultFontSize="12" defaultFixedFontSize="12" plugInsEnabled="NO" javaEnabled="NO" javaScriptCanOpenWindowsAutomatically="NO" allowsAnimatedImages="NO" allowsAnimatedImageLooping="NO"/>
+                        <webPreferences key="preferences" defaultFontSize="12" defaultFixedFontSize="12" plugInsEnabled="NO" javaEnabled="NO" javaScriptCanOpenWindowsAutomatically="NO" allowsAnimatedImages="NO" allowsAnimatedImageLooping="NO">
+                            <nil key="identifier"/>
+                        </webPreferences>
                         <connections>
                             <outlet property="UIDelegate" destination="-2" id="21"/>
                             <outlet property="downloadDelegate" destination="-2" id="19"/>
