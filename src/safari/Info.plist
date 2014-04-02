@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>Author</key>
-	<string>the Cryptocat Project</string>
+	<string>Cryptocat</string>
 	<key>Builder Version</key>
 	<string>8536.29.13</string>
 	<key>CFBundleDisplayName</key>
@@ -13,9 +13,9 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.1.21</string>
+	<string>2.1.22</string>
 	<key>CFBundleVersion</key>
-	<string>2.1.21</string>
+	<string>2.1.22</string>
 	<key>Chrome</key>
 	<dict>
 		<key>Global Page</key>

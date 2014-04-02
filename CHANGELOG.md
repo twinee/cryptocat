@@ -1,10 +1,11 @@
 #Changelog
 
-<!--
 ##Cryptocat 2.1.22
-**Apr. ? 2014**
+**Apr. 2 2014**
 
-- Authentication is completely redone. Now, Cryptocat has a new, better and more useful authentication interface that reminds users to authenticate, shows authentication status, and even includes a slideshow tutorial on what authentication is and why it's important.  
+*Note: this release is currently in the process of being rolled out to production. The delay is that so we can launch the update across all platforms simultaneously.*  
+
+- Authentication is completely redone. Now, Cryptocat has a new, better and more useful authentication interface that reminds users to authenticate, shows authentication status, and even includes a slideshow tutorial on what authentication is and why it's important. Learn more about the authentication improvements on our blog: https://blog.crypto.cat/2014/04/recent-audits-and-coming-improvements/  
 - Authenticating via secret questions (SMP) now authenticates both group conversations and private conversations.  
 - Keyboard shortcuts! Press `ctrl+2` to switch to the next buddy, and `ctrl+1` to move back to the previous buddy.  
 - Important user interface change: the active conversation no longer switches to the top of the buddy list. This is done so that keyboard shortcuts can work better.  
@@ -12,7 +13,6 @@
 - Many improvements to the user interface.  
 - Many small improvements and tweaks.  
 - Many translations have been updated.  
--->
 
 ##Cryptocat 2.1.21
 **Mar. 13 2014**
