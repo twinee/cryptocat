@@ -10,7 +10,7 @@ namn
 ansluta
 Ange ett namn för konversationen och delge det till dem du önskar prata med.
 Skriv in namnet på det samtal du vill delta i.
-Vänligen skriv in ett konversationsnamn. 
+Vänligen skriv in ett konversationsnamn.
 Konversationsnamnet måste vara alfanumeriskt.
 Vänligen skriv in ett smeknamn.
 Smeknamnet måste vara alfanumeriskt.
@@ -64,5 +64,16 @@ Identitet verifierad.
 (NICKNAME) vill verifiera din identitet. Var vänlig och svara på den hemliga frågan nedan för att autentisera dig själv:
 Ditt svar måste exakt matcha svaret angivet av (NICKNAME).
 Svar
-Varning: Du har mottagit ett oläsbart meddelande från (NICKNAME). Det kan tyda på en opålitlig användare eller meddelanden som inte har kunnat mottas.
+Varning: Du har fått ett oläsligt meddelande från (NICKNAME). Detta kan indikera att det är en opålitlig användare eller ett meddelande som misslyckades att tas emot. Du kan också köra en gammal version av Cryptocat. Var vänlig kolla efter uppdateringar.
 Varning: Din version av Cryptocat är gammal. Det är bestämt rekommenderat att uppdatera till den senaste versionen! Fortsätt inte utan att uppdatera till den senaste versionen.
+Varning: meddelandet kunde inte skickas till (NICKNAME)
+Autentiserad
+Användare ej autentiserad.
+Klicka för att lära dig mer...
+Lär dig mer om autentisering.
+Varje gång du har en Cryptocat konversation måste du autentisera personerna du pratar med.
+Ett sätt du kan autentisera är genom att använda Cryptocat till att fråga din vän en hemlig fråna som bara dom skulle veta svaret på.
+Du kan också kontakta dom via en pålitlig kanal, till exempel via telefon, och be dem läsa upp sina fingeravtryck.
+Fingeravtryck är identifierare som gör att du kan autentisera personer. Dom kan ändras mellan varje Cryptocat konversation.
+Utan autentisering skulle någon kunna utge sig för att vara du, eller avlyssna din kommunikation.
+Fingeravtrycken för autentisering av denna kontakt har ändrats. Det är inte meningen att det här ska hända och det kan indikera misstänkt beteende. Se till att autentisera denna kontakt innan du chattar med dem.
