@@ -1351,11 +1351,12 @@ Mousetrap.bind('ctrl+2', function() {
 Mousetrap.bind('up up down down left right left right b a enter', function() {
 	if (Cryptocat.sounds.balloon.loop) {
 		window.clearInterval(Cryptocat.balloon)
+		Cryptocat.sounds.balloon.pause()
 		Cryptocat.sounds.balloon.loop = false
 		return
 	}
-	Cryptocat.sounds.balloon.loop = true
 	window.setTimeout(function() {
+		Cryptocat.sounds.balloon.loop = true
 		Cryptocat.sounds.balloon.play()
 	}, 200)
 	Cryptocat.balloon = window.setInterval(function() {
@@ -1364,17 +1365,18 @@ Mousetrap.bind('up up down down left right left right b a enter', function() {
 		.appendTo('body')
 		.css({
 			left: Math.round(
-				Math.random() * ($(window).width() - 100)
+				Math.random() * ($(window).width() - 200) + 100
 			)
 		})
 		.animate(
 			{bottom: '2000'},
-			23000 + Math.round(Math.random() * 8000),
+			25000 + Math.round(Math.random() * 8000),
+			'linear',
 			function() {
 				$(this).remove()
 			}
 		)
-	}, 500 + Math.round(Math.random() * 1000))
+	}, 999 + Math.round(Math.random() * 999))
 })
 
 /*
