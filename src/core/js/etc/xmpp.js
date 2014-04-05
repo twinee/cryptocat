@@ -261,9 +261,8 @@ var cleanNickname = function(nickname) {
 	var clean = nickname.match(/\/([\s\S]+)/)
 	if (clean) {
 		return clean[1]
-		return Strophe.xmlescape(clean[1])
 	}
-	else { return false }
+	return false
 }
 
 })
