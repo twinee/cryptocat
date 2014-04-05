@@ -4,6 +4,25 @@
 // Cryptocat OTR functions and callbacks.
 Cryptocat.otr = {}
 
+// Construct a new OTR conversation
+Cryptocat.otr.add = function(nickname) {
+	var otr = new OTR({
+		priv: Cryptocat.me.otrKey,
+		smw: {
+			path: 'js/workers/smp.js',
+			seed: Cryptocat.random.generateSeed
+		}
+	})
+	otr.REQUIRE_ENCRYPTION = true
+	otr.on('ui',     onIncoming.bind(null, nickname))
+	otr.on('io',     onOutgoing.bind(null, nickname))
+	otr.on('smp',    onSMPAnswer.bind(null, nickname))
+	otr.on('status', onStatusChange.bind(null, nickname))
+	otr.on('file',   onFile.bind(null, nickname))
+	return otr
+}
+
+
 // Handle incoming messages.
 var onIncoming = function(nickname, msg, encrypted) {
 	// drop unencrypted messages
@@ -124,24 +143,6 @@ var onSMPAnswer = function(nickname, type, data, act) {
 		}
 		break
 	}
-}
-
-// Construct a new OTR conversation
-Cryptocat.otr.add = function(nickname) {
-	var otr = new OTR({
-		priv: Cryptocat.me.otrKey,
-		smw: {
-			path: 'js/workers/smp.js',
-			seed: Cryptocat.random.generateSeed
-		}
-	})
-	otr.REQUIRE_ENCRYPTION = true
-	otr.on('ui', onIncoming.bind(null, nickname))
-	otr.on('io', onOutgoing.bind(null, nickname))
-	otr.on('smp', onSMPAnswer.bind(null, nickname))
-	otr.on('status', onStatusChange.bind(null, nickname))
-	otr.on('file', onFile.bind(null, nickname))
-	return otr
 }
 
 }())
