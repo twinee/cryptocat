@@ -139,7 +139,7 @@ Cryptocat.addToConversation = function(message, nickname, conversation, type) {
 		}
 		message = Mustache.render(Cryptocat.templates.file, { message: message })
 	}
-	else if (type === 'composing') {
+	if (type === 'composing') {
 		if ($('#composing-' + Cryptocat.buddies[nickname].id).length) { return true }
 		message = Mustache.render(
 			Cryptocat.templates.composing, {
@@ -147,7 +147,7 @@ Cryptocat.addToConversation = function(message, nickname, conversation, type) {
 			}
 		)
 	}
-	else if (type === 'message') {
+	if (type === 'message') {
 		if (!message.length) { return false }
 		if (nickname !== Cryptocat.me.nickname) {
 			if (Cryptocat.audioNotifications) { Cryptocat.sounds.msgGet.play() }
@@ -160,7 +160,9 @@ Cryptocat.addToConversation = function(message, nickname, conversation, type) {
 		message = addEmoticons(message)
 		if (message.match(Cryptocat.me.nickname)) { lineDecoration = 3 }
 	}
-	else if (type === 'warning') {
+	if (type === 'warning') {
+		lineDecoration = 4
+		console.log(lineDecoration)
 		if (!message.length) { return false }
 		if (nickname !== Cryptocat.me.nickname) {
 			if (Cryptocat.audioNotifications) { Cryptocat.sounds.msgGet.play() }
@@ -169,9 +171,8 @@ Cryptocat.addToConversation = function(message, nickname, conversation, type) {
 			)
 		}
 		message = Strophe.xmlescape(message)
-		lineDecoration = 4
 	}
-	else if (type === 'missingRecipients') {
+	if (type === 'missingRecipients') {
 		if (!message.length) { return false }
 		message = message.join(', ')
 		message = Mustache.render(Cryptocat.templates.missingRecipients, {
@@ -196,8 +197,10 @@ Cryptocat.addToConversation = function(message, nickname, conversation, type) {
 		return true
 	}
 	var authStatus = false
-	if ((nickname === Cryptocat.me.nickname)
-	|| Cryptocat.buddies[nickname].authenticated) {
+	if (
+		(nickname === Cryptocat.me.nickname) ||
+		Cryptocat.buddies[nickname].authenticated
+	) {
 		authStatus = true
 	}
 	message = message.replace(/:/g, '&#58;')

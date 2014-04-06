@@ -278,7 +278,12 @@ Cryptocat.multiParty.receiveMessage = function(sender, myName, message) {
 				hmac.concat(CryptoJS.enc.Base64.parse(message['text'][sortedRecipients[i]]['message']))
 				hmac.concat(CryptoJS.enc.Base64.parse(message['text'][sortedRecipients[i]]['iv']))
 			}
-			if (message['text'][myName]['hmac'] !== HMAC(hmac, Cryptocat.buddies[sender].mpSecretKey['hmac'])) {
+			if (
+				!Cryptocat.otr.compareStrings(
+					message['text'][myName]['hmac'],
+					HMAC(hmac, Cryptocat.buddies[sender].mpSecretKey['hmac'])
+				)
+			) {
 				console.log('multiParty: HMAC failure')
 				Cryptocat.multiParty.messageWarning(sender)
 				return false

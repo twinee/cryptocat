@@ -166,7 +166,9 @@ Cryptocat.otr.ibbHandler = function(type, from, sid, data, seq) {
 				CryptoJS.enc.Base64.parse(prefix + msg),
 				CryptoJS.enc.Latin1.parse(key[1])
 			)
-			if (mac !== cmac.toString(CryptoJS.enc.Base64)) {
+			if (
+				!Cryptocat.otr.compareStrings(mac, cmac.toString(CryptoJS.enc.Base64))
+			) {
 				rcvFile[from][sid].abort = true
 				Cryptocat.fileTransferError(sid)
 				console.log('OTR file transfer: MACs do not match.')
