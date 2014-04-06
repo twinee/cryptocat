@@ -315,7 +315,7 @@ Buddy.prototype = {
 	},
 	updateAuth: function(auth) {
 		var nickname = this.nickname
-		this.authenticated = auth;
+		this.authenticated = auth
 		if (auth) {
 			$('#authenticated').attr('data-active', true)
 			$('#notAuthenticated').attr('data-active', false)
