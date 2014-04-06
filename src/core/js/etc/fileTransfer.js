@@ -210,7 +210,7 @@ Cryptocat.otr.ibbHandler = function(type, from, sid, data, seq) {
 					var blob = new Blob([ia], { type: rcvFile[from][sid].mime })
 					url = window.URL.createObjectURL(blob)
 				}
-				if (rcvFile[from][sid].filename.match(/^[\w-.]+$/)
+				if (rcvFile[from][sid].filename.match(/^[\w.\-]+$/)
 				&& rcvFile[from][sid].mime.match(fileMIME)) {
 					Cryptocat.addFile(url, sid, nick, rcvFile[from][sid].filename)
 				}
