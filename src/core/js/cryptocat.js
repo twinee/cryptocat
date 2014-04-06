@@ -330,6 +330,7 @@ Buddy.prototype = {
 			}
 		})
 		var authStatusBuffers = ['main-Conversation', Cryptocat.buddies[this.nickname].id]
+		/*jshint -W083 */
 		for (var i in authStatusBuffers) {
 			if (conversationBuffers[authStatusBuffers[i]]) {
 				var conversationBuffer = $(conversationBuffers[authStatusBuffers[i]])
@@ -342,6 +343,7 @@ Buddy.prototype = {
 					.clone()).html()
 			}
 		}
+		/*jshint +W083 */
 	}
 }
 
