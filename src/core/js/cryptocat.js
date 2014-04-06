@@ -314,7 +314,6 @@ Buddy.prototype = {
 		this.mpSecretKey = Cryptocat.multiParty.genSharedSecret(this.nickname)
 	},
 	updateAuth: function(auth) {
-		var nickname = this.nickname
 		this.authenticated = auth
 		if (auth) {
 			$('#authenticated').attr('data-active', true)
@@ -324,26 +323,26 @@ Buddy.prototype = {
 			$('#authenticated').attr('data-active', false)
 			$('#notAuthenticated').attr('data-active', true)
 		}
-		$.each($('span').filterByData('sender'), function(index, value) {
-			if ($(value).attr('data-sender') === nickname) {
+		$.each($('span').filterByData('sender', this.nickname),
+			function(index, value) {
 				$(value).find('.authStatus').attr('data-auth', auth)
 			}
+		)
+		var authStatusBuffers = [
+			'main-Conversation',
+			Cryptocat.buddies[this.nickname].id
+		]
+		$.each(authStatusBuffers, function(i, thisBuffer) {
+			var buffer = $(conversationBuffers[thisBuffer])
+			$.each(buffer.find('span').filterByData('sender', this.nickname),
+				function(index, value) {
+					$(value).find('.authStatus').attr('data-auth', auth)
+				}
+			)
+			conversationBuffers[thisBuffer] = $('<div>').append(
+				buffer.clone()
+			).html()
 		})
-		var authStatusBuffers = ['main-Conversation', Cryptocat.buddies[this.nickname].id]
-		/*jshint -W083 */
-		for (var i in authStatusBuffers) {
-			if (conversationBuffers[authStatusBuffers[i]]) {
-				var conversationBuffer = $(conversationBuffers[authStatusBuffers[i]])
-				$.each(conversationBuffer.find('span').filterByData('sender'), function(index, value) {
-					if ($(value).attr('data-sender') === nickname) {
-						$(value).find('.authStatus').attr('data-auth', auth)
-					}
-				})
-				conversationBuffers[authStatusBuffers[i]] = $('<div>').append($(conversationBuffer)
-					.clone()).html()
-			}
-		}
-		/*jshint +W083 */
 	}
 }
 
