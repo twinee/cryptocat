@@ -4,18 +4,6 @@
 // Cryptocat OTR functions and callbacks.
 Cryptocat.otr = {}
 
-// Compare two strings in constant time
-Cryptocat.otr.compareStrings = function (str1, str2) {
-	if (str1.length !== str2.length) {
-		return false
-	}
-	var result = 0
-	for (var i = 0; i < str1.length; i++) {
-		result |= str1[i].charCodeAt(0) ^ str2[i].charCodeAt(0)
-	}
-	return result === 0
-}
-
 // Construct a new OTR conversation
 Cryptocat.otr.add = function(nickname) {
 	var otr = new OTR({

@@ -279,7 +279,7 @@ Cryptocat.multiParty.receiveMessage = function(sender, myName, message) {
 				hmac.concat(CryptoJS.enc.Base64.parse(message['text'][sortedRecipients[i]]['iv']))
 			}
 			if (
-				!Cryptocat.otr.compareStrings(
+				!OTR.HLP.compare(
 					message['text'][myName]['hmac'],
 					HMAC(hmac, Cryptocat.buddies[sender].mpSecretKey['hmac'])
 				)

@@ -167,7 +167,7 @@ Cryptocat.otr.ibbHandler = function(type, from, sid, data, seq) {
 				CryptoJS.enc.Latin1.parse(key[1])
 			)
 			if (
-				!Cryptocat.otr.compareStrings(mac, cmac.toString(CryptoJS.enc.Base64))
+				!OTR.HLP.compare(mac, cmac.toString(CryptoJS.enc.Base64))
 			) {
 				rcvFile[from][sid].abort = true
 				Cryptocat.fileTransferError(sid)
