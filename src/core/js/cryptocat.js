@@ -162,7 +162,6 @@ Cryptocat.addToConversation = function(message, nickname, conversation, type) {
 	}
 	if (type === 'warning') {
 		lineDecoration = 4
-		console.log(lineDecoration)
 		if (!message.length) { return false }
 		if (nickname !== Cryptocat.me.nickname) {
 			if (Cryptocat.audioNotifications) { Cryptocat.sounds.msgGet.play() }
@@ -226,6 +225,8 @@ Cryptocat.addToConversation = function(message, nickname, conversation, type) {
 		else {
 			var composingElement = $('#composing-' + Cryptocat.buddies[nickname].id)
 			if (composingElement.length) {
+				composingElement.parent().removeClass()
+					.addClass('line' + lineDecoration)
 				composingElement.replaceWith(message)
 			}
 		}
