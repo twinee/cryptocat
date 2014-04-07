@@ -149,7 +149,7 @@ Cryptocat.addToConversation = function(message, nickname, conversation, type) {
 			)
 		}
 		message = Strophe.xmlescape(message)
-		message = addLinks(message)
+		message = Cryptocat.addLinks(message)
 		message = addEmoticons(message)
 		if (message.match(Cryptocat.me.nickname)) { lineDecoration = 3 }
 	}
@@ -686,7 +686,7 @@ var getFingerprint = function(nickname, OTR) {
 }
 
 // Convert message URLs to links. Used internally.
-var addLinks = function(message) {
+Cryptocat.addLinks = function(message) {
 	var sanitize
 	var URLs = message.match(/((http(s?)\:\/\/){1}\S+)/gi)
 	if (!URLs) { return message }
