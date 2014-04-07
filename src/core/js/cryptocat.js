@@ -18,18 +18,11 @@ Cryptocat.me = {
 	mpPrivateKey:  null,
 	mpPublicKey:   null,
 	mpFingerprint: null,
-	newMessages:   0,
-	currentBuddy: {
-		name: null,
-		id:   null
-	}
+	currentBuddy:  null,
+	newMessages:   0
 }
 
-Cryptocat.buddies = {
-	'main-Conversation': {
-		id: 'main-Conversation'
-	}
-}
+Cryptocat.buddies = {}
 
 Cryptocat.audioExt = '.mp3'
 if (navigator.userAgent.match('OPR')) {
@@ -128,7 +121,7 @@ Cryptocat.addToConversation = function(message, nickname, conversation, type) {
 	else if (Cryptocat.buddies[nickname].ignored) {
 		return false
 	}
-	initializeConversationBuffer(Cryptocat.buddies[conversation].id)
+	initializeConversationBuffer(conversation)
 	if (type === 'file') {
 		if (!message.length) { return false }
 		if (nickname !== Cryptocat.me.nickname) {
@@ -179,8 +172,8 @@ Cryptocat.addToConversation = function(message, nickname, conversation, type) {
 				.replace('(NICKNAME)', message),
 			dir: Cryptocat.locale.direction
 		})
-		conversationBuffers[Cryptocat.buddies[conversation].id] += message
-		if (conversation === Cryptocat.me.currentBuddy.name) {
+		conversationBuffers[conversation] += message
+		if (conversation === Cryptocat.me.currentBuddy) {
 			if (
 				(nickname === Cryptocat.me.nickname) ||
 				!$('#composing-' + Cryptocat.buddies[nickname].id).length
@@ -211,9 +204,9 @@ Cryptocat.addToConversation = function(message, nickname, conversation, type) {
 		message: message
 	})
 	if (type !== 'composing') {
-		conversationBuffers[Cryptocat.buddies[conversation].id] += renderedMessage
+		conversationBuffers[conversation] += renderedMessage
 	}
-	if (conversation === Cryptocat.me.currentBuddy.name) {
+	if (conversation === Cryptocat.me.currentBuddy) {
 		if (
 			(nickname === Cryptocat.me.nickname) ||
 			!$('#composing-' + Cryptocat.buddies[nickname].id).length
@@ -233,7 +226,7 @@ Cryptocat.addToConversation = function(message, nickname, conversation, type) {
 		scrollDownConversation(400, true)
 	}
 	else if (type !== 'composing') {
-		$('#buddy-' + Cryptocat.buddies[conversation].id).addClass('newMessage')
+		$('#buddy-' + conversation).addClass('newMessage')
 	}
 }
 
@@ -333,7 +326,7 @@ Buddy.prototype = {
 			}
 		)
 		var authStatusBuffers = [
-			'main-Conversation',
+			'groupChat',
 			Cryptocat.buddies[this.nickname].id
 		]
 		$.each(authStatusBuffers, function(i, thisBuffer) {
@@ -356,7 +349,6 @@ Cryptocat.addBuddy = function(nickname) {
 	$('#buddyList').queue(function() {
 		var buddyTemplate = Mustache.render(Cryptocat.templates.buddy, {
 			buddyID: buddy.id,
-			nickname: nickname,
 			shortNickname: shortenString(nickname, 12)
 		})
 		$(buddyTemplate).insertBefore('#buddiesAway').slideDown(100, function() {
@@ -386,13 +378,12 @@ Cryptocat.addBuddy = function(nickname) {
 Cryptocat.removeBuddy = function(nickname) {
 	// Delete their encryption keys.
 	var buddyElement = $('#buddy-' + Cryptocat.buddies[nickname].id)
-	delete Cryptocat.buddies[nickname]
 	if (!buddyElement.length) {
 		return
 	}
 	buddyElement.attr('status', 'offline')
 	buddyNotification(nickname, false)
-	if (Cryptocat.me.currentBuddy.name === nickname) {
+	if (Cryptocat.me.currentBuddy === Cryptocat.buddies[nickname].id) {
 		return
 	}
 	if (!buddyElement.hasClass('newMessage')) {
@@ -400,26 +391,26 @@ Cryptocat.removeBuddy = function(nickname) {
 			$(this).remove()
 		})
 	}
+	delete Cryptocat.buddies[nickname]
 }
 
 // Bind buddy click actions.
 Cryptocat.onBuddyClick = function(buddyElement) {
-	var nickname = buddyElement.attr('data-nickname')
+	var nickname = getNicknameByID(buddyElement.attr('data-id'))
 	buddyElement.removeClass('newMessage')
 	if (buddyElement.prev().attr('id') === 'currentConversation') {
 		$('#userInputText').focus()
 		return true
 	}
-	Cryptocat.me.currentBuddy.name = nickname
-	Cryptocat.me.currentBuddy.id = buddyElement.attr('data-id')
-	initializeConversationBuffer(Cryptocat.me.currentBuddy.id)
-	var id = Cryptocat.me.currentBuddy.id
+	var id = buddyElement.attr('data-id')
+	Cryptocat.me.currentBuddy = id
+	initializeConversationBuffer(id)
 	// Render conversation info bar.
 	$('.conversationName').text(
 		Cryptocat.me.nickname + '@' + Cryptocat.me.conversation
 	)
-	$('#groupConversation').text(Cryptocat.me.currentBuddy.name)
-	if (Cryptocat.me.currentBuddy.name === 'main-Conversation') {
+	$('#groupConversation').text(nickname)
+	if (Cryptocat.me.currentBuddy === 'groupChat') {
 		$('#groupConversation').text(
 			Cryptocat.locale['chatWindow']['groupConversation']
 		)
@@ -565,20 +556,20 @@ Cryptocat.logout = function() {
 	$('#buddyWrapper').slideUp()
 	$('.buddy').unbind('click')
 	$('.buddyMenu').unbind('click')
-	$('#buddy-main-Conversation').insertAfter('#buddiesOnline')
+	$('#buddy-groupChat').insertAfter('#buddiesOnline')
 	$('#userInput').fadeOut(function() {
 		$('#logoText').fadeIn()
 		$('#footer').animate({'height': 14})
 		$('#conversationWrapper').fadeOut(function() {
 			$('#dialogBoxClose').click()
 			$('#buddyList div').each(function() {
-				if ($(this).attr('id') !== 'buddy-main-Conversation') {
+				if ($(this).attr('id') !== 'buddy-groupChat') {
 					$(this).remove()
 				}
 			})
 			$('#conversationWindow').html('')
 			for (var b in Cryptocat.buddies) {
-				if (Cryptocat.buddies.hasOwnProperty(b) && b !== 'main-Conversation') {
+				if (Cryptocat.buddies.hasOwnProperty(b)) {
 					delete Cryptocat.buddies[b]
 				}
 			}
@@ -639,11 +630,22 @@ var getUniqueBuddyID = function() {
 	for (var b in Cryptocat.buddies) {
 		if (Cryptocat.buddies.hasOwnProperty(b)) {
 			if (Cryptocat.buddies[b].id === buddyID) {
-				getUniqueBuddyID()
+				return getUniqueBuddyID()
 			}
 		}
 	}
 	return buddyID
+}
+
+// Get a buddy's nickname from their ID.
+var getNicknameByID = function(id) {
+	for (var i in Cryptocat.buddies) {
+		if (Cryptocat.buddies.hasOwnProperty(i)) {
+			if (Cryptocat.buddies[i].id === id) {
+				return i
+			}
+		}
+	}
 }
 
 // Simply shortens a string `string` to length `length.
@@ -893,10 +895,10 @@ var buddyNotification = function(nickname, join) {
 		})
 		audioNotification = 'userLeave'
 	}
-	initializeConversationBuffer('main-Conversation')
-	conversationBuffers['main-Conversation'] += status
-	if (Cryptocat.me.currentBuddy.name !== 'main-Conversation') {
-		conversationBuffers[Cryptocat.me.currentBuddy.id] += status
+	initializeConversationBuffer('groupChat')
+	conversationBuffers['groupChat'] += status
+	if (Cryptocat.me.currentBuddy !== 'groupChat') {
+		conversationBuffers[Cryptocat.me.currentBuddy] += status
 	}
 	$('#conversationWindow').append(status)
 	scrollDownConversation(400, true)
@@ -944,12 +946,12 @@ var sendFile = function(nickname) {
 
 // Scrolls down the chat window to the bottom in a smooth animation.
 // 'speed' is animation speed in milliseconds.
-// If `threshold is true, we won't scroll down if the user
+// If `threshold` is true, we won't scroll down if the user
 // appears to be scrolling up to read messages.
 var scrollDownConversation = function(speed, threshold) {
 	var scrollPosition = $('#conversationWindow')[0].scrollHeight
 	scrollPosition -= $('#conversationWindow').scrollTop()
-	if ((scrollPosition < 950) || !threshold) {
+	if ((scrollPosition < 700) || !threshold) {
 		$('#conversationWindow').stop().animate({
 			scrollTop: $('#conversationWindow')[0].scrollHeight + 20
 		}, speed)
@@ -1063,9 +1065,6 @@ var nicknameCompletion = function(input) {
 	var nickname, match, suffix
 	for (nickname in Cryptocat.buddies) {
 		if (Cryptocat.buddies.hasOwnProperty(nickname)) {
-			if (nickname === 'main-Conversation') {
-				continue
-			}
 			try { match = nickname.match(input.match(/(\S)+$/)[0]) }
 			catch(err) {}
 			if (match) {
@@ -1169,23 +1168,23 @@ $('#userInput').submit(function() {
 	var message = $.trim($('#userInputText').val())
 	$('#userInputText').val('')
 	if (!message.length) { return false }
-	if (Cryptocat.me.currentBuddy.name !== 'main-Conversation') {
-		Cryptocat.buddies[Cryptocat.me.currentBuddy.name].otr.sendMsg(message)
+	if (Cryptocat.me.currentBuddy !== 'groupChat') {
+		Cryptocat.buddies[
+			getNicknameByID(Cryptocat.me.currentBuddy)
+		].otr.sendMsg(message)
 	}
-	else if (Object.keys(Cryptocat.buddies).length > 1) {
+	else if (Object.keys(Cryptocat.buddies).length) {
 		var ciphertext = JSON.parse(Cryptocat.multiParty.sendMessage(message))
 		var missingRecipients = []
 		for (var i in Cryptocat.buddies) {
 			if (typeof(ciphertext['text'][i]) !== 'object') {
-				if (i !== 'main-Conversation') {
-					missingRecipients.push(i)
-				}
+				missingRecipients.push(i)
 			}
 		}
 		if (missingRecipients.length) {
 			Cryptocat.addToConversation(
 				missingRecipients, Cryptocat.me.nickname,
-				'main-Conversation', 'missingRecipients'
+				'groupChat', 'missingRecipients'
 			)
 		}
 		Cryptocat.xmpp.connection.muc.message(
@@ -1195,7 +1194,7 @@ $('#userInput').submit(function() {
 	}
 	Cryptocat.addToConversation(
 		message, Cryptocat.me.nickname,
-		Cryptocat.me.currentBuddy.name, 'message'
+		Cryptocat.me.currentBuddy, 'message'
 	)
 	return false
 })
@@ -1217,12 +1216,12 @@ $('#userInputText').keydown(function(e) {
 		return true
 	}
 	var destination, type
-	if (Cryptocat.me.currentBuddy.name === 'main-Conversation') {
+	if (Cryptocat.me.currentBuddy === 'groupChat') {
 		destination = null
 		type = 'groupchat'
 	}
 	else {
-		destination = Cryptocat.me.currentBuddy.name
+		destination = getNicknameByID(Cryptocat.me.currentBuddy)
 		type = 'chat'
 	}
 	if (!Cryptocat.me.typing) {
@@ -1409,7 +1408,7 @@ $(window).focus(function() {
 	Cryptocat.me.windowFocus = true
 	Cryptocat.me.newMessages = 0
 	Tinycon.setBubble()
-	if ($('#buddy-main-Conversation').attr('status') === 'online') {
+	if ($('#buddy-groupChat').attr('status') === 'online') {
 		$('#userInputText').focus()
 	}
 })

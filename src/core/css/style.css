@@ -476,7 +476,7 @@ BUDDY LIST
 	background: rgba(255, 255, 255, 0.2);
 }
 
-#buddy-main-Conversation {
+#buddy-groupChat {
 	background-image: url("../img/groupChat.png");
 	background-position: 97% 3px;
 }

@@ -27,8 +27,10 @@ Cryptocat.otr.add = function(nickname) {
 var onIncoming = function(nickname, msg, encrypted) {
 	// drop unencrypted messages
 	if (encrypted) {
-		Cryptocat.addToConversation(msg, nickname, nickname, 'message')
-		if (Cryptocat.me.currentBuddy.name !== nickname) {
+		Cryptocat.addToConversation(
+			msg, nickname, Cryptocat.buddies[nickname].id, 'message'
+		)
+		if (Cryptocat.me.currentBuddy !== Cryptocat.buddies[nickname].id) {
 			Cryptocat.messagePreview(msg, nickname)
 		}
 	}

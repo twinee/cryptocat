@@ -61,7 +61,7 @@ Cryptocat.xmpp.connect = function() {
 Cryptocat.xmpp.onConnected = function() {
 	clearInterval(CatFacts.interval)
 	Cryptocat.storage.setItem('myNickname', Cryptocat.me.nickname)
-	$('#buddy-main-Conversation').attr('status', 'online')
+	$('#buddy-groupChat').attr('status', 'online')
 	$('#loginInfo').text('✓')
 	$('#info').fadeOut(200)
 	$('#loginOptions,#languages,#customServerDialog,#version,#logoText,#loginInfo').fadeOut(200)
@@ -69,10 +69,10 @@ Cryptocat.xmpp.onConnected = function() {
 	$('.logo').animate({'margin': '-11px 5px 0 0'})
 	$('#loginForm').fadeOut(200, function() {
 		$('#conversationInfo').fadeIn()
-		$('#buddy-main-Conversation').click(function() {
+		$('#buddy-groupChat').click(function() {
 			Cryptocat.onBuddyClick($(this))
 		})
-		$('#buddy-main-Conversation').click()
+		$('#buddy-groupChat').click()
 		$('#conversationWrapper').fadeIn()
 		$('#optionButtons').fadeIn()
 		$('#footer').delay(200).animate({'height': 60}, function() {
@@ -135,10 +135,10 @@ Cryptocat.xmpp.onMessage = function(message) {
 	if ($(message).find('composing').length && !body.length) {
 		var conversation
 		if (type === 'groupchat') {
-			conversation = 'main-Conversation'
+			conversation = 'groupChat'
 		}
 		else if (type === 'chat') {
-			conversation = nickname
+			conversation = Cryptocat.buddies[nickname].id
 		}
 		Cryptocat.addToConversation('', nickname, conversation, 'composing')
 		return true
@@ -155,7 +155,7 @@ Cryptocat.xmpp.onMessage = function(message) {
 	else if (type === 'groupchat' && body.length) {
 		body = Cryptocat.multiParty.receiveMessage(nickname, Cryptocat.me.nickname, body)
 		if (typeof(body) === 'string') {
-			Cryptocat.addToConversation(body, nickname, 'main-Conversation', 'message')
+			Cryptocat.addToConversation(body, nickname, 'groupChat', 'message')
 		}
 	}
 	// Check if this is a private OTR message.
@@ -215,7 +215,7 @@ Cryptocat.xmpp.onPresence = function(presence) {
 	$('#buddy-' + Cryptocat.buddies[nickname].id).attr('status', status)
 	if (placement) {
 		$('#buddy-' + Cryptocat.buddies[nickname].id).animate({'color': color }, function() {
-			if (Cryptocat.me.currentBuddy.name !== nickname) {
+			if (Cryptocat.me.currentBuddy !== Cryptocat.buddies[nickname].id) {
 				$(this).insertAfter(placement).slideDown(200)
 			}
 		})

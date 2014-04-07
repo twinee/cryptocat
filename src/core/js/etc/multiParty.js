@@ -127,7 +127,7 @@ Cryptocat.multiParty.sendPublicKey = function(nickname) {
 Cryptocat.multiParty.messageWarning = function(sender) {
 	var messageWarning = Cryptocat.locale['warnings']['messageWarning']
 		.replace('(NICKNAME)', sender)
-	Cryptocat.addToConversation(messageWarning, sender, 'main-Conversation', 'warning')
+	Cryptocat.addToConversation(messageWarning, sender, 'groupChat', 'warning')
 }
 
 // Generate message tag. 8 rounds of SHA512
@@ -242,7 +242,6 @@ Cryptocat.multiParty.receiveMessage = function(sender, myName, message) {
 			// Make sure message is being sent to all chat room participants
 			var recipients = Object.keys(Cryptocat.buddies)
 			var missingRecipients = []
-			recipients.splice(recipients.indexOf('main-Conversation'), 1)
 			recipients.splice(recipients.indexOf(sender), 1)
 			for (var r = 0; r !== recipients.length; r++) {
 				try {
@@ -263,7 +262,7 @@ Cryptocat.multiParty.receiveMessage = function(sender, myName, message) {
 				}
 			}
 			if (missingRecipients.length) {
-				Cryptocat.addToConversation(missingRecipients, sender, 'main-Conversation', 'missingRecipients')
+				Cryptocat.addToConversation(missingRecipients, sender, 'groupChat', 'missingRecipients')
 			}
 			// Decrypt message
 			if (!Cryptocat.buddies[sender].mpSecretKey) {
