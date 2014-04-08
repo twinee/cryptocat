@@ -376,14 +376,19 @@ Cryptocat.addBuddy = function(nickname) {
 
 // Handle buddy going offline.
 Cryptocat.removeBuddy = function(nickname) {
-	// Delete their encryption keys.
-	var buddyElement = $('#buddy-' + Cryptocat.buddies[nickname].id)
+	var buddyID = Cryptocat.buddies[nickname].id
+	var buddyElement = $('#buddy-' + buddyID)
+	var composingElement = $('#composing-' + buddyID)
+	delete Cryptocat.buddies[nickname]
+	if (composingElement.length) {
+		composingElement.parent().remove()
+	}
 	if (!buddyElement.length) {
 		return
 	}
 	buddyElement.attr('status', 'offline')
 	buddyNotification(nickname, false)
-	if (Cryptocat.me.currentBuddy === Cryptocat.buddies[nickname].id) {
+	if (Cryptocat.me.currentBuddy === buddyID) {
 		return
 	}
 	if (!buddyElement.hasClass('newMessage')) {
@@ -391,7 +396,6 @@ Cryptocat.removeBuddy = function(nickname) {
 			$(this).remove()
 		})
 	}
-	delete Cryptocat.buddies[nickname]
 }
 
 // Bind buddy click actions.
