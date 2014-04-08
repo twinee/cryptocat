@@ -11,7 +11,7 @@ Verbinden
 Gib einen Namen für deine Unterhaltung ein und teile sie mit Leuten, mit denen du dich unterhalten möchtest, oder besuche die <strong>Lobby</strong>, um neue Leute zu treffen!
 Gib den Namen einer Unterhaltung ein, um ihr beizutreten.
 Bitte gib den Namen einer Unterhaltung ein.
-Name der Unterhaltung alphanumerisch sein.
+Name der Unterhaltung muss alphanumerisch sein.
 Bitte gib einen Nicknamen ein.
 Nickname muss alphanumerisch sein.
 Nickname wird bereits verwendet.
@@ -65,15 +65,15 @@ Identität bestätigt.
 Deine Antwort muss exakt mit der von (NICKNAME) übereinstimmen.
 Antwort
 Warnung: Du hast eine unlesbare Nachricht von (NICKNAME) erhalten. Das kann durch einen vertrauensunwürdigen Benutzer oder durch Netzwerkprobleme verursacht worden sein. Vielleicht verwendest du auch eine veraltete Version von Cryptocat. Bitte prüfe auf Aktualisierungen.
-Warnung: Deine Version von Cryptocat ist veraltet. Wir empfehlen dir dringend, die neueste Version zu verwenden! Aktualisiere unbedingt auf die neueste Version, bevor Du weitergehst.
+Warnung: Deine Version von Cryptocat ist veraltet. Wir empfehlen dir dringend, die neueste Version zu verwenden! Aktualisiere unbedingt auf die neueste Version, bevor Du fortfährst.
 Achtung: Diese Nachricht konnte nicht zu (NICKNAME) gesendet werden.
 Authentifiziert.
 Benutzer ist nicht authentifizert.
-Klick, um mehr zu erfahren.
+Klicke, um mehr zu erfahren.
 Erfahre mehr über die Authentifizierung.
 Bei jeder Cryptocat-Konversation musst Du die Person, mit der Du sprichst, authentifizieren.
 Eine Möglichkeit der Authentifizierung ist, über Cryptocat Deinen Freund eine geheime Frage zu stellen, die niemand anderer sonst beantworten kann.
-Du kannst sie auch über einen vertrauenswürdigen Kanal, wie z.b. via Telefon bitten, ihre Fingerprints vorzulesen.
+Du kannst sie auch über einen vertrauenswürdigen Kanal, wie z. B. via Telefon bitten, ihre Fingerprints vorzulesen.
 Fingerprints sind Kennungen, die Dir erlauben, eine Person zu authentifizieren. Diese können sich bei jeder Cryptocat-Konversation ändern.
-Ohne Authentifizierung könnte jemand sich als jemand anders ausgeben, oder Deine Kommunikation abhören.
+Ohne Authentifizierung könnte sich jemand als jemand anderes ausgeben, oder Deine Kommunikation abhören.
 Die Authentifizerungs-Fingerprints für diesen Kontakt haben sich geändert. Dies ist nicht vorgesehen und sieht nach einem verdächten Verhalten aus . Bitte authentifiziere diesen Kontakt, bevor Du mit ihm chattest.
