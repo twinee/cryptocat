@@ -850,7 +850,8 @@ var bindSenderElement = function(senderElement) {
 			'width': 'auto',
 			'max-width': '110px',
 			'font-size': '11px',
-			'background-color': $(this).css('background-color')
+			'background-color': $(this).css('background-color'),
+			'box-shadow': '0 0 0 2px rgba(255, 50, 50, 0.3)'
 		}))
 		$(this).attr('data-utip-click', 'Cryptocat.displayInfo()')
 	})
