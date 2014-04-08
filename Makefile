@@ -9,7 +9,7 @@ firefox:
 	@rm -f release/cryptocat.firefox.xpi
 	@mkdir src/firefox/chrome/content/data/
 	@cp -R src/core/css src/core/firstRun.html src/core/fonts src/core/img src/core/index.html src/core/js src/core/locale src/core/snd src/firefox/chrome/content/data/
-	@rm -f src/firefox/chrome/content/data/snd/*.ogg
+	@rm -f src/firefox/chrome/content/data/snd/*.mp3
 	@cd src/firefox/ && zip -q -r9 ../../release/cryptocat.firefox.xpi * -x "*/\.*" -x "\.*"
 	@rm -r src/firefox/chrome/content/data/
 	@/bin/echo "[Cryptocat] Firefox build available in release/"
