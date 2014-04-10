@@ -2158,9 +2158,9 @@ Strophe.Connection.prototype = {
     getUniqueId: function (suffix)
     {
         if (typeof(suffix) == "string" || typeof(suffix) == "number") {
-            return parseInt(Cryptocat.random.encodedBytes(4, CryptoJS.enc.Hex), 16) + ":" + suffix;
+            return Cryptocat.random.encodedBytes(64, CryptoJS.enc.Hex) + ":" + suffix;
         } else {
-            return parseInt(Cryptocat.random.encodedBytes(4, CryptoJS.enc.Hex), 16) + "";
+            return Cryptocat.random.encodedBytes(64, CryptoJS.enc.Hex) + "";
         }
     },
 
