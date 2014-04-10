@@ -1,5 +1,16 @@
 #Changelog
 
+##Cryptocat 2.1.23
+**Apr. 10 2014**
+
+- Since we are currently unable to actively maintain it, Tor integration has been removed from Cryptocat for Mac.  
+- Fixed a bug that could, in limited circumstances, mistakenly show unauthenticated participants as authenticated.  
+- Fixed two non-time-invariant MAC comparisons.  
+- Fixed a bug that could allow an attacker to stall a Cryptocat conversation.
+- Fixed a bug that prevented audio notifications from playing in Firefox on Linux.  
+- Many small improvements and tweaks to the code and user interface.  
+- Many translations have been updated.  
+
 ##Cryptocat 2.1.22
 **Apr. 2 2014**
 

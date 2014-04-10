@@ -6,7 +6,7 @@ GLOBAL VARIABLES
 -------------------
 */
 
-Cryptocat.version = '2.1.22' // Version number
+Cryptocat.version = '2.1.23' // Version number
 
 Cryptocat.me = {
 	windowFocus:   true,
