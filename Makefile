@@ -32,9 +32,6 @@ opera:
 	@/bin/echo "[Cryptocat] Opera build available in release/"
 
 mac:
-	@brew install openssl libevent
-	@brew link openssl --force
-	@git submodule update --init --recursive
 	@rm -rf release/Cryptocat.app
 	@rm -rf release/cryptocat.mac.zip
 	@cp -R src/core/css src/core/firstRun.html src/core/fonts src/core/img src/core/index.html src/core/js src/core/locale src/core/snd src/mac/htdocs
@@ -44,8 +41,6 @@ mac:
 	@rm -rf release/Cryptocat.app.dSYM
 	@rm -rf src/mac/htdocs/*
 	@echo "." >> src/mac/htdocs/placeholder.txt
-	@rm -rf release/Tor.framework
-	@rm -rf release/Tor.framework.dSYM
 	@cd release && zip -q -r9 cryptocat.mac.zip Cryptocat.app
 	@/bin/echo "[Cryptocat] Mac app available in release/"
 

@@ -23,9 +23,6 @@
                                     <action selector="orderFrontStandardAboutPanel:" target="-2" id="142"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Enable Tor" tag="100" id="577">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                            </menuItem>
                             <menuItem isSeparatorItem="YES" id="236">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
@@ -327,11 +324,7 @@
                 <outlet property="delegate" destination="494" id="575"/>
             </connections>
         </menu>
-        <customObject id="494" customClass="CryptocatAppDelegate">
-            <connections>
-                <outlet property="torMenuItem" destination="577" id="579"/>
-            </connections>
-        </customObject>
+        <customObject id="494" customClass="CryptocatAppDelegate"/>
         <customObject id="420" customClass="NSFontManager"/>
     </objects>
 </document>
