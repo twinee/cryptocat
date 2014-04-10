@@ -846,12 +846,16 @@ var bindSenderElement = function(senderElement) {
 				})
 			)
 		}
+		// This is pretty ugly, sorry! Feel free to clean up via pull request.
+		var bgc = $(this).css('background-color')
+		var boxShadow = bgc.replace('rgb', 'rgba')
+			.substring(0, bgc.length - 1) + ', 0.3)'
 		$(this).attr('data-utip-style', JSON.stringify({
 			'width': 'auto',
 			'max-width': '110px',
 			'font-size': '11px',
-			'background-color': $(this).css('background-color'),
-			'box-shadow': '0 0 0 2px rgba(255, 50, 50, 0.3)'
+			'background-color': bgc,
+			'box-shadow': '0 0 0 2px ' + boxShadow
 		}))
 		$(this).attr('data-utip-click', 'Cryptocat.displayInfo()')
 	})
