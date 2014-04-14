@@ -4,7 +4,7 @@ require('../../../src/core/js/etc/locale')
 
 var assert = require('assert')
 Cryptocat.otr = {}
-Cryptocat.otr.fileSize = 10
+Cryptocat.otr.maximumFileSize = 10
 describe('Localization module', function() {
 		it('Should create language object from language tokens', function() {
 			var testStr = 'SPB'

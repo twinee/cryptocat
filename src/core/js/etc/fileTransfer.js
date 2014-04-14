@@ -2,7 +2,7 @@ $(window).ready(function() {
 'use strict';
 
 // Maximum encrypted file sharing size, in kilobytes.
-Cryptocat.otr.fileSize = 5120
+Cryptocat.otr.maximumFileSize = 5120
 
 // Size in which file chunks are split, in bytes.
 Cryptocat.otr.chunkSize = 64511
@@ -25,7 +25,7 @@ Cryptocat.otr.beginSendFile = function(data) {
 		$('#fileInfoField').text(Cryptocat.locale['chatWindow']['fileTypeError'])
 		return
 	}
-	else if (data.file.size > (Cryptocat.otr.fileSize * 1024)) {
+	else if (data.file.size > (Cryptocat.otr.maximumFileSize * 1024)) {
 		$('#fileInfoField').text(Cryptocat.locale['chatWindow']['fileSizeError'])
 		return
 	}
