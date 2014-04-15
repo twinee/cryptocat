@@ -311,6 +311,7 @@ Buddy.prototype = {
 		this.mpSecretKey = Cryptocat.multiParty.genSharedSecret(this.nickname)
 	},
 	updateAuth: function(auth) {
+		var nickname = this.nickname
 		this.authenticated = auth
 		if (auth) {
 			$('#authenticated').attr('data-active', true)
@@ -320,18 +321,18 @@ Buddy.prototype = {
 			$('#authenticated').attr('data-active', false)
 			$('#notAuthenticated').attr('data-active', true)
 		}
-		$.each($('span').filterByData('sender', this.nickname),
+		$.each($('span').filterByData('sender', nickname),
 			function(index, value) {
 				$(value).find('.authStatus').attr('data-auth', auth)
 			}
 		)
 		var authStatusBuffers = [
 			'groupChat',
-			Cryptocat.buddies[this.nickname].id
+			Cryptocat.buddies[nickname].id
 		]
 		$.each(authStatusBuffers, function(i, thisBuffer) {
 			var buffer = $(conversationBuffers[thisBuffer])
-			$.each(buffer.find('span').filterByData('sender', this.nickname),
+			$.each(buffer.find('span').filterByData('sender', nickname),
 				function(index, value) {
 					$(value).find('.authStatus').attr('data-auth', auth)
 				}
