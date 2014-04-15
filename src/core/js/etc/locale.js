@@ -147,7 +147,7 @@ Cryptocat.locale.buildObject = function(locale, language) {
 			                            || languageObject.auth.AKEWarning
 		}
 	}
-	var decodeFileSize = function (str) { return str.replace('(SIZE)', (Cryptocat.otr.fileSize / 1024)) }
+	var decodeFileSize = function (str) { return str.replace('(SIZE)', (Cryptocat.otr.maximumFileSize / 1024)) }
 	languageObject.chatWindow.fileTransferInfo = decodeFileSize(languageObject.chatWindow.fileTransferInfo)
 	languageObject.chatWindow.fileSizeError = decodeFileSize(languageObject.chatWindow.fileSizeError)
 	for (var o in languageObject) {

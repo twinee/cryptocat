@@ -53,8 +53,7 @@ Cryptocat.random.getBytes = function(i) {
 	if (i.constructor !== Number || i < 1) {
 		throw new Error('Expecting a number greater than 0.')
 	}
-	var bytes = state.getBytes(i)
-	return (i === 1) ? bytes[0] : bytes
+	return state.getBytes(i)
 }
 
 Cryptocat.random.bitInt = function(k) {
@@ -65,10 +64,10 @@ Cryptocat.random.bitInt = function(k) {
 	var b = Math.floor(k / 8)
 	var mask = (1 << (k % 8)) - 1
 	if (mask) {
-		r = Cryptocat.random.getBytes(1) & mask
+		r = Cryptocat.random.getBytes(1)[0] & mask
 	}
 	for (; i < b; i++) {
-		r = (256 * r) + Cryptocat.random.getBytes(1)
+		r = (256 * r) + Cryptocat.random.getBytes(1)[0]
 	}
 	return r
 }
