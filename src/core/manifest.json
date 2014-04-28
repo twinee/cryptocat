@@ -18,11 +18,5 @@
 		"notifications",
 		"storage",
 		"webview"
-	],
-	"oauth2": {
-		"client_id": "1430498997197900",
-		"scopes": [
-			"https://graph.facebook.com/oauth/"
-		]
-	}
+	]
 }
