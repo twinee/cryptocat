@@ -32,7 +32,7 @@ Cryptocat.xmpp.connect = function() {
 				Cryptocat.me.conversation + '@' + Cryptocat.xmpp.conferenceServer,
 				Cryptocat.me.nickname,
 				function(message) {
-					if (Cryptocat.xmpp.onMessage(message))   { return true }
+					if (Cryptocat.xmpp.onMessage(message)) { return true }
 				},
 				function(presence) {
 					if (Cryptocat.xmpp.onPresence(presence)) { return true }
@@ -45,6 +45,8 @@ Cryptocat.xmpp.connect = function() {
 					$('#dialogBoxClose').click()
 				}, 200)
 			})
+			document.title = Cryptocat.me.nickname + '@' + Cryptocat.me.conversation
+			$('.conversationName').text(document.title)
 			window.setTimeout(function() {
 				Cryptocat.xmpp.onConnected()
 			}, 400)
@@ -67,7 +69,7 @@ Cryptocat.xmpp.onConnected = function() {
 	$('#loginOptions,#languages,#customServerDialog,#version,#logoText,#loginInfo').fadeOut(200)
 	$('#header').animate({'background-color': '#151520'})
 	$('.logo').animate({'margin': '-11px 5px 0 0'})
-	$('#loginForm').fadeOut(200, function() {
+	$('#login').fadeOut(200, function() {
 		$('#conversationInfo').fadeIn()
 		$('#buddy-groupChat').click(function() {
 			Cryptocat.onBuddyClick($(this))
@@ -83,7 +85,6 @@ Cryptocat.xmpp.onConnected = function() {
 		$('#buddyWrapper').slideDown()
 	})
 	Cryptocat.loginError = true
-	document.title = Cryptocat.me.nickname + '@' + Cryptocat.me.conversation
 }
 
 // Reconnect to the same chatroom, on accidental connection loss.
@@ -198,6 +199,9 @@ Cryptocat.xmpp.onPresence = function(presence) {
 	// Create buddy element if buddy is new.
 	else if (!Cryptocat.buddies.hasOwnProperty(nickname)) {
 		Cryptocat.addBuddy(nickname)
+		for (var u = 0; u < 4000; u += 2000) {
+			window.setTimeout(Cryptocat.xmpp.sendPublicKey, u, nickname)
+		}
 	}
 	// Handle buddy status change to 'available'.
 	else if ($(presence).find('show').text() === '' || $(presence).find('show').text() === 'chat') {

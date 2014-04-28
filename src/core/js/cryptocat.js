@@ -9,6 +9,8 @@ GLOBAL VARIABLES
 Cryptocat.version = '2.1.23' // Version number
 
 Cryptocat.me = {
+	login:         'cryptocat',
+	newMessages:   0,
 	windowFocus:   true,
 	typing:        false,
 	conversation:  null,
@@ -18,8 +20,7 @@ Cryptocat.me = {
 	mpPrivateKey:  null,
 	mpPublicKey:   null,
 	mpFingerprint: null,
-	currentBuddy:  null,
-	newMessages:   0
+	currentBuddy:  null
 }
 
 Cryptocat.buddies = {}
@@ -366,9 +367,6 @@ Cryptocat.addBuddy = function(nickname) {
 					openBuddyMenu(nickname)
 				}
 			)
-			for (var u = 0; u < 4000; u += 2000) {
-				window.setTimeout(Cryptocat.xmpp.sendPublicKey, u, nickname)
-			}
 			buddyNotification(nickname, true)
 		})
 	})
@@ -411,9 +409,6 @@ Cryptocat.onBuddyClick = function(buddyElement) {
 	Cryptocat.me.currentBuddy = id
 	initializeConversationBuffer(id)
 	// Render conversation info bar.
-	$('.conversationName').text(
-		Cryptocat.me.nickname + '@' + Cryptocat.me.conversation
-	)
 	$('#groupConversation').text(nickname)
 	if (Cryptocat.me.currentBuddy === 'groupChat') {
 		$('#groupConversation').text(
@@ -566,6 +561,12 @@ Cryptocat.logout = function() {
 		$('#logoText').fadeIn()
 		$('#footer').animate({'height': 14})
 		$('#conversationWrapper').fadeOut(function() {
+			$('#info,#loginOptions,#version,#loginInfo').fadeIn()
+			$('#login').fadeIn(200, function() {
+				$('#login').css({opacity: 1})
+				$('#conversationName').select()
+				$('#loginSubmit,#conversationName,#nickname').removeAttr('readonly')
+			})
 			$('#dialogBoxClose').click()
 			$('#buddyList div').each(function() {
 				if ($(this).attr('id') !== 'buddy-groupChat') {
@@ -580,11 +581,6 @@ Cryptocat.logout = function() {
 			}
 			conversationBuffers = {}
 			Cryptocat.xmpp.connection = null
-			$('#info,#loginOptions,#version,#loginInfo').fadeIn()
-			$('#loginForm').fadeIn(200, function() {
-				$('#conversationName').select()
-				$('#loginSubmit,#conversationName,#nickname').removeAttr('readonly')
-			})
 		})
 	})
 }
@@ -877,7 +873,6 @@ var desktopNotification = function(image, title, body, timeout) {
 		iframe = null
 	}
 	else {
-		/* global Notification */ // This comment satisfies a jshint requirement.
 		var notice = new Notification(title, { tag: 'Cryptocat', body: body, icon: image })
 		if (timeout > 0) {
 			window.setTimeout(function() {
@@ -1289,7 +1284,7 @@ $('#conversationName').click(function() {
 $('#nickname').click(function() {
 	$(this).select()
 })
-$('#loginForm').submit(function() {
+$('#cryptocatLogin').submit(function() {
 	// Don't submit if form is already being processed.
 	if (($('#loginSubmit').attr('readonly') === 'readonly')) {
 		return false
@@ -1423,27 +1418,44 @@ $(window).focus(function() {
 	}
 })
 
-// Prevent accidental window close.
-$(window).bind('beforeunload', function() {
-	if (Object.keys(Cryptocat.buddies).length > 1) {
-		return Cryptocat.locale['loginMessage']['thankYouUsing']
-	}
-})
-
-// Logout on browser close.
-$(window).unload(function() {
-	if (Cryptocat.xmpp.connection !== null) {
-		Cryptocat.xmpp.connection.disconnect()
-	}
-})
-
-// Determine whether we are showing a top margin
+// Determine whether we are showing margins
 // Depending on window size
-if ($(window).height() > 595) {
-	$('#bubble').css('margin-top', '1%')
-}
+$(window).resize(function() {
+	if (
+		$(window).height() < 595 ||
+		$(window).width()  < 780
+	) {
+		$('#bubbleWrapper').css('margin', '1%')
+	}
+	else {
+		$('#bubbleWrapper').css('margin', '1.5% auto 0 auto')
+	}
+})
+$(window).resize()
 
 // Show main window.
 $('#bubble').show()
+
+/*
+$('#bubbleWrapper').css(
+	{
+		height: '538px'
+	}
+).animate(
+	{
+		'width': '+=500px'
+	},
+	700,
+	function() {
+		$('#av').animate(
+			{
+				'width': '480px'
+			},
+			700
+		)
+	}
+)
+*/
+
 
 })}//:3

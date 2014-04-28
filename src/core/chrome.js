@@ -4,14 +4,12 @@ chrome.runtime.onInstalled.addListener(function(details) {
 	}
 })
 
-/*
 chrome.app.runtime.onLaunched.addListener(function() {
 	chrome.app.window.create('index.html', {
 		'bounds': {
 			'width': 755,
-			'height': 590,
+			'height': 625,
 		},
 		'resizable': false
 	})
 })
-*/

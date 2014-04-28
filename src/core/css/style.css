@@ -48,6 +48,15 @@ img {
 	-moz-user-select: none;
 }
 
+webview {
+	border-radius: 8px 0 8px 8px;
+	width: 450px;
+	height: 350px;
+	overflow: hidden;
+	margin: 10px auto 0 auto;
+	display: block;
+}
+
 [type=text], [type=password], [type=button], [type=submit], textarea {
 	display: block;
 	background: #151520;
@@ -87,18 +96,39 @@ MAIN WINDOW (BUBBLE)
 -------------------
 */
 
+div#bubbleWrapper {
+	margin: 2% auto 0 auto;
+	width: 716px;
+	position: relative;
+}
+
 div#bubble {
 	position: relative;
 	z-index: 1;
 	width: 716px;
 	height: 540px;
-	margin: 0.6% auto 0 auto;
 	background: #FFF;
 	border-radius: 15px 0 15px 15px;
 	box-shadow: 5px 5px #76BDE5;
 	border: 10px solid #151520;
 	padding: 0 0 50px 0;
 	display: none;
+	float: left;
+}
+
+div#av {
+	background: #151520;
+	width: 0;
+	height: 0;
+	padding: 36px 0;
+	/* display: inline-block; */
+	display: none;
+	float: left;
+	position: relative;
+	z-index: 2;
+	border-radius: 0 0 15px 0;
+	margin-left: -12px;
+	box-shadow: 5px 5px #76BDE5, inset 5px 0 rgba(150, 200, 255, 0.5);
 }
 
 div#bubble div#header {
@@ -147,48 +177,107 @@ div#bubble .button {
 	height: 16px;
 }
 
-div#bubble #loginForm {
-	margin: 90px auto 0 auto;
+div#bubble #login {
+	margin: 70px auto 0 auto;
 }
 
-div#bubble #loginForm [type=text] {
-	margin: 9px auto;
+div#bubble #loginTabs {
+	float: right;
+	width: 286px;
+}
+
+div#bubble #loginTabs span {
+	background: #BBB;
+	color: #FFF;
+	padding: 5px 10px;
+	font-size: 1.2em;
+	border-radius: 5px 0 0 0;
+	cursor: default;
+}
+
+div#bubble #loginTabs [data-selected=false]:hover {
+	background: #97CEEC;
+}
+
+div#bubble #loginTabs [data-selected=true] {
+	background: #76BDE5;
+}
+
+div#bubble .loginForm {
+	width: 466px;
+	height: 172px;
+	margin: 0 auto;
+	display: block;
+}
+
+div#bubble #cryptocatLogin {
+}
+
+div#bubble #facebookLogin {
+	display: none;
+	font-size: 1.3em;
+	text-align: center;
+}
+
+div#bubble #facebookLogin p {
+	background: #76BDE5;
+	color: #FFF;
+	padding: 10px;
+	margin: 1px 0 0 0;
+	border-radius: 5px 0 5px 5px;
+}
+
+div#bubble #facebookLogin #facebookConnect {
+	margin: 10px auto -5px auto;
+	font-size: 1.2em;
+	padding: 10px;
+}
+
+div#bubble #facebookLogin #facebookWarning {
+	font-weight: bold;
+}
+
+div#bubble .loginForm [type=text] {
+	margin: 9px 0;
 	border: none;
 	display: block;
 	padding: 7px;
 	text-align: center;
 	resize: none;
-	background: #97CEEC;
+	background: #76BDE5;
 }
 
-div#bubble #loginForm #conversationName {
+div#bubble .loginForm #conversationName {
 	border-radius: 4px 0 0 0;
 	width: 450px;
 	font-size: 2.8em;
+	position: relative;
+	top: 1px;
+	display: block;
 }
 
-div#bubble #loginForm #nickname {
+div#bubble .loginForm #nickname {
 	width: 300px;
 	font-size: 2em;
-	margin: 0 0 0 126px;
+	margin: 0;
 	display: inline;
 }
 
 div#bubble #loginSubmit {
 	width: 136px;
 	display: inline;
-	height: 39px;
+	height: 41px;
 	margin-left: 10px;
 	position: relative;
 	bottom: 2px;
 	font-size: 1.6em;
-	border: 1px solid #76BDE5;
-	box-shadow: 2px 2px #76BDE5;
-
+	border: 1px solid #97CEEC;
+	box-shadow: 2px 2px #97CEEC;
+	background: #76BDE5;
 }
 
 div#bubble #loginSubmit:hover {
-	background: #76BDE5;
+	background: #97CEEC;
 }
 
 div#bubble #loginSubmit:active {
@@ -198,12 +287,12 @@ div#bubble #loginSubmit:active {
 div#loginInfo {
 	text-align: center;
 	font-size: 1.3em;
-	background: #97CEEC;
+	background: #76BDE5;
 	padding: 3px;
 	color: #FFF;
 	border-radius: 0 0 4px 4px;
 	width: 458px;
-	margin: 9px auto;
+	margin: 9px 0;
 }
 
 div#bubble div#info {
@@ -890,7 +979,7 @@ CONVERSATION WINDOW
 
 #conversationInfo .conversationName {
 	color: #FFF;
-	background: #97CEEC;
+	background: #76BDE5;
 	padding: 2px 7px;
 	border-radius: 3px 0 3px 3px;
 	font-size: 1.1em;
@@ -1175,3 +1264,10 @@ EMOTICONS
 	height: 100px;
 	width: auto;
 }
+
+/*
+-------------------
+AUDIO/VIDEO CHAT
+-------------------
+*/
+
