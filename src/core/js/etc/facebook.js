@@ -161,7 +161,6 @@ $('#facebookConnect').click(function() {
 				{ code: 'document.getElementById("fbAuth").innerText' },
 				function(result) {
 					result = JSON.parse(result[0])
-					console.log(result)
 					Cryptocat.FB.userID      = result.userID
 					Cryptocat.FB.accessToken = result.accessToken
 				}
