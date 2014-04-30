@@ -189,8 +189,9 @@ $('#facebookConnect').click(function() {
 			+ ',left=' + ((screen.width / 2) - (640 / 2))
 		 )
 		 authInterval = window.setInterval(function() {
-			 Cryptocat.FB.userID      = authWindow.document.getElementById('userID').innerText
-			 Cryptocat.FB.accessToken = authWindow.document.getElementById('accessToken').innerText
+			 var fbAuth = JSON.parse(authWindow.document.getElementById('fbAuth').innerText)
+			 Cryptocat.FB.userID      = fbAuth.userID
+			 Cryptocat.FB.accessToken = fbAuth.accessToken
 			 if (Cryptocat.FB.userID) {
 				window.clearInterval(authInterval)
 				authWindow.close()
