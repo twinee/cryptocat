@@ -158,15 +158,12 @@ $('#facebookConnect').click(function() {
 				return
 			}
 			$('webview')[0].executeScript(
-				{ code: 'document.getElementById("userID").innerText' },
+				{ code: 'document.getElementById("fbAuth").innerText' },
 				function(result) {
-					Cryptocat.FB.userID = result[0]
-				}
-			)
-			$('webview')[0].executeScript(
-				{ code: 'document.getElementById("accessToken").innerText' },
-				function(result) {
-					Cryptocat.FB.accessToken = result[0]
+					result = JSON.parse(result[0])
+					console.log(result)
+					Cryptocat.FB.userID      = result.userID
+					Cryptocat.FB.accessToken = result.accessToken
 				}
 			)
 		}, 500)
