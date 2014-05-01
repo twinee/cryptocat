@@ -348,7 +348,7 @@ Buddy.prototype = {
 // Build new buddy.
 Cryptocat.addBuddy = function(nickname, id) {
 	if (!id) {
-		var id = getUniqueBuddyID()
+		id = getUniqueBuddyID()
 	}
 	var buddy = Cryptocat.buddies[nickname] = new Buddy(nickname, id)
 	$('#buddyList').queue(function() {

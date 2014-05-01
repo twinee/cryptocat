@@ -72,7 +72,8 @@
 		"Tinycon":      true,
 		"chrome":       true,
 		"$build":       true,
-		"$pres":        true
+		"$pres":        true,
+		"$msg":         true
 	}
 
 }
