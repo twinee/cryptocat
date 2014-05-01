@@ -290,8 +290,8 @@ Cryptocat.removeAuthAndWarn = function(nickname) {
 }
 
 // Buddy constructor
-var Buddy = function(nickname) {
-	this.id = getUniqueBuddyID()
+var Buddy = function(nickname, id) {
+	this.id             = id
 	this.ignored        = false
 	this.fingerprint    = null
 	this.authenticated  = false
@@ -346,8 +346,11 @@ Buddy.prototype = {
 }
 
 // Build new buddy.
-Cryptocat.addBuddy = function(nickname) {
-	var buddy = Cryptocat.buddies[nickname] = new Buddy(nickname)
+Cryptocat.addBuddy = function(nickname, id) {
+	if (!id) {
+		var id = getUniqueBuddyID()
+	}
+	var buddy = Cryptocat.buddies[nickname] = new Buddy(nickname, id)
 	$('#buddyList').queue(function() {
 		var buddyTemplate = Mustache.render(Cryptocat.templates.buddy, {
 			buddyID: buddy.id,
@@ -397,9 +400,20 @@ Cryptocat.removeBuddy = function(nickname) {
 	}
 }
 
+// Get a buddy's nickname from their ID.
+Cryptocat.getBuddyNicknameByID = function(id) {
+	for (var i in Cryptocat.buddies) {
+		if (Cryptocat.buddies.hasOwnProperty(i)) {
+			if (Cryptocat.buddies[i].id === id) {
+				return i
+			}
+		}
+	}
+}
+
 // Bind buddy click actions.
 Cryptocat.onBuddyClick = function(buddyElement) {
-	var nickname = getNicknameByID(buddyElement.attr('data-id'))
+	var nickname = Cryptocat.getBuddyNicknameByID(buddyElement.attr('data-id'))
 	buddyElement.removeClass('newMessage')
 	if (buddyElement.prev().attr('id') === 'currentConversation') {
 		$('#userInputText').focus()
@@ -636,17 +650,6 @@ var getUniqueBuddyID = function() {
 		}
 	}
 	return buddyID
-}
-
-// Get a buddy's nickname from their ID.
-var getNicknameByID = function(id) {
-	for (var i in Cryptocat.buddies) {
-		if (Cryptocat.buddies.hasOwnProperty(i)) {
-			if (Cryptocat.buddies[i].id === id) {
-				return i
-			}
-		}
-	}
 }
 
 // Simply shortens a string `string` to length `length.
@@ -1034,36 +1037,6 @@ var openBuddyMenu = function(nickname) {
 	})
 }
 
-// Prepare our own encryption keys etc. before connecting for the first time.
-var prepareKeysAndConnect = function() {
-	if (Cryptocat.audioNotifications) {
-		window.setTimeout(function() {
-			Cryptocat.sounds.keygenLoop.loop = true
-			Cryptocat.sounds.keygenLoop.play()
-		}, 800)
-	}
-	// Create DSA key for OTR.
-	DSA.createInWebWorker({
-		path: 'js/workers/dsa.js',
-		seed: Cryptocat.random.generateSeed
-	}, function (key) {
-		Cryptocat.me.otrKey = key
-		// Key storage currently disabled as we are not yet sure if this is safe to do.
-		//	Cryptocat.storage.setItem('myKey', JSON.stringify(Cryptocat.me.otrKey))
-		$('#loginInfo').text(Cryptocat.locale['loginMessage']['connecting'])
-		Cryptocat.xmpp.connect()
-	})
-	// Key storage currently disabled as we are not yet sure if this is safe to do.
-	// Cryptocat.storage.setItem('multiPartyKey', Cryptocat.multiParty.genPrivateKey())
-	//else {
-	Cryptocat.me.mpPrivateKey = Cryptocat.multiParty.genPrivateKey()
-	//}
-	Cryptocat.me.mpPublicKey = Cryptocat.multiParty.genPublicKey(
-		Cryptocat.me.mpPrivateKey
-	)
-	Cryptocat.me.mpFingerprint = Cryptocat.multiParty.genFingerprint()
-}
-
 // Check for nickname completion.
 // Called when pressing tab in user input.
 var nicknameCompletion = function(input) {
@@ -1174,8 +1147,9 @@ $('#userInput').submit(function() {
 	$('#userInputText').val('')
 	if (!message.length) { return false }
 	if (Cryptocat.me.currentBuddy !== 'groupChat') {
+		console.log(1)
 		Cryptocat.buddies[
-			getNicknameByID(Cryptocat.me.currentBuddy)
+			Cryptocat.getBuddyNicknameByID(Cryptocat.me.currentBuddy)
 		].otr.sendMsg(message)
 	}
 	else if (Object.keys(Cryptocat.buddies).length) {
@@ -1226,7 +1200,7 @@ $('#userInputText').keydown(function(e) {
 		type = 'groupchat'
 	}
 	else {
-		destination = getNicknameByID(Cryptocat.me.currentBuddy)
+		destination = Cryptocat.getBuddyNicknameByID(Cryptocat.me.currentBuddy)
 		type = 'chat'
 	}
 	if (!Cryptocat.me.typing) {
@@ -1311,31 +1285,9 @@ $('#cryptocatLogin').submit(function() {
 	// If no encryption keys, prepare keys before connecting.
 	else if (!Cryptocat.me.otrKey) {
 		$('#loginSubmit,#conversationName,#nickname').attr('readonly', 'readonly')
-		var progressForm = Mustache.render(Cryptocat.templates.generatingKeys, {
-			text: Cryptocat.locale['loginMessage']['generatingKeys']
+		Cryptocat.xmpp.showKeyPreparationDialog(function() {
+			Cryptocat.xmpp.connect()
 		})
-		if (Cryptocat.audioNotifications) { Cryptocat.sounds.keygenStart.play() }
-		Cryptocat.dialogBox(progressForm, {
-			height: 250,
-			closeable: false,
-			onAppear: prepareKeysAndConnect()
-		})
-		if (Cryptocat.locale['language'] === 'en') {
-			$('#progressInfo').append(
-				Mustache.render(Cryptocat.templates.catFact, {
-					catFact: CatFacts.getFact()
-				})
-			)
-		}
-		$('#progressInfo').append(
-			'<div id="progressBar"><div id="fill"></div></div>'
-		)
-		CatFacts.interval = window.setInterval(function() {
-			$('#interestingFact').fadeOut(function() {
-				$(this).text(CatFacts.getFact()).fadeIn()
-			})
-		}, 9000)
-		$('#fill').animate({'width': '100%', 'opacity': '1'}, 14000, 'linear')
 	}
 	// If everything is okay, then log in anonymously.
 	else {

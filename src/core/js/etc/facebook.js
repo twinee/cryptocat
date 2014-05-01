@@ -17,8 +17,6 @@ Cryptocat.FB.verifyLogin = function() {
 		Cryptocat.FB.userID.match(/^\d+$/) &&
 		Cryptocat.FB.accessToken.match(/^\w+$/)
 	) {
-		console.log('Got user ID ' + Cryptocat.FB.userID)
-		console.log('Got access token ' + Cryptocat.FB.accessToken)
 		Cryptocat.xmpp.connection = new Strophe.Connection('https://crypto.cat/http-node/')
 		Cryptocat.xmpp.connection.facebookConnect(
 			Cryptocat.FB.userID + '@chat.facebook.com/cryptocat',
@@ -91,6 +89,7 @@ Cryptocat.FB.onConnected = function() {
 			'access_token': Cryptocat.FB.accessToken
 		},
 		function(data) {
+			Cryptocat.me.nickname = data.name
 			document.title = '[' + data.name + '] Cryptocat'
 			$('.conversationName').text(data.name)
 		}
@@ -105,9 +104,8 @@ Cryptocat.FB.onMessage = function(message) {
 Cryptocat.FB.onPresence = function(presence) {
 	console.log(presence)
 	var from = $(presence).attr('from').match(/\d+/)[0]
-	console.log(from)
 	if (Cryptocat.FB.friends.hasOwnProperty(from)) {
-		Cryptocat.addBuddy(Cryptocat.FB.friends[from])
+		Cryptocat.addBuddy(Cryptocat.FB.friends[from], from)
 	}
 	return true
 }
@@ -143,6 +141,7 @@ $('#facebookConnect').click(function() {
 		+ '&redirect_uri=https://crypto.cat/fbAuth/'
 		+ '&close=true&display=popup'
 	var authInterval
+	var readyToConnect = false
 	// Chrome-specific schwaza
 	if (
 		navigator.userAgent.match('Chrome') &&
@@ -153,8 +152,8 @@ $('#facebookConnect').click(function() {
 				Cryptocat.FB.userID &&
 				Cryptocat.FB.accessToken
 			) {
+				readyToConnect = true
 				$('#dialogBoxClose').click()
-				Cryptocat.FB.verifyLogin()
 				return
 			}
 			$('webview')[0].executeScript(
@@ -175,6 +174,10 @@ $('#facebookConnect').click(function() {
 				},
 				onClose: function() {
 					clearInterval(authInterval)
+					if (!readyToConnect) { return }
+					Cryptocat.xmpp.showKeyPreparationDialog(function() {
+						Cryptocat.FB.verifyLogin()
+					})
 				}
 			}
 		)

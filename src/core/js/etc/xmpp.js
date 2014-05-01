@@ -16,7 +16,67 @@ Cryptocat.xmpp.relay = Cryptocat.xmpp.defaultRelay
 $(window).ready(function() {
 'use strict';
 
-// connect anonymously and join conversation.
+// Prepares necessary encryption key operations before XMPP connection.
+// Shows a progress bar (and cute cat facts!) while doing so.
+Cryptocat.xmpp.showKeyPreparationDialog = function(callback) {
+	var progressForm = Mustache.render(Cryptocat.templates.generatingKeys, {
+		text: Cryptocat.locale['loginMessage']['generatingKeys']
+	})
+	if (Cryptocat.audioNotifications) { Cryptocat.sounds.keygenStart.play() }
+	Cryptocat.dialogBox(progressForm, {
+		height: 250,
+		closeable: false,
+		onAppear: Cryptocat.xmpp.prepareKeys(callback)
+	})
+	if (Cryptocat.locale['language'] === 'en') {
+		$('#progressInfo').append(
+			Mustache.render(Cryptocat.templates.catFact, {
+				catFact: CatFacts.getFact()
+			})
+		)
+	}
+	$('#progressInfo').append(
+		'<div id="progressBar"><div id="fill"></div></div>'
+	)
+	CatFacts.interval = window.setInterval(function() {
+		$('#interestingFact').fadeOut(function() {
+			$(this).text(CatFacts.getFact()).fadeIn()
+		})
+	}, 9000)
+	$('#fill').animate({'width': '100%', 'opacity': '1'}, 14000, 'linear')
+}
+
+// See above.
+Cryptocat.xmpp.prepareKeys = function(callback) {
+	if (Cryptocat.audioNotifications) {
+		window.setTimeout(function() {
+			Cryptocat.sounds.keygenLoop.loop = true
+			Cryptocat.sounds.keygenLoop.play()
+		}, 800)
+	}
+	// Create DSA key for OTR.
+	DSA.createInWebWorker({
+		path: 'js/workers/dsa.js',
+		seed: Cryptocat.random.generateSeed
+	}, function(key) {
+		Cryptocat.me.otrKey = key
+		// Key storage currently disabled as we are not yet sure if this is safe to do.
+		//	Cryptocat.storage.setItem('myKey', JSON.stringify(Cryptocat.me.otrKey))
+		$('#loginInfo').text(Cryptocat.locale['loginMessage']['connecting'])
+		if (callback) { callback() }
+	})
+	// Key storage currently disabled as we are not yet sure if this is safe to do.
+	// Cryptocat.storage.setItem('multiPartyKey', Cryptocat.multiParty.genPrivateKey())
+	//else {
+	Cryptocat.me.mpPrivateKey = Cryptocat.multiParty.genPrivateKey()
+	//}
+	Cryptocat.me.mpPublicKey = Cryptocat.multiParty.genPublicKey(
+		Cryptocat.me.mpPrivateKey
+	)
+	Cryptocat.me.mpFingerprint = Cryptocat.multiParty.genFingerprint()
+}
+
+// Connect anonymously and join conversation.
 Cryptocat.xmpp.connect = function() {
 	Cryptocat.me.conversation = Strophe.xmlescape($('#conversationName').val())
 	Cryptocat.me.nickname = Strophe.xmlescape($('#nickname').val())
@@ -38,18 +98,7 @@ Cryptocat.xmpp.connect = function() {
 					if (Cryptocat.xmpp.onPresence(presence)) { return true }
 				}
 			)
-			$('#fill').stop().animate({
-				'width': '100%', 'opacity': '1'
-			}, 250, 'linear', function() {
-				window.setTimeout(function() {
-					$('#dialogBoxClose').click()
-				}, 200)
-			})
-			document.title = Cryptocat.me.nickname + '@' + Cryptocat.me.conversation
-			$('.conversationName').text(document.title)
-			window.setTimeout(function() {
-				Cryptocat.xmpp.onConnected()
-			}, 400)
+			Cryptocat.xmpp.onConnected()
 		}
 		else if ((status === Strophe.Status.CONNFAIL) || (status === Strophe.Status.DISCONNECTED)) {
 			if (Cryptocat.loginError) {
@@ -61,28 +110,39 @@ Cryptocat.xmpp.connect = function() {
 
 // Executes on successfully completed XMPP connection.
 Cryptocat.xmpp.onConnected = function() {
+	document.title = Cryptocat.me.nickname + '@' + Cryptocat.me.conversation
+	$('.conversationName').text(document.title)
 	clearInterval(CatFacts.interval)
 	Cryptocat.storage.setItem('myNickname', Cryptocat.me.nickname)
 	$('#buddy-groupChat').attr('status', 'online')
 	$('#loginInfo').text('✓')
-	$('#info').fadeOut(200)
-	$('#loginOptions,#languages,#customServerDialog,#version,#logoText,#loginInfo').fadeOut(200)
-	$('#header').animate({'background-color': '#151520'})
-	$('.logo').animate({'margin': '-11px 5px 0 0'})
-	$('#login').fadeOut(200, function() {
-		$('#conversationInfo').fadeIn()
-		$('#buddy-groupChat').click(function() {
-			Cryptocat.onBuddyClick($(this))
-		})
-		$('#buddy-groupChat').click()
-		$('#conversationWrapper').fadeIn()
-		$('#optionButtons').fadeIn()
-		$('#footer').delay(200).animate({'height': 60}, function() {
-			$('#userInput').fadeIn(200, function() {
-				$('#userInputText').focus()
+	$('#fill').stop().animate({
+		'width': '100%', 'opacity': '1'
+	}, 250, 'linear', function() {
+		window.setTimeout(function() {
+			$('#dialogBoxClose').click()
+		}, 150)
+		window.setTimeout(function() {
+			$('#loginOptions,#languages,#customServerDialog').fadeOut(200)
+			$('#version,#logoText,#loginInfo,#info').fadeOut(200)
+			$('#header').animate({'background-color': '#151520'})
+			$('.logo').animate({'margin': '-11px 5px 0 0'})
+			$('#login').fadeOut(200, function() {
+				$('#conversationInfo').fadeIn()
+				$('#buddy-groupChat').click(function() {
+					Cryptocat.onBuddyClick($(this))
+				})
+				$('#buddy-groupChat').click()
+				$('#conversationWrapper').fadeIn()
+				$('#optionButtons').fadeIn()
+				$('#footer').delay(200).animate({'height': 60}, function() {
+					$('#userInput').fadeIn(200, function() {
+						$('#userInputText').focus()
+					})
+				})
+				$('#buddyWrapper').slideDown()
 			})
-		})
-		$('#buddyWrapper').slideDown()
+		}, 400)
 	})
 	Cryptocat.loginError = true
 }
