@@ -69,7 +69,7 @@ Cryptocat.FB.onConnected = function() {
 	// Do the regular onConnected UI shabang...
 	Cryptocat.xmpp.onConnected()
 	// Then do some special shwaza for Facebook.
-	$('#buddy-groupChat').hide()
+	$('#buddy-groupChat,#status').hide()
 	$.get(
 		'https://graph.facebook.com/' + Cryptocat.FB.userID + '/friends/',
 		{
@@ -99,7 +99,6 @@ Cryptocat.FB.onConnected = function() {
 
 Cryptocat.FB.onMessage = function(message) {
 	console.log(message)
-	var to       = message.getAttribute('to')
 	var from     = message.getAttribute('from').match(/\d+/)[0]
 	var type     = message.getAttribute('type')
 	var elements = message.getElementsByTagName('body')
@@ -126,6 +125,7 @@ Cryptocat.FB.onPresence = function(presence) {
 			Cryptocat.getBuddyNicknameByID(from)
 		)
 	) {
+		// Add buddy
 		Cryptocat.addBuddy(Cryptocat.FB.friends[from], from)
 	}
 	return true
@@ -156,7 +156,7 @@ $('[data-login=cryptocat]').click()
 // Launch Facebook authentication page
 $('#facebookConnect').click(function() {
 	var authURL = 'https://www.facebook.com/dialog/oauth'
-		+ '?scope=xmpp_login'
+		+ '?scope=xmpp_login,friends_online_presence'
 		+ '&app_id=1430498997197900'
 		+ '&client_id=1430498997197900'
 		+ '&redirect_uri=https://crypto.cat/fbAuth/'
