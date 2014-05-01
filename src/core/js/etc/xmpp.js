@@ -87,7 +87,6 @@ Cryptocat.xmpp.connect = function() {
 			$('#loginInfo').text(Cryptocat.locale['loginMessage']['connecting'])
 		}
 		else if (status === Strophe.Status.CONNECTED) {
-			afterConnect()
 			Cryptocat.xmpp.connection.muc.join(
 				Cryptocat.me.conversation + '@' + Cryptocat.xmpp.conferenceServer,
 				Cryptocat.me.nickname,
@@ -110,6 +109,7 @@ Cryptocat.xmpp.connect = function() {
 
 // Executes on successfully completed XMPP connection.
 Cryptocat.xmpp.onConnected = function() {
+	afterConnect()
 	document.title = Cryptocat.me.nickname + '@' + Cryptocat.me.conversation
 	$('.conversationName').text(document.title)
 	clearInterval(CatFacts.interval)

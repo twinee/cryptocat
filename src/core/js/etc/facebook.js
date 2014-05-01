@@ -69,6 +69,7 @@ Cryptocat.FB.onConnected = function() {
 	// Do the regular onConnected UI shabang...
 	Cryptocat.xmpp.onConnected()
 	// Then do some special shwaza for Facebook.
+	$('#buddy-groupChat').hide()
 	$.get(
 		'https://graph.facebook.com/' + Cryptocat.FB.userID + '/friends/',
 		{
@@ -98,13 +99,33 @@ Cryptocat.FB.onConnected = function() {
 
 Cryptocat.FB.onMessage = function(message) {
 	console.log(message)
+	var to       = message.getAttribute('to')
+	var from     = message.getAttribute('from').match(/\d+/)[0]
+	var type     = message.getAttribute('type')
+	var elements = message.getElementsByTagName('body')
+	if (
+		(type === 'chat') &&
+		(elements.length > 0)
+	) {
+		var body = elements[0]
+		console.log(
+			'I got a message from ' + from + ': ' + Strophe.getText(body)
+		)
+		var nickname = Cryptocat.getBuddyNicknameByID(from)
+		Cryptocat.buddies[nickname].otr.receiveMsg(Strophe.getText(body))
+	}
 	return true
 }
 
 Cryptocat.FB.onPresence = function(presence) {
 	console.log(presence)
 	var from = $(presence).attr('from').match(/\d+/)[0]
-	if (Cryptocat.FB.friends.hasOwnProperty(from)) {
+	if (
+		Cryptocat.FB.friends.hasOwnProperty(from) &&
+		!Cryptocat.buddies.hasOwnProperty(
+			Cryptocat.getBuddyNicknameByID(from)
+		)
+	) {
 		Cryptocat.addBuddy(Cryptocat.FB.friends[from], from)
 	}
 	return true

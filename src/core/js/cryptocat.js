@@ -1147,7 +1147,6 @@ $('#userInput').submit(function() {
 	$('#userInputText').val('')
 	if (!message.length) { return false }
 	if (Cryptocat.me.currentBuddy !== 'groupChat') {
-		console.log(1)
 		Cryptocat.buddies[
 			Cryptocat.getBuddyNicknameByID(Cryptocat.me.currentBuddy)
 		].otr.sendMsg(message)
