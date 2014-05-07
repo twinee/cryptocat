@@ -19,6 +19,20 @@ $(window).ready(function() {
 // Prepares necessary encryption key operations before XMPP connection.
 // Shows a progress bar (and cute cat facts!) while doing so.
 Cryptocat.xmpp.showKeyPreparationDialog = function(callback) {
+	// Key storage currently disabled as we are not yet sure if this is safe to do.
+	// Cryptocat.storage.setItem('multiPartyKey', Cryptocat.multiParty.genPrivateKey())
+	//else {
+	Cryptocat.me.mpPrivateKey = Cryptocat.multiParty.genPrivateKey()
+	//}
+	Cryptocat.me.mpPublicKey = Cryptocat.multiParty.genPublicKey(
+		Cryptocat.me.mpPrivateKey
+	)
+	Cryptocat.me.mpFingerprint = Cryptocat.multiParty.genFingerprint()
+	// If we already have keys, just skip to the callback.
+	if (Cryptocat.me.otrKey) {
+		callback()
+		return
+	}
 	var progressForm = Mustache.render(Cryptocat.templates.generatingKeys, {
 		text: Cryptocat.locale['loginMessage']['generatingKeys']
 	})
@@ -62,18 +76,8 @@ Cryptocat.xmpp.prepareKeys = function(callback) {
 		Cryptocat.me.otrKey = key
 		// Key storage currently disabled as we are not yet sure if this is safe to do.
 		//	Cryptocat.storage.setItem('myKey', JSON.stringify(Cryptocat.me.otrKey))
-		$('#loginInfo').text(Cryptocat.locale['loginMessage']['connecting'])
 		if (callback) { callback() }
 	})
-	// Key storage currently disabled as we are not yet sure if this is safe to do.
-	// Cryptocat.storage.setItem('multiPartyKey', Cryptocat.multiParty.genPrivateKey())
-	//else {
-	Cryptocat.me.mpPrivateKey = Cryptocat.multiParty.genPrivateKey()
-	//}
-	Cryptocat.me.mpPublicKey = Cryptocat.multiParty.genPublicKey(
-		Cryptocat.me.mpPrivateKey
-	)
-	Cryptocat.me.mpFingerprint = Cryptocat.multiParty.genFingerprint()
 }
 
 // Connect anonymously and join conversation.
@@ -82,7 +86,10 @@ Cryptocat.xmpp.connect = function() {
 	Cryptocat.me.nickname = Strophe.xmlescape($('#nickname').val())
 	Cryptocat.xmpp.connection = new Strophe.Connection(Cryptocat.xmpp.relay)
 	Cryptocat.xmpp.connection.connect(Cryptocat.xmpp.domain, null, function(status) {
-		if (status === Strophe.Status.CONNECTING) {
+		if (
+			(status === Strophe.Status.CONNECTING) &&
+			(Cryptocat.me.login === 'cryptocat')
+		) {
 			$('#loginInfo').animate({'background-color': '#97CEEC'}, 200)
 			$('#loginInfo').text(Cryptocat.locale['loginMessage']['connecting'])
 		}
@@ -115,35 +122,36 @@ Cryptocat.xmpp.onConnected = function() {
 	afterConnect()
 	clearInterval(CatFacts.interval)
 	$('#buddy-groupChat').attr('status', 'online')
-	$('#loginInfo').text('✓')
+	if (Cryptocat.me.login === 'cryptocat') {
+		$('#loginInfo').text('✓')
+	}
 	$('#fill').stop().animate({
 		'width': '100%', 'opacity': '1'
-	}, 250, 'linear', function() {
-		window.setTimeout(function() {
-			$('#dialogBoxClose').click()
-		}, 150)
-		window.setTimeout(function() {
-			$('#loginOptions,#languages,#customServerDialog').fadeOut(200)
-			$('#version,#logoText,#loginInfo,#info').fadeOut(200)
-			$('#header').animate({'background-color': '#151520'})
-			$('.logo').animate({'margin': '-11px 5px 0 0'})
-			$('#login').fadeOut(200, function() {
-				$('#conversationInfo').fadeIn()
-				$('#buddy-groupChat').click(function() {
-					Cryptocat.onBuddyClick($(this))
-				})
-				$('#buddy-groupChat').click()
-				$('#conversationWrapper').fadeIn()
-				$('#optionButtons').fadeIn()
-				$('#footer').delay(200).animate({'height': 60}, function() {
-					$('#userInput').fadeIn(200, function() {
-						$('#userInputText').focus()
-					})
-				})
-				$('#buddyWrapper').slideDown()
+	}, 250, 'linear')
+	window.setTimeout(function() {
+		$('#dialogBoxClose').click()
+	}, 400)
+	window.setTimeout(function() {
+		$('#loginOptions,#languages,#customServerDialog').fadeOut(200)
+		$('#version,#logoText,#loginInfo,#info').fadeOut(200)
+		$('#header').animate({'background-color': '#151520'})
+		$('.logo').animate({'margin': '-11px 5px 0 0'})
+		$('#login').fadeOut(200, function() {
+			$('#conversationInfo').fadeIn()
+			$('#buddy-groupChat').click(function() {
+				Cryptocat.onBuddyClick($(this))
 			})
-		}, 400)
-	})
+			$('#buddy-groupChat').click()
+			$('#conversationWrapper').fadeIn()
+			$('#optionButtons').fadeIn()
+			$('#footer').delay(200).animate({'height': 60}, function() {
+				$('#userInput').fadeIn(200, function() {
+					$('#userInputText').focus()
+				})
+			})
+			$('#buddyWrapper').slideDown()
+		})
+	}, 800)
 	Cryptocat.loginError = true
 }
 

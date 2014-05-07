@@ -535,10 +535,19 @@ Cryptocat.displayInfo = function(nickname) {
 // Executes on user logout.
 Cryptocat.logout = function() {
 	Cryptocat.loginError = false
-	Cryptocat.xmpp.connection.muc.leave(
-		Cryptocat.me.conversation + '@' + Cryptocat.xmpp.conferenceServer
-	)
+	if (Cryptocat.me.login === 'cryptocat') {
+		Cryptocat.xmpp.connection.muc.leave(
+			Cryptocat.me.conversation + '@'
+			+ Cryptocat.xmpp.conferenceServer
+		)
+		$('#loginInfo').text(Cryptocat.locale['loginMessage']['thankYouUsing'])
+		$('#loginInfo').animate({'background-color': '#97CEEC'}, 200)
+	}
+	if (Cryptocat.me.login === 'facebook') {
+		clearInterval(Cryptocat.FB.statusInterval)
+	}
 	Cryptocat.xmpp.connection.disconnect()
+	Cryptocat.xmpp.connection = null
 	document.title = 'Cryptocat'
 	$('#conversationInfo,#optionButtons').fadeOut()
 	$('#header').animate({'background-color': 'transparent'})
@@ -570,7 +579,6 @@ Cryptocat.logout = function() {
 				}
 			}
 			conversationBuffers = {}
-			Cryptocat.xmpp.connection = null
 		})
 	})
 }
@@ -1111,8 +1119,6 @@ $('#audio').click(function() {
 
 // Logout button.
 $('#logout').click(function() {
-	$('#loginInfo').text(Cryptocat.locale['loginMessage']['thankYouUsing'])
-	$('#loginInfo').animate({'background-color': '#97CEEC'}, 200)
 	Cryptocat.logout()
 })
 
@@ -1256,18 +1262,11 @@ $('#cryptocatLogin').submit(function() {
 		Cryptocat.loginFail(Cryptocat.locale['loginMessage']['nicknameAlphanumeric'])
 		$('#nickname').select()
 	}
-	// If no encryption keys, prepare keys before connecting.
-	else if (!Cryptocat.me.otrKey) {
-		$('#loginSubmit,#conversationName,#nickname').attr('readonly', 'readonly')
-		Cryptocat.xmpp.showKeyPreparationDialog(function() {
-			Cryptocat.xmpp.connect()
-		})
-	}
-	// If everything is okay, then log in anonymously.
-	else {
-		$('#loginSubmit,#conversationName,#nickname').attr('readonly', 'readonly')
+	// Prepare keys and connect.
+	$('#loginSubmit,#conversationName,#nickname').attr('readonly', 'readonly')
+	Cryptocat.xmpp.showKeyPreparationDialog(function() {
 		Cryptocat.xmpp.connect()
-	}
+	})
 	return false
 })
 

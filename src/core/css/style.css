@@ -505,7 +505,7 @@ BUDDY LIST
 }
 
 .buddy[status=away] span {
-	color: #778;
+	color: #aab;
 }
 
 .buddy[status=offline] span {

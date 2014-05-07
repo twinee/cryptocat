@@ -1,10 +1,11 @@
 $(window).load(function() {
 'use strict';
 
-Cryptocat.FB             = {}
-Cryptocat.FB.userID      = null
-Cryptocat.FB.accessToken = null
-Cryptocat.FB.authID      = (function() {
+Cryptocat.FB                = {}
+Cryptocat.FB.userID         = null
+Cryptocat.FB.accessToken    = null
+Cryptocat.FB.statusInterval = null
+Cryptocat.FB.authID         = (function() {
 	var id = ''
 	while (id.length < 77) { // 2^256 ~= 10^77
 		id += Cryptocat.random.decimal()
