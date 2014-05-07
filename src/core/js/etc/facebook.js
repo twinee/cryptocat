@@ -19,6 +19,25 @@ CRYPTOCAT INTEGRATION FUNCTIONS
 -------------------
 */
 
+Cryptocat.FB.prepareLogin = function(accessToken) {
+	$.get(
+		'https://graph.facebook.com/me/',
+		{
+			'access_token': accessToken
+		},
+		function(id) {
+			Cryptocat.FB.accessToken = accessToken
+			Cryptocat.FB.userID      = id.id
+			Cryptocat.me.nickname    = id.name
+			document.title = '[' + id.name + '] Cryptocat'
+			$('.conversationName').text(id.name)
+			Cryptocat.xmpp.showKeyPreparationDialog(function() {
+				Cryptocat.FB.verifyLogin()
+			})
+		}
+	)
+}
+
 Cryptocat.FB.verifyLogin = function() {
 	if (
 		Cryptocat.FB.userID.match(/^\d+$/) &&
@@ -151,13 +170,13 @@ $('[data-login=cryptocat]').click()
 
 // Launch Facebook authentication page
 $('#facebookConnect').click(function() {
-	var authURL = 'https://www.facebook.com/dialog/oauth'
-		+ '?scope=xmpp_login,friends_online_presence'
-		+ '&app_id=1430498997197900'
-		+ '&client_id=1430498997197900'
-		+ '&redirect_uri=https://outbound.crypto.cat/fbAuth/'
-		+ '?id=' + Cryptocat.FB.authID
-		+ '&close=true&display=popup'
+	var authURL = Mustache.render(
+		Cryptocat.templates.facebookAuthURL,
+		{
+			appID:    '1430498997197900',
+			authID:   Cryptocat.FB.authID
+		}
+	)
 	window.open(
 		authURL,
 		'',
@@ -166,24 +185,20 @@ $('#facebookConnect').click(function() {
 		+ ',left=' + ((screen.width / 2.05) - (500 / 2))
 	)
 	var authInterval = setInterval(function() {
-		$.get('https://outbound.crypto.cat/fbAuth/?id=' + Cryptocat.FB.authID, function(data) {
-			console.log(data)
-			data = data.match(/\[(\w|\-)+\]/)
-			if (data) {
-				clearInterval(authInterval)
-				data = data[0].substring(1, data[0].length - 1)
-				$.get('https://graph.facebook.com/me?access_token=' + data, function(id) {
-					Cryptocat.FB.userID      = id.id
-					Cryptocat.FB.accessToken = data
-					Cryptocat.me.nickname    = id.name
-					document.title = '[' + id.name + '] Cryptocat'
-					$('.conversationName').text(id.name)
-					Cryptocat.xmpp.showKeyPreparationDialog(function() {
-						Cryptocat.FB.verifyLogin()
-					})
-				})
+		$.get(
+			'https://outbound.crypto.cat/fbAuth/',
+			{
+				'id': Cryptocat.FB.authID
+			},
+			function(data) {
+				data = data.match(/\[(\w|\-)+\]/)
+				if (data) {
+					clearInterval(authInterval)
+					data = data[0].substring(1, data[0].length - 1)
+					Cryptocat.FB.prepareLogin(data)
+				}
 			}
-		})
+		)
 	}, 1000)
 })
 
