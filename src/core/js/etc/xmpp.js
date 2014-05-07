@@ -287,14 +287,12 @@ Cryptocat.xmpp.sendPublicKey = function(nickname) {
 
 // Send your current status to the XMPP server.
 Cryptocat.xmpp.sendStatus = function() {
+        var status = ''
 	if (Cryptocat.xmpp.currentStatus === 'away') {
-		Cryptocat.xmpp.connection.muc.setStatus(Cryptocat.me.conversation + '@'
-		+ Cryptocat.xmpp.conferenceServer, Cryptocat.me.nickname, 'away', 'away')
+                status = 'away'
 	}
-	else {
-		Cryptocat.xmpp.connection.muc.setStatus(Cryptocat.me.conversation + '@'
-		+ Cryptocat.xmpp.conferenceServer, Cryptocat.me.nickname, '', '')
-	}
+        Cryptocat.xmpp.connection.muc.setStatus(Cryptocat.me.conversation + '@'
+        + Cryptocat.xmpp.conferenceServer, Cryptocat.me.nickname, status, status)
 }
 
 // Executed (manually) after connection.
