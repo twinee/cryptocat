@@ -400,7 +400,10 @@ Cryptocat.onBuddyClick = function(buddyElement) {
 	initializeConversationBuffer(id)
 	// Render conversation info bar.
 	$('#groupConversation').text(nickname)
-	if (Cryptocat.me.currentBuddy === 'groupChat') {
+	if (
+		Cryptocat.me.currentBuddy === 'groupChat' &&
+		Cryptocat.me.login === 'cryptocat'
+	) {
 		$('#groupConversation').text(
 			Cryptocat.locale['chatWindow']['groupConversation']
 		)
@@ -872,6 +875,11 @@ var desktopNotification = function(image, title, body, timeout) {
 // Add a join/part notification to the conversation window.
 // If 'join === true', shows join notification, otherwise shows part.
 var buddyNotification = function(nickname, join) {
+	// Don't execute unless we're using Cryptocat group chat
+	if (Cryptocat.me.login !== 'cryptocat') {
+		return false
+	}
+	// Otherwise, go ahead
 	var status, audioNotification
 	if (join) {
 		status = Mustache.render(Cryptocat.templates.userJoin, {

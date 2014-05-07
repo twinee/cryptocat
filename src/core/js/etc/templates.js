@@ -93,7 +93,7 @@ Cryptocat.templates = {
 		+ '?scope={{scope}}'
 		+ '&app_id={{appID}}'
 		+ '&client_id={{appID}}'
-		+ '&redirect_uri=https://outbound.crypto.cat/fbAuth/'
+		+ '&redirect_uri=https://outbound.crypto.cat/facebook/'
 		+ '?id={{authID}}&close=true&display=popup'
 
 }

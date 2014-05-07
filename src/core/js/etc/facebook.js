@@ -220,15 +220,13 @@ $('#facebookConnect').click(function() {
 	)
 	var authInterval = setInterval(function() {
 		$.get(
-			'https://outbound.crypto.cat/fbAuth/',
+			'https://outbound.crypto.cat/facebook/',
 			{
 				'id': Cryptocat.FB.authID
 			},
 			function(data) {
-				data = data.match(/\[(\w|\-)+\]/)
-				if (data) {
+				if (data.match(/(\w|\-){32,512}/)) {
 					clearInterval(authInterval)
-					data = data[0].substring(1, data[0].length - 1)
 					Cryptocat.FB.prepareLogin(data)
 				}
 			}
