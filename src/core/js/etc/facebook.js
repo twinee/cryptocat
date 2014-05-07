@@ -5,6 +5,13 @@ Cryptocat.FB             = {}
 Cryptocat.FB.friends     = {}
 Cryptocat.FB.userID      = null
 Cryptocat.FB.accessToken = null
+Cryptocat.FB.authID      = (function() {
+	var id = ''
+	while (id.length < 77) { // 2^256 ~= 10^77
+		id += Cryptocat.random.decimal()
+	}
+	return id
+})()
 
 /*
 -------------------
@@ -17,7 +24,7 @@ Cryptocat.FB.verifyLogin = function() {
 		Cryptocat.FB.userID.match(/^\d+$/) &&
 		Cryptocat.FB.accessToken.match(/^\w+$/)
 	) {
-		Cryptocat.xmpp.connection = new Strophe.Connection('https://crypto.cat/http-node/')
+		Cryptocat.xmpp.connection = new Strophe.Connection('https://outbound.crypto.cat/http-bind/')
 		Cryptocat.xmpp.connection.facebookConnect(
 			Cryptocat.FB.userID + '@chat.facebook.com/cryptocat',
 			Cryptocat.FB.onConnect,
@@ -84,17 +91,6 @@ Cryptocat.FB.onConnected = function() {
 			Cryptocat.xmpp.connection.send($pres().tree())
 		}
 	)
-	$.get(
-		'https://graph.facebook.com/' + Cryptocat.FB.userID + '/',
-		{
-			'access_token': Cryptocat.FB.accessToken
-		},
-		function(data) {
-			Cryptocat.me.nickname = data.name
-			document.title = '[' + data.name + '] Cryptocat'
-			$('.conversationName').text(data.name)
-		}
-	)
 }
 
 Cryptocat.FB.onMessage = function(message) {
@@ -159,70 +155,36 @@ $('#facebookConnect').click(function() {
 		+ '?scope=xmpp_login,friends_online_presence'
 		+ '&app_id=1430498997197900'
 		+ '&client_id=1430498997197900'
-		+ '&redirect_uri=https://crypto.cat/fbAuth/'
+		+ '&redirect_uri=https://outbound.crypto.cat/fbAuth/'
+		+ '?id=' + Cryptocat.FB.authID
 		+ '&close=true&display=popup'
-	var authInterval
-	var readyToConnect = false
-	// Chrome-specific schwaza
-	if (
-		navigator.userAgent.match('Chrome') &&
-		!navigator.userAgent.match('OPR')
-	) {
-		authInterval = window.setInterval(function() {
-			if (
-				Cryptocat.FB.userID &&
-				Cryptocat.FB.accessToken
-			) {
-				readyToConnect = true
-				$('#dialogBoxClose').click()
-				return
-			}
-			$('webview')[0].executeScript(
-				{ code: 'document.getElementById("fbAuth").innerText' },
-				function(result) {
-					result = JSON.parse(result[0])
-					Cryptocat.FB.userID      = result.userID
-					Cryptocat.FB.accessToken = result.accessToken
-				}
-			)
-		}, 500)
-		Cryptocat.dialogBox(
-			$('<webview />').attr('src', authURL),
-			{
-				closeable: true,
-				height: 400,
-				onAppear: function() {
-				},
-				onClose: function() {
-					clearInterval(authInterval)
-					if (!readyToConnect) { return }
+	window.open(
+		authURL,
+		'',
+		'width=500px,height=300,top='
+		+ ((screen.height / 2.6) - (300 / 2))
+		+ ',left=' + ((screen.width / 2.05) - (500 / 2))
+	)
+	var authInterval = setInterval(function() {
+		$.get('https://outbound.crypto.cat/fbAuth/?id=' + Cryptocat.FB.authID, function(data) {
+			console.log(data)
+			data = data.match(/\[(\w|\-)+\]/)
+			if (data) {
+				clearInterval(authInterval)
+				data = data[0].substring(1, data[0].length - 1)
+				$.get('https://graph.facebook.com/me?access_token=' + data, function(id) {
+					Cryptocat.FB.userID      = id.id
+					Cryptocat.FB.accessToken = data
+					Cryptocat.me.nickname    = id.name
+					document.title = '[' + id.name + '] Cryptocat'
+					$('.conversationName').text(id.name)
 					Cryptocat.xmpp.showKeyPreparationDialog(function() {
 						Cryptocat.FB.verifyLogin()
 					})
-				}
+				})
 			}
-		)
-	}
-	// Non-Chrome schwaza
-	else {
-		var authWindow = window.open(
-			authURL,
-			'',
-			'width=640px,height=350,top='
-			+ ((screen.height / 2.4) - (350 / 2))
-			+ ',left=' + ((screen.width / 2) - (640 / 2))
-		 )
-		 authInterval = window.setInterval(function() {
-			 var fbAuth = JSON.parse(authWindow.document.getElementById('fbAuth').innerText)
-			 Cryptocat.FB.userID      = fbAuth.userID
-			 Cryptocat.FB.accessToken = fbAuth.accessToken
-			 if (Cryptocat.FB.userID) {
-				window.clearInterval(authInterval)
-				authWindow.close()
-				Cryptocat.FB.verifyLogin()
-			 }
-		 }, 1000)
-	}
+		})
+	}, 1000)
 })
 
 /*

@@ -604,6 +604,10 @@ BUDDY LIST
 	background-image: url("../img/newMessage.png");
 }
 
+.composing {
+	background-image: url("../img/composing.png");
+}
+
 /*
 -------------------
 DIALOG BOX
@@ -1231,12 +1235,6 @@ CONVERSATION WINDOW
 
 .fileView:hover {
 	text-decoration: none;
-}
-
-img.typing {
-	width: 29px;
-	height: auto;
-	vertical-align: -3px;
 }
 
 /*

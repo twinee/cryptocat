@@ -12,7 +12,7 @@ Cryptocat.me = {
 	login:         'cryptocat',
 	newMessages:   0,
 	windowFocus:   true,
-	typing:        false,
+	composing:     false,
 	conversation:  null,
 	nickname:      null,
 	otrKey:        null,
@@ -27,7 +27,7 @@ Cryptocat.buddies = {}
 
 Cryptocat.audioExt = '.mp3'
 if (navigator.userAgent.match(/(OPR)|(Firefox)/)) {
-	Cryptocat.audioExt = '.ogg' //
+	Cryptocat.audioExt = '.ogg'
 }
 Cryptocat.sounds = {
 	'keygenStart': (new Audio('snd/keygenStart' + Cryptocat.audioExt)),
@@ -112,7 +112,7 @@ Cryptocat.fileTransferError = function(sid) {
 }
 
 // Add a `message` from `nickname` to the `conversation` display and log.
-// `type` can be 'file', 'composing', 'message', 'warning' or 'missingRecipients'.
+// `type` can be 'file', 'message', 'warning' or 'missingRecipients'.
 // In case `type` === 'missingRecipients', `message` becomes array of missing recipients.
 Cryptocat.addToConversation = function(message, nickname, conversation, type) {
 	var lineDecoration = 2
@@ -132,14 +132,6 @@ Cryptocat.addToConversation = function(message, nickname, conversation, type) {
 			)
 		}
 		message = Mustache.render(Cryptocat.templates.file, { message: message })
-	}
-	if (type === 'composing') {
-		if ($('#composing-' + Cryptocat.buddies[nickname].id).length) { return true }
-		message = Mustache.render(
-			Cryptocat.templates.composing, {
-				id: 'composing-' + Cryptocat.buddies[nickname].id
-			}
-		)
 	}
 	if (type === 'message') {
 		if (!message.length) { return false }
@@ -175,15 +167,7 @@ Cryptocat.addToConversation = function(message, nickname, conversation, type) {
 		})
 		conversationBuffers[conversation] += message
 		if (conversation === Cryptocat.me.currentBuddy) {
-			if (
-				(nickname === Cryptocat.me.nickname) ||
-				!$('#composing-' + Cryptocat.buddies[nickname].id).length
-			) {
-				$('#conversationWindow').append(message)
-			}
-			else {
-				$('#composing-' + Cryptocat.buddies[nickname].id).parent().before(message)
-			}
+			$('#conversationWindow').append(message)
 			$('.missingRecipients').last().animate({'top': '0', 'opacity': '1'}, 100)
 			scrollDownConversation(400, true)
 		}
@@ -204,29 +188,14 @@ Cryptocat.addToConversation = function(message, nickname, conversation, type) {
 		authStatus: authStatus,
 		message: message
 	})
-	if (type !== 'composing') {
-		conversationBuffers[conversation] += renderedMessage
-	}
+	conversationBuffers[conversation] += renderedMessage
 	if (conversation === Cryptocat.me.currentBuddy) {
-		if (
-			(nickname === Cryptocat.me.nickname) ||
-			!$('#composing-' + Cryptocat.buddies[nickname].id).length
-		) {
-			$('#conversationWindow').append(renderedMessage)
-			$('.line' + lineDecoration).last().animate({'top': '0', 'opacity': '1'}, 100)
-			bindSenderElement($('.line' + lineDecoration).last().find('.sender'))
-		}
-		else {
-			var composingElement = $('#composing-' + Cryptocat.buddies[nickname].id)
-			if (composingElement.length) {
-				composingElement.parent().removeClass()
-					.addClass('line' + lineDecoration)
-				composingElement.replaceWith(message)
-			}
-		}
+		$('#conversationWindow').append(renderedMessage)
+		$('.line' + lineDecoration).last().animate({'top': '0', 'opacity': '1'}, 100)
+		bindSenderElement($('.line' + lineDecoration).last().find('.sender'))
 		scrollDownConversation(400, true)
 	}
-	else if (type !== 'composing') {
+	else {
 		$('#buddy-' + conversation).addClass('newMessage')
 	}
 }
@@ -380,11 +349,7 @@ Cryptocat.addBuddy = function(nickname, id) {
 Cryptocat.removeBuddy = function(nickname) {
 	var buddyID = Cryptocat.buddies[nickname].id
 	var buddyElement = $('#buddy-' + buddyID)
-	var composingElement = $('#composing-' + buddyID)
 	delete Cryptocat.buddies[nickname]
-	if (composingElement.length) {
-		composingElement.parent().remove()
-	}
 	if (!buddyElement.length) {
 		return
 	}
@@ -905,10 +870,9 @@ var buddyNotification = function(nickname, join) {
 	}
 	initializeConversationBuffer('groupChat')
 	conversationBuffers['groupChat'] += status
-	if (Cryptocat.me.currentBuddy !== 'groupChat') {
-		conversationBuffers[Cryptocat.me.currentBuddy] += status
+	if (Cryptocat.me.currentBuddy === 'groupChat') {
+		$('#conversationWindow').append(status)
 	}
-	$('#conversationWindow').append(status)
 	scrollDownConversation(400, true)
 	desktopNotification('img/keygen.gif',
 		nickname + ' has ' + (join ? 'joined ' : 'left ')
@@ -1190,7 +1154,7 @@ $('#userInputText').keydown(function(e) {
 	else if (e.keyCode === 13) {
 		e.preventDefault()
 		$('#userInput').submit()
-		Cryptocat.me.typing = false
+		Cryptocat.me.composing = false
 		return true
 	}
 	var destination, type
@@ -1202,8 +1166,8 @@ $('#userInputText').keydown(function(e) {
 		destination = Cryptocat.getBuddyNicknameByID(Cryptocat.me.currentBuddy)
 		type = 'chat'
 	}
-	if (!Cryptocat.me.typing) {
-		Cryptocat.me.typing = true
+	if (!Cryptocat.me.composing) {
+		Cryptocat.me.composing = true
 		Cryptocat.xmpp.connection.muc.message(
 			Cryptocat.me.conversation + '@' + Cryptocat.xmpp.conferenceServer,
 			destination, '', null, type, 'composing'
@@ -1213,7 +1177,7 @@ $('#userInputText').keydown(function(e) {
 				Cryptocat.me.conversation + '@' + Cryptocat.xmpp.conferenceServer,
 				d, '', null, t, 'paused'
 			)
-			Cryptocat.me.typing = false
+			Cryptocat.me.composing = false
 		}, 7000, destination, type)
 	}
 })
@@ -1369,17 +1333,25 @@ $(window).focus(function() {
 	}
 })
 
-// Determine whether we are showing margins
+// Prevent accidental window close.
+$(window).bind('beforeunload', function() {
+	if (Object.keys(Cryptocat.buddies).length > 1) {
+		return Cryptocat.locale['loginMessage']['thankYouUsing']
+	}
+})
+
+// Logout on browser close.
+$(window).unload(function() {
+	if (Cryptocat.xmpp.connection !== null) {
+		Cryptocat.xmpp.connection.disconnect()
+	}
+})
+
+// Determine whether we are showing a top margin
 // Depending on window size
 $(window).resize(function() {
-	if (
-		$(window).height() < 595 ||
-		$(window).width()  < 780
-	) {
-		$('#bubbleWrapper').css('margin', '1%')
-	}
-	else {
-		$('#bubbleWrapper').css('margin', '1.5% auto 0 auto')
+	if ($(window).height() > 595) {
+		$('#bubble').css('margin-top', '1%')
 	}
 })
 $(window).resize()
@@ -1407,6 +1379,5 @@ $('#bubbleWrapper').css(
 	}
 )
 */
-
 
 })}//:3

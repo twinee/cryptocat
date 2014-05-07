@@ -98,6 +98,9 @@ Cryptocat.xmpp.connect = function() {
 				}
 			)
 			Cryptocat.xmpp.onConnected()
+			document.title = Cryptocat.me.nickname + '@' + Cryptocat.me.conversation
+			$('.conversationName').text(document.title)
+			Cryptocat.storage.setItem('myNickname', Cryptocat.me.nickname)
 		}
 		else if ((status === Strophe.Status.CONNFAIL) || (status === Strophe.Status.DISCONNECTED)) {
 			if (Cryptocat.loginError) {
@@ -110,10 +113,7 @@ Cryptocat.xmpp.connect = function() {
 // Executes on successfully completed XMPP connection.
 Cryptocat.xmpp.onConnected = function() {
 	afterConnect()
-	document.title = Cryptocat.me.nickname + '@' + Cryptocat.me.conversation
-	$('.conversationName').text(document.title)
 	clearInterval(CatFacts.interval)
-	Cryptocat.storage.setItem('myNickname', Cryptocat.me.nickname)
 	$('#buddy-groupChat').attr('status', 'online')
 	$('#loginInfo').text('✓')
 	$('#fill').stop().animate({
@@ -194,26 +194,16 @@ Cryptocat.xmpp.onMessage = function(message) {
 	}
 	// Check if message has a 'composing' notification.
 	if ($(message).find('composing').length && !body.length) {
-		var conversation
-		if (type === 'groupchat') {
-			conversation = 'groupChat'
-		}
-		else if (type === 'chat') {
-			conversation = Cryptocat.buddies[nickname].id
-		}
-		Cryptocat.addToConversation('', nickname, conversation, 'composing')
+		$('#buddy-' + Cryptocat.buddies[nickname].id).addClass('composing')
 		return true
 	}
-	// Check if we have a 'composing' bubble for that buddy.
 	// Check if message has a 'paused' (stopped writing) notification.
-	if (
-		$('#composing-' + Cryptocat.buddies[nickname].id).length
-		&& $(message).find('paused').length
-	) {
-		$('#composing-' + Cryptocat.buddies[nickname].id).parent().fadeOut(100).remove()
+	if ($(message).find('paused').length) {
+		$('#buddy-' + Cryptocat.buddies[nickname].id).removeClass('composing')
 	}
 	// Check if message is a group chat message.
 	else if (type === 'groupchat' && body.length) {
+		$('#buddy-' + Cryptocat.buddies[nickname].id).removeClass('composing')
 		body = Cryptocat.multiParty.receiveMessage(nickname, Cryptocat.me.nickname, body)
 		if (typeof(body) === 'string') {
 			Cryptocat.addToConversation(body, nickname, 'groupChat', 'message')
@@ -221,6 +211,7 @@ Cryptocat.xmpp.onMessage = function(message) {
 	}
 	// Check if this is a private OTR message.
 	else if (type === 'chat') {
+		$('#buddy-' + Cryptocat.buddies[nickname].id).removeClass('composing')
 		Cryptocat.buddies[nickname].otr.receiveMsg(body)
 	}
 	return true

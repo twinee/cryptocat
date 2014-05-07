@@ -83,8 +83,6 @@ Cryptocat.templates = {
 
 	authStatusFalseUtip: '<div id="authStatusUtip">{{text}}<br /><strong>{{learnMore}}</strong></div>',
 
-	composing: '<img src="img/typing.gif" class="typing" id="{{id}}" alt="" />',
-
 	userJoin: '<div class="userJoin"><span class="timestamp">{{currentTime}}</span>'
 		+ '<strong>+</strong>{{nickname}}</div>',
 

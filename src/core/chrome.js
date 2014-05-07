@@ -4,7 +4,7 @@ chrome.runtime.onInstalled.addListener(function(details) {
 	}
 })
 
-chrome.app.runtime.onLaunched.addListener(function() {
+/* chrome.app.runtime.onLaunched.addListener(function() {
 	chrome.app.window.create('index.html', {
 		'bounds': {
 			'width': 755,
@@ -12,4 +12,4 @@ chrome.app.runtime.onLaunched.addListener(function() {
 		},
 		'resizable': false
 	})
-})
+}) */
