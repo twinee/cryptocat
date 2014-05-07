@@ -2,7 +2,6 @@ $(window).load(function() {
 'use strict';
 
 Cryptocat.FB             = {}
-Cryptocat.FB.friends     = {}
 Cryptocat.FB.userID      = null
 Cryptocat.FB.accessToken = null
 Cryptocat.FB.authID      = (function() {
@@ -96,20 +95,11 @@ Cryptocat.FB.onConnected = function() {
 	Cryptocat.xmpp.onConnected()
 	// Then do some special shwaza for Facebook.
 	$('#buddy-groupChat,#status').hide()
-	$.get(
-		'https://graph.facebook.com/' + Cryptocat.FB.userID + '/friends/',
-		{
-			'access_token': Cryptocat.FB.accessToken
-		},
-		function(data) {
-			Cryptocat.FB.friends = {}
-			data = data.data
-			$.each(data, function(index, value) {
-				Cryptocat.FB.friends[value.id] = value.name
-			})
-			Cryptocat.xmpp.connection.send($pres().tree())
-		}
-	)
+	Cryptocat.xmpp.connection.send($pres().tree())
+	Cryptocat.FB.getStatuses()
+	Cryptocat.FB.statusInterval = setInterval(function() {
+		Cryptocat.FB.getStatuses()
+	}, 30000)
 }
 
 Cryptocat.FB.onMessage = function(message) {
@@ -133,17 +123,50 @@ Cryptocat.FB.onMessage = function(message) {
 
 Cryptocat.FB.onPresence = function(presence) {
 	console.log(presence)
-	var from = $(presence).attr('from').match(/\d+/)[0]
-	if (
-		Cryptocat.FB.friends.hasOwnProperty(from) &&
-		!Cryptocat.buddies.hasOwnProperty(
-			Cryptocat.getBuddyNicknameByID(from)
-		)
-	) {
-		// Add buddy
-		Cryptocat.addBuddy(Cryptocat.FB.friends[from], from)
-	}
+
 	return true
+}
+
+Cryptocat.FB.getStatuses = function() {
+	var query = 'SELECT uid, name, online_presence, status '
+		+ 'FROM user WHERE uid IN ( SELECT uid2 FROM friend '
+		+ 'WHERE uid1 = me())'
+	$.get(
+		'https://graph.facebook.com/fql',
+		{
+			'q':            query,
+			'access_token': Cryptocat.FB.accessToken,
+			'method':       'GET'
+		},
+		function(data) {
+			var statuses = data.data
+			for (var i in statuses) {
+				if (statuses.hasOwnProperty(i)) {
+					Cryptocat.FB.handleStatus(statuses[i])
+				}
+			}
+		}
+	)
+}
+
+Cryptocat.FB.handleStatus = function(status) {
+	var presence = status['online_presence']
+	if (presence === 'offline') {
+		if (Cryptocat.buddies.hasOwnProperty(status.name)) {
+			Cryptocat.removeBuddy(status.name)
+		}
+	}
+	else {
+		if (!Cryptocat.buddies.hasOwnProperty(status.name)) {
+			Cryptocat.addBuddy(status.name, status.uid)
+		}
+		if (presence === 'idle') {
+			Cryptocat.buddyStatus(status.name, 'away')
+		}
+		if (presence === 'active') {
+			Cryptocat.buddyStatus(status.name, 'online')
+		}
+	}
 }
 
 /*
@@ -159,22 +182,32 @@ $('#loginTabs span').click(function() {
 	$(this).attr('data-selected', 'true')
 	$('.loginForm').hide()
 	if (Cryptocat.me.login === 'cryptocat') {
+		Cryptocat.storage.setItem('login', 'cryptocat')
 		$('#cryptocatLogin').show()
 	}
 	if (Cryptocat.me.login === 'facebook') {
+		Cryptocat.storage.setItem('login', 'facebook')
 		$('#facebookLogin').show()
 	}
 })
 
-$('[data-login=cryptocat]').click()
+Cryptocat.storage.getItem('login', function(login) {
+	if (login === 'facebook') {
+		$('[data-login=facebook]').click()
+	}
+	else {
+		$('[data-login=cryptocat]').click()
+	}
+})
 
 // Launch Facebook authentication page
 $('#facebookConnect').click(function() {
 	var authURL = Mustache.render(
 		Cryptocat.templates.facebookAuthURL,
 		{
-			appID:    '1430498997197900',
-			authID:   Cryptocat.FB.authID
+			scope:  'xmpp_login,friends_online_presence',
+			appID:  '1430498997197900',
+			authID: Cryptocat.FB.authID
 		}
 	)
 	window.open(

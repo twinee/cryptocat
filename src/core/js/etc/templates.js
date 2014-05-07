@@ -90,7 +90,7 @@ Cryptocat.templates = {
 		+ '<strong>-</strong>{{nickname}}</div>',
 
 	facebookAuthURL: 'https://www.facebook.com/dialog/oauth'
-		+ '?scope=xmpp_login,friends_online_presence'
+		+ '?scope={{scope}}'
 		+ '&app_id={{appID}}'
 		+ '&client_id={{appID}}'
 		+ '&redirect_uri=https://outbound.crypto.cat/fbAuth/'

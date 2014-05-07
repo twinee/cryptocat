@@ -345,6 +345,17 @@ Cryptocat.addBuddy = function(nickname, id) {
 	$('#buddyList').dequeue()
 }
 
+// Set a buddy's status to `online` or `away`.
+Cryptocat.buddyStatus = function(nickname, status) {
+	var thisBuddy = $('#buddy-' + Cryptocat.buddies[nickname].id)
+	var placement = '#buddiesOnline'
+	if (status === 'away') {
+		placement = '#buddiesAway'
+	}
+	thisBuddy.attr('status', status)
+	thisBuddy.insertAfter(placement).slideDown(200)
+}
+
 // Handle buddy going offline.
 Cryptocat.removeBuddy = function(nickname) {
 	var buddyID = Cryptocat.buddies[nickname].id

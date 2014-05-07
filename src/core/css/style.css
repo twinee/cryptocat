@@ -504,11 +504,11 @@ BUDDY LIST
 	transition: background-color 0.25s;
 }
 
-.buddy[status=away] {
+.buddy[status=away] span {
 	color: #778;
 }
 
-.buddy[status=offline] {
+.buddy[status=offline] span {
 	background-color: #222;
 	color: #BBB;
 	borderBottom: none;
@@ -621,7 +621,7 @@ DIALOG BOX
 	border: 1px solid #97CEEC;
 	border-radius: 8px 0 8px 8px;
 	margin: 80px auto 0 -235px;
-	left: 50%;
+	left: 51%;
 	z-index: 4;
 	font-size: 1.1em;
 	border-right: none;

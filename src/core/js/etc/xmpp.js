@@ -219,7 +219,7 @@ Cryptocat.xmpp.onMessage = function(message) {
 
 // Handle incoming presence updates from the XMPP server.
 Cryptocat.xmpp.onPresence = function(presence) {
-	var status, color, placement
+	var status
 	var nickname = cleanNickname($(presence).attr('from'))
 	// If invalid nickname, do not process
 	if ($(presence).attr('type') === 'error') {
@@ -258,23 +258,14 @@ Cryptocat.xmpp.onPresence = function(presence) {
 	else if ($(presence).find('show').text() === '' || $(presence).find('show').text() === 'chat') {
 		if ($('#buddy-' + Cryptocat.buddies[nickname].id).attr('status') !== 'online') {
 			status = 'online'
-			placement = '#buddiesOnline'
 		}
 	}
-	// Handlebuddy status change to 'away'.
+	// Handle buddy status change to 'away'.
 	else if ($('#buddy-' + Cryptocat.buddies[nickname].id).attr('status') !== 'away') {
 		status = 'away'
-		placement = '#buddiesAway'
 	}
 	// Perform status change.
-	$('#buddy-' + Cryptocat.buddies[nickname].id).attr('status', status)
-	if (placement) {
-		$('#buddy-' + Cryptocat.buddies[nickname].id).animate({'color': color }, function() {
-			if (Cryptocat.me.currentBuddy !== Cryptocat.buddies[nickname].id) {
-				$(this).insertAfter(placement).slideDown(200)
-			}
-		})
-	}
+	Cryptocat.buddyStatus(nickname, status)
 	return true
 }
 
