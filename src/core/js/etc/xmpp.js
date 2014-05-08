@@ -121,7 +121,6 @@ Cryptocat.xmpp.connect = function() {
 Cryptocat.xmpp.onConnected = function() {
 	afterConnect()
 	clearInterval(CatFacts.interval)
-	$('#buddy-groupChat').attr('status', 'online')
 	if (Cryptocat.me.login === 'cryptocat') {
 		$('#loginInfo').text('✓')
 	}
@@ -259,19 +258,20 @@ Cryptocat.xmpp.onPresence = function(presence) {
 	}
 	// Create buddy element if buddy is new.
 	else if (!Cryptocat.buddies.hasOwnProperty(nickname)) {
-		Cryptocat.addBuddy(nickname)
+		Cryptocat.addBuddy(nickname, null, 'online')
 		for (var u = 0; u < 4000; u += 2000) {
 			window.setTimeout(Cryptocat.xmpp.sendPublicKey, u, nickname)
 		}
 	}
 	// Handle buddy status change to 'available'.
-	else if ($(presence).find('show').text() === '' || $(presence).find('show').text() === 'chat') {
-		if ($('#buddy-' + Cryptocat.buddies[nickname].id).attr('status') !== 'online') {
-			status = 'online'
-		}
+	else if (
+		$(presence).find('show').text() === '' ||
+		$(presence).find('show').text() === 'chat'
+	) {
+		status = 'online'
 	}
 	// Handle buddy status change to 'away'.
-	else if ($('#buddy-' + Cryptocat.buddies[nickname].id).attr('status') !== 'away') {
+	else {
 		status = 'away'
 	}
 	// Perform status change.

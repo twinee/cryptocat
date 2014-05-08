@@ -149,9 +149,6 @@ Cryptocat.FB.handleStatus = function(status) {
 		}
 	}
 	else if (presence.match(/(active)|(idle)/)) {
-		if (!Cryptocat.buddies.hasOwnProperty(status.name)) {
-			Cryptocat.addBuddy(status.name, status.uid)
-		}
 		$.get(
 			'https://outbound.crypto.cat/facebook/',
 			{
@@ -159,14 +156,24 @@ Cryptocat.FB.handleStatus = function(status) {
 			},
 			function(data) {
 				if (data === 'true') {
-					Cryptocat.buddyStatus(status.name, 'online')
+					if (!Cryptocat.buddies.hasOwnProperty(status.name)) {
+						Cryptocat.addBuddy(status.name, status.uid, 'online')
+					}
+					else {
+						Cryptocat.buddyStatus(status.name, 'online')
+					}
 					$('#buddy-' + status.uid).find('.loginTypeIcon')
 						.removeClass('notUsingCryptocat')
 					Cryptocat.buddies[status.name].usingCryptocat = true
 					Cryptocat.buddies[status.name].otr.REQUIRE_ENCRYPTION = true
 				}
 				else {
-					Cryptocat.buddyStatus(status.name, 'away')
+					if (!Cryptocat.buddies.hasOwnProperty(status.name)) {
+						Cryptocat.addBuddy(status.name, status.uid, 'away')
+					}
+					else {
+						Cryptocat.buddyStatus(status.name, 'away')
+					}
 					$('#buddy-' + status.uid).find('.loginTypeIcon')
 						.addClass('notUsingCryptocat')
 					Cryptocat.buddies[status.name].usingCryptocat = false

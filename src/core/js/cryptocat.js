@@ -259,7 +259,7 @@ Cryptocat.removeAuthAndWarn = function(nickname) {
 }
 
 // Buddy constructor
-var Buddy = function(nickname, id) {
+var Buddy = function(nickname, id, status) {
 	this.id             = id
 	this.ignored        = false
 	this.fingerprint    = null
@@ -271,6 +271,7 @@ var Buddy = function(nickname, id) {
 	this.nickname       = nickname
 	this.genFingerState = null
 	this.usingCryptocat = true
+	this.status         = status
 	this.otr            = Cryptocat.otr.add(nickname)
 }
 
@@ -316,17 +317,17 @@ Buddy.prototype = {
 }
 
 // Build new buddy.
-Cryptocat.addBuddy = function(nickname, id) {
-	if (!id) {
-		id = getUniqueBuddyID()
-	}
-	var buddy = Cryptocat.buddies[nickname] = new Buddy(nickname, id)
+Cryptocat.addBuddy = function(nickname, id, status) {
+	if (!id) { id = getUniqueBuddyID() }
+	var buddy = Cryptocat.buddies[nickname] = new Buddy(nickname, id, status)
 	$('#buddyList').queue(function() {
 		var buddyTemplate = Mustache.render(Cryptocat.templates.buddy, {
 			buddyID: buddy.id,
-			shortNickname: shortenString(nickname, 11)
+			shortNickname: shortenString(nickname, 11),
+			status: status
 		})
-		$(buddyTemplate).insertBefore('#buddiesAway').slideDown(100, function() {
+		var placement = determineBuddyPlacement(nickname, id, status)
+		$(buddyTemplate).insertAfter(placement).slideDown(100, function() {
 			$('#buddy-' + buddy.id)
 				.unbind('click')
 				.click(function() {
@@ -348,11 +349,11 @@ Cryptocat.addBuddy = function(nickname, id) {
 
 // Set a buddy's status to `online` or `away`.
 Cryptocat.buddyStatus = function(nickname, status) {
+	Cryptocat.buddies[nickname].status = status
 	var thisBuddy = $('#buddy-' + Cryptocat.buddies[nickname].id)
-	var placement = '#buddiesOnline'
-	if (status === 'away') {
-		placement = '#buddiesAway'
-	}
+	var placement = determineBuddyPlacement(
+		nickname, Cryptocat.buddies[nickname].id, status
+	)
 	if (thisBuddy.attr('status') !== status) {
 		thisBuddy.attr('status', status)
 		thisBuddy.insertAfter(placement).slideDown(200)
@@ -362,7 +363,7 @@ Cryptocat.buddyStatus = function(nickname, status) {
 // Handle buddy going offline.
 Cryptocat.removeBuddy = function(nickname) {
 	var buddyID = Cryptocat.buddies[nickname].id
-	var buddyElement = $('[data-id=' + buddyID + ']')
+	var buddyElement = $('.buddy').filterByData('id', buddyID)
 	delete Cryptocat.buddies[nickname]
 	if (!buddyElement.length) {
 		return
@@ -379,6 +380,55 @@ Cryptocat.removeBuddy = function(nickname) {
 			})
 		}
 	})
+}
+
+// Determine where to place a buddy in the buddy list
+// so the buddy list is in alphabetical order.
+var determineBuddyPlacement = function(nickname, id, status) {
+	var buddies = [{
+		nickname: nickname,
+		id: id
+	}]
+	for (var i in Cryptocat.buddies) {
+		if (
+			Cryptocat.buddies.hasOwnProperty(i) &&
+			(Cryptocat.buddies[i].status === status)
+		) {
+			buddies.push({
+				nickname: i,
+				id: Cryptocat.buddies[i].id
+			})
+		}
+	}
+	buddies.sort(function(a, b) {
+		var nameA = a.nickname.toLowerCase()
+		var nameB = b.nickname.toLowerCase()
+		if (nameA < nameB) {
+			return -1
+		}
+		if (nameA > nameB) {
+			return 1
+		}
+		return 0
+	})
+	var rightBefore
+	for (var o = 0; o < buddies.length; o++) {
+		if (buddies[o].id === id) {
+			if (o === 0) {
+				if (status === 'online') {
+					rightBefore = '#buddiesOnline'
+				}
+				if (status === 'away') {
+					rightBefore = '#buddiesAway'
+				}
+			}
+			else {
+				rightBefore = '[data-id=' + buddies[o - 1].id + ']'
+			}
+			break
+		}
+	}
+	return rightBefore
 }
 
 // Get a buddy's nickname from their ID.
@@ -1374,7 +1424,7 @@ $(window).focus(function() {
 	Cryptocat.me.windowFocus = true
 	Cryptocat.me.newMessages = 0
 	Tinycon.setBubble()
-	if ($('#buddy-groupChat').attr('status') === 'online') {
+	if (Cryptocat.me.currentBuddy) {
 		$('#userInputText').focus()
 	}
 })
