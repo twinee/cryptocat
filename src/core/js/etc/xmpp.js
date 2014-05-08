@@ -16,38 +16,98 @@ Cryptocat.xmpp.relay = Cryptocat.xmpp.defaultRelay
 $(window).ready(function() {
 'use strict';
 
-// connect anonymously and join conversation.
+// Prepares necessary encryption key operations before XMPP connection.
+// Shows a progress bar (and cute cat facts!) while doing so.
+Cryptocat.xmpp.showKeyPreparationDialog = function(callback) {
+	// Key storage currently disabled as we are not yet sure if this is safe to do.
+	// Cryptocat.storage.setItem('multiPartyKey', Cryptocat.multiParty.genPrivateKey())
+	//else {
+	Cryptocat.me.mpPrivateKey = Cryptocat.multiParty.genPrivateKey()
+	//}
+	Cryptocat.me.mpPublicKey = Cryptocat.multiParty.genPublicKey(
+		Cryptocat.me.mpPrivateKey
+	)
+	Cryptocat.me.mpFingerprint = Cryptocat.multiParty.genFingerprint()
+	// If we already have keys, just skip to the callback.
+	if (Cryptocat.me.otrKey) {
+		callback()
+		return
+	}
+	var progressForm = Mustache.render(Cryptocat.templates.generatingKeys, {
+		text: Cryptocat.locale['loginMessage']['generatingKeys']
+	})
+	if (Cryptocat.audioNotifications) { Cryptocat.sounds.keygenStart.play() }
+	Cryptocat.dialogBox(progressForm, {
+		height: 250,
+		closeable: false,
+		onAppear: Cryptocat.xmpp.prepareKeys(callback)
+	})
+	if (Cryptocat.locale['language'] === 'en') {
+		$('#progressInfo').append(
+			Mustache.render(Cryptocat.templates.catFact, {
+				catFact: CatFacts.getFact()
+			})
+		)
+	}
+	$('#progressInfo').append(
+		'<div id="progressBar"><div id="fill"></div></div>'
+	)
+	CatFacts.interval = window.setInterval(function() {
+		$('#interestingFact').fadeOut(function() {
+			$(this).text(CatFacts.getFact()).fadeIn()
+		})
+	}, 9000)
+	$('#fill').animate({'width': '100%', 'opacity': '1'}, 14000, 'linear')
+}
+
+// See above.
+Cryptocat.xmpp.prepareKeys = function(callback) {
+	if (Cryptocat.audioNotifications) {
+		window.setTimeout(function() {
+			Cryptocat.sounds.keygenLoop.loop = true
+			Cryptocat.sounds.keygenLoop.play()
+		}, 800)
+	}
+	// Create DSA key for OTR.
+	DSA.createInWebWorker({
+		path: 'js/workers/dsa.js',
+		seed: Cryptocat.random.generateSeed
+	}, function(key) {
+		Cryptocat.me.otrKey = key
+		// Key storage currently disabled as we are not yet sure if this is safe to do.
+		//	Cryptocat.storage.setItem('myKey', JSON.stringify(Cryptocat.me.otrKey))
+		if (callback) { callback() }
+	})
+}
+
+// Connect anonymously and join conversation.
 Cryptocat.xmpp.connect = function() {
 	Cryptocat.me.conversation = Strophe.xmlescape($('#conversationName').val())
 	Cryptocat.me.nickname = Strophe.xmlescape($('#nickname').val())
 	Cryptocat.xmpp.connection = new Strophe.Connection(Cryptocat.xmpp.relay)
 	Cryptocat.xmpp.connection.connect(Cryptocat.xmpp.domain, null, function(status) {
-		if (status === Strophe.Status.CONNECTING) {
+		if (
+			(status === Strophe.Status.CONNECTING) &&
+			(Cryptocat.me.login === 'cryptocat')
+		) {
 			$('#loginInfo').animate({'background-color': '#97CEEC'}, 200)
 			$('#loginInfo').text(Cryptocat.locale['loginMessage']['connecting'])
 		}
 		else if (status === Strophe.Status.CONNECTED) {
-			afterConnect()
 			Cryptocat.xmpp.connection.muc.join(
 				Cryptocat.me.conversation + '@' + Cryptocat.xmpp.conferenceServer,
 				Cryptocat.me.nickname,
 				function(message) {
-					if (Cryptocat.xmpp.onMessage(message))   { return true }
+					if (Cryptocat.xmpp.onMessage(message)) { return true }
 				},
 				function(presence) {
 					if (Cryptocat.xmpp.onPresence(presence)) { return true }
 				}
 			)
-			$('#fill').stop().animate({
-				'width': '100%', 'opacity': '1'
-			}, 250, 'linear', function() {
-				window.setTimeout(function() {
-					$('#dialogBoxClose').click()
-				}, 200)
-			})
-			window.setTimeout(function() {
-				Cryptocat.xmpp.onConnected()
-			}, 400)
+			Cryptocat.xmpp.onConnected()
+			document.title = Cryptocat.me.nickname + '@' + Cryptocat.me.conversation
+			$('.conversationName').text(document.title)
+			Cryptocat.storage.setItem('myNickname', Cryptocat.me.nickname)
 		}
 		else if ((status === Strophe.Status.CONNFAIL) || (status === Strophe.Status.DISCONNECTED)) {
 			if (Cryptocat.loginError) {
@@ -59,31 +119,42 @@ Cryptocat.xmpp.connect = function() {
 
 // Executes on successfully completed XMPP connection.
 Cryptocat.xmpp.onConnected = function() {
+	afterConnect()
 	clearInterval(CatFacts.interval)
-	Cryptocat.storage.setItem('myNickname', Cryptocat.me.nickname)
 	$('#buddy-groupChat').attr('status', 'online')
-	$('#loginInfo').text('✓')
-	$('#info').fadeOut(200)
-	$('#loginOptions,#languages,#customServerDialog,#version,#logoText,#loginInfo').fadeOut(200)
-	$('#header').animate({'background-color': '#151520'})
-	$('.logo').animate({'margin': '-11px 5px 0 0'})
-	$('#loginForm').fadeOut(200, function() {
-		$('#conversationInfo').fadeIn()
-		$('#buddy-groupChat').click(function() {
-			Cryptocat.onBuddyClick($(this))
-		})
-		$('#buddy-groupChat').click()
-		$('#conversationWrapper').fadeIn()
-		$('#optionButtons').fadeIn()
-		$('#footer').delay(200).animate({'height': 60}, function() {
-			$('#userInput').fadeIn(200, function() {
-				$('#userInputText').focus()
+	if (Cryptocat.me.login === 'cryptocat') {
+		$('#loginInfo').text('✓')
+	}
+	$('#fill').stop().animate({
+		'width': '100%', 'opacity': '1'
+	}, 250, 'linear')
+	window.setTimeout(function() {
+		$('#dialogBoxClose').click()
+	}, 400)
+	window.setTimeout(function() {
+		$('#loginOptions,#languages,#customServerDialog').fadeOut(200)
+		$('#version,#logoText,#loginInfo,#info').fadeOut(200)
+		$('#header').animate({'background-color': '#151520'})
+		$('.logo').animate({'margin': '-11px 5px 0 0'})
+		$('#login').fadeOut(200, function() {
+			$('#conversationInfo').fadeIn()
+			if (Cryptocat.me.login === 'cryptocat') {
+				$('#buddy-groupChat').click(function() {
+					Cryptocat.onBuddyClick($(this))
+				})
+				$('#buddy-groupChat').click()
+			}
+			$('#conversationWrapper').fadeIn()
+			$('#optionButtons').fadeIn()
+			$('#footer').delay(200).animate({'height': 60}, function() {
+				$('#userInput').fadeIn(200, function() {
+					$('#userInputText').focus()
+				})
 			})
+			$('#buddyWrapper').slideDown()
 		})
-		$('#buddyWrapper').slideDown()
-	})
+	}, 800)
 	Cryptocat.loginError = true
-	document.title = Cryptocat.me.nickname + '@' + Cryptocat.me.conversation
 }
 
 // Reconnect to the same chatroom, on accidental connection loss.
@@ -133,26 +204,16 @@ Cryptocat.xmpp.onMessage = function(message) {
 	}
 	// Check if message has a 'composing' notification.
 	if ($(message).find('composing').length && !body.length) {
-		var conversation
-		if (type === 'groupchat') {
-			conversation = 'groupChat'
-		}
-		else if (type === 'chat') {
-			conversation = Cryptocat.buddies[nickname].id
-		}
-		Cryptocat.addToConversation('', nickname, conversation, 'composing')
+		$('#buddy-' + Cryptocat.buddies[nickname].id).addClass('composing')
 		return true
 	}
-	// Check if we have a 'composing' bubble for that buddy.
 	// Check if message has a 'paused' (stopped writing) notification.
-	if (
-		$('#composing-' + Cryptocat.buddies[nickname].id).length
-		&& $(message).find('paused').length
-	) {
-		$('#composing-' + Cryptocat.buddies[nickname].id).parent().fadeOut(100).remove()
+	if ($(message).find('paused').length) {
+		$('#buddy-' + Cryptocat.buddies[nickname].id).removeClass('composing')
 	}
 	// Check if message is a group chat message.
 	else if (type === 'groupchat' && body.length) {
+		$('#buddy-' + Cryptocat.buddies[nickname].id).removeClass('composing')
 		body = Cryptocat.multiParty.receiveMessage(nickname, Cryptocat.me.nickname, body)
 		if (typeof(body) === 'string') {
 			Cryptocat.addToConversation(body, nickname, 'groupChat', 'message')
@@ -160,6 +221,7 @@ Cryptocat.xmpp.onMessage = function(message) {
 	}
 	// Check if this is a private OTR message.
 	else if (type === 'chat') {
+		$('#buddy-' + Cryptocat.buddies[nickname].id).removeClass('composing')
 		Cryptocat.buddies[nickname].otr.receiveMsg(body)
 	}
 	return true
@@ -167,7 +229,7 @@ Cryptocat.xmpp.onMessage = function(message) {
 
 // Handle incoming presence updates from the XMPP server.
 Cryptocat.xmpp.onPresence = function(presence) {
-	var status, color, placement
+	var status
 	var nickname = cleanNickname($(presence).attr('from'))
 	// If invalid nickname, do not process
 	if ($(presence).attr('type') === 'error') {
@@ -198,28 +260,22 @@ Cryptocat.xmpp.onPresence = function(presence) {
 	// Create buddy element if buddy is new.
 	else if (!Cryptocat.buddies.hasOwnProperty(nickname)) {
 		Cryptocat.addBuddy(nickname)
+		for (var u = 0; u < 4000; u += 2000) {
+			window.setTimeout(Cryptocat.xmpp.sendPublicKey, u, nickname)
+		}
 	}
 	// Handle buddy status change to 'available'.
 	else if ($(presence).find('show').text() === '' || $(presence).find('show').text() === 'chat') {
 		if ($('#buddy-' + Cryptocat.buddies[nickname].id).attr('status') !== 'online') {
 			status = 'online'
-			placement = '#buddiesOnline'
 		}
 	}
-	// Handlebuddy status change to 'away'.
+	// Handle buddy status change to 'away'.
 	else if ($('#buddy-' + Cryptocat.buddies[nickname].id).attr('status') !== 'away') {
 		status = 'away'
-		placement = '#buddiesAway'
 	}
 	// Perform status change.
-	$('#buddy-' + Cryptocat.buddies[nickname].id).attr('status', status)
-	if (placement) {
-		$('#buddy-' + Cryptocat.buddies[nickname].id).animate({'color': color }, function() {
-			if (Cryptocat.me.currentBuddy !== Cryptocat.buddies[nickname].id) {
-				$(this).insertAfter(placement).slideDown(200)
-			}
-		})
-	}
+	Cryptocat.buddyStatus(nickname, status)
 	return true
 }
 
@@ -233,14 +289,12 @@ Cryptocat.xmpp.sendPublicKey = function(nickname) {
 
 // Send your current status to the XMPP server.
 Cryptocat.xmpp.sendStatus = function() {
+        var status = ''
 	if (Cryptocat.xmpp.currentStatus === 'away') {
-		Cryptocat.xmpp.connection.muc.setStatus(Cryptocat.me.conversation + '@'
-		+ Cryptocat.xmpp.conferenceServer, Cryptocat.me.nickname, 'away', 'away')
+                status = 'away'
 	}
-	else {
-		Cryptocat.xmpp.connection.muc.setStatus(Cryptocat.me.conversation + '@'
-		+ Cryptocat.xmpp.conferenceServer, Cryptocat.me.nickname, '', '')
-	}
+        Cryptocat.xmpp.connection.muc.setStatus(Cryptocat.me.conversation + '@'
+        + Cryptocat.xmpp.conferenceServer, Cryptocat.me.nickname, status, status)
 }
 
 // Executed (manually) after connection.

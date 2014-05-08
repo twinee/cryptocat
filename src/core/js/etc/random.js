@@ -72,6 +72,14 @@ Cryptocat.random.bitInt = function(k) {
 	return r
 }
 
+Cryptocat.random.decimal = function() {
+	var r = 250;
+	while ( r > 249 ) {
+		r = Cryptocat.random.getBytes(1)[0]
+	}
+	return r % 10;
+}
+
 Cryptocat.random.rawBytes = function(bytes) {
 	var sa = String.fromCharCode.apply(null, Cryptocat.random.getBytes(bytes))
 	return CryptoJS.enc.Latin1.parse(sa)

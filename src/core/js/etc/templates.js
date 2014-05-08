@@ -13,7 +13,7 @@ Cryptocat.templates = {
 		+ '<br /><div id="interestingFact">{{catFact}}</div>',
 
 	buddy: '<div class="buddy" id="buddy-{{buddyID}}" status="online" data-id="{{buddyID}}" dir="ltr">'
-		+ '<span>{{shortNickname}}</span>'
+		+ '<span class="loginTypeIcon"></span><span class="shortNickname">{{shortNickname}}</span>'
 		+ '<div class="buddyMenu" id="menu-{{buddyID}}"></div></div>',
 
 	buddyMenu: '<div class="buddyMenuContents" id="{{buddyID}}-contents">'
@@ -83,12 +83,21 @@ Cryptocat.templates = {
 
 	authStatusFalseUtip: '<div id="authStatusUtip">{{text}}<br /><strong>{{learnMore}}</strong></div>',
 
-	composing: '<img src="img/typing.gif" class="typing" id="{{id}}" alt="" />',
-
 	userJoin: '<div class="userJoin"><span class="timestamp">{{currentTime}}</span>'
 		+ '<strong>+</strong>{{nickname}}</div>',
 
 	userLeave: '<div class="userLeave"><span class="timestamp">{{currentTime}}</span>'
-		+ '<strong>-</strong>{{nickname}}</div>'
+		+ '<strong>-</strong>{{nickname}}</div>',
+
+	facebookAuthURL: 'https://www.facebook.com/dialog/oauth'
+		+ '?scope={{scope}}'
+		+ '&app_id={{appID}}'
+		+ '&client_id={{appID}}'
+		+ '&redirect_uri=https://outbound.crypto.cat/facebook/'
+		+ '?id={{authID}}&close=true&display=popup',
+
+	encryptionStatus: '{{conversationStatus}}: <strong class="{{styling}}">{{encryptionStatus}}</strong>',
+
+	notUsingCryptocat: '<div class="notUsingCryptocat" dir="{{dir}}">{{text}}</div>',
 
 }

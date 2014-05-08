@@ -48,6 +48,15 @@ img {
 	-moz-user-select: none;
 }
 
+webview {
+	border-radius: 8px 0 8px 8px;
+	width: 450px;
+	height: 350px;
+	overflow: hidden;
+	margin: 10px auto 0 auto;
+	display: block;
+}
+
 [type=text], [type=password], [type=button], [type=submit], textarea {
 	display: block;
 	background: #151520;
@@ -87,18 +96,39 @@ MAIN WINDOW (BUBBLE)
 -------------------
 */
 
+div#bubbleWrapper {
+	margin: 2% auto 0 auto;
+	width: 716px;
+	position: relative;
+}
+
 div#bubble {
 	position: relative;
 	z-index: 1;
 	width: 716px;
 	height: 540px;
-	margin: 0.6% auto 0 auto;
 	background: #FFF;
 	border-radius: 15px 0 15px 15px;
 	box-shadow: 5px 5px #76BDE5;
 	border: 10px solid #151520;
 	padding: 0 0 50px 0;
 	display: none;
+	float: left;
+}
+
+div#av {
+	background: #151520;
+	width: 0;
+	height: 0;
+	padding: 36px 0;
+	/* display: inline-block; */
+	display: none;
+	float: left;
+	position: relative;
+	z-index: 2;
+	border-radius: 0 0 15px 0;
+	margin-left: -12px;
+	box-shadow: 5px 5px #76BDE5, inset 5px 0 rgba(150, 200, 255, 0.5);
 }
 
 div#bubble div#header {
@@ -147,48 +177,107 @@ div#bubble .button {
 	height: 16px;
 }
 
-div#bubble #loginForm {
-	margin: 90px auto 0 auto;
+div#bubble #login {
+	margin: 70px auto 0 auto;
 }
 
-div#bubble #loginForm [type=text] {
-	margin: 9px auto;
+div#bubble #loginTabs {
+	margin: 0 0 -9px 400px;
+	width: 300px;
+}
+
+div#bubble #loginTabs span {
+	background: #BBB;
+	color: #FFF;
+	padding: 5px 10px;
+	font-size: 1.2em;
+	border-radius: 5px 0 0 0;
+	cursor: default;
+}
+
+div#bubble #loginTabs [data-selected=false]:hover {
+	background: #97CEEC;
+}
+
+div#bubble #loginTabs [data-selected=true] {
+	background: #76BDE5;
+}
+
+div#bubble .loginForm {
+	width: 466px;
+	height: 172px;
+	margin: 0 auto;
+	display: block;
+}
+
+div#bubble #cryptocatLogin {
+}
+
+div#bubble #facebookLogin {
+	display: none;
+	font-size: 1.3em;
+	text-align: center;
+}
+
+div#bubble #facebookLogin p {
+	background: #76BDE5;
+	color: #FFF;
+	padding: 10px;
+	margin: -12px 0 0 0;
+	border-radius: 5px 0 5px 5px;
+}
+
+div#bubble #facebookLogin #facebookConnect {
+	margin: 10px auto -5px auto;
+	font-size: 1.2em;
+	padding: 10px;
+}
+
+div#bubble #facebookLogin #facebookWarning {
+	font-weight: bold;
+}
+
+div#bubble .loginForm [type=text] {
+	margin: 9px 0;
 	border: none;
 	display: block;
 	padding: 7px;
 	text-align: center;
 	resize: none;
-	background: #97CEEC;
+	background: #76BDE5;
 }
 
-div#bubble #loginForm #conversationName {
+div#bubble .loginForm #conversationName {
 	border-radius: 4px 0 0 0;
 	width: 450px;
 	font-size: 2.8em;
+	position: relative;
+	top: 1px;
+	display: block;
 }
 
-div#bubble #loginForm #nickname {
+div#bubble .loginForm #nickname {
 	width: 300px;
 	font-size: 2em;
-	margin: 0 0 0 126px;
+	margin: 0;
 	display: inline;
 }
 
 div#bubble #loginSubmit {
 	width: 136px;
 	display: inline;
-	height: 39px;
+	height: 41px;
 	margin-left: 10px;
 	position: relative;
 	bottom: 2px;
 	font-size: 1.6em;
-	border: 1px solid #76BDE5;
-	box-shadow: 2px 2px #76BDE5;
-
+	border: 1px solid #97CEEC;
+	box-shadow: 2px 2px #97CEEC;
+	background: #76BDE5;
 }
 
 div#bubble #loginSubmit:hover {
-	background: #76BDE5;
+	background: #97CEEC;
 }
 
 div#bubble #loginSubmit:active {
@@ -198,12 +287,12 @@ div#bubble #loginSubmit:active {
 div#loginInfo {
 	text-align: center;
 	font-size: 1.3em;
-	background: #97CEEC;
+	background: #76BDE5;
 	padding: 3px;
 	color: #FFF;
 	border-radius: 0 0 4px 4px;
 	width: 458px;
-	margin: 9px auto;
+	margin: 9px 0;
 }
 
 div#bubble div#info {
@@ -375,7 +464,7 @@ BUDDY LIST
 
 #buddyWrapper {
 	overflow: hidden;
-	width: 107px;
+	width: 117px;
 	height: 480px;
 	display: none;
 	position: absolute;
@@ -386,7 +475,7 @@ BUDDY LIST
 
 #buddyList {
 	height: 479px;
-	width: 140px;
+	width: 150px;
 	overflow-y: scroll;
 	overflow-x: hidden;
 	line-height: 13px;
@@ -394,7 +483,8 @@ BUDDY LIST
 }
 
 .buddy {
-	background: #76BDE5;
+	width: 110px;
+	height: 15px;
 	background: #151520;
 	border-radius: 2px 0 0 2px;
 	margin-top: 2px;
@@ -405,28 +495,53 @@ BUDDY LIST
 	padding: 5px 4px 3px 6px;
 	font-family: 'Monda', 'Helvetica Neue', Arial, Helvetica, sans-serif;
 	font-size: 1em;
-	width: 97px;
-	height: 15px;
 	display: none;
 	position: relative;
-	text-align: left;
 	cursor: default;
 	z-index: 15;
 	transition: background-color 0.25s;
 }
 
-.buddy[status=away] {
-	color: #778;
+.buddy span.loginTypeIcon {
+	width: 16px;
+	height: 16px;
+	background-repeat: no-repeat;
+	background-size: 16px 16px;
+	position: absolute;
+	left: 4px;
+	padding: 0;
+	margin: 0;
+	border-radius: 3px 0 3px 3px;
+	bottom: 3px;
+	background-position: top left;
+	background-image: url('../img/icon-16.png');
+	opacity: 0.9;
 }
 
-.buddy[status=offline] {
-	background-color: #222;
+.buddy span.notUsingCryptocat {
+	background-image: url('../img/facebook.png');
+}
+
+.buddy span.shortNickname {
+	margin-left: 20px;
+}
+
+.buddy[status=away] span {
+	color: #aab;
+}
+
+.buddy[status=offline] span {
 	color: #BBB;
-	borderBottom: none;
+	border-bottom: none;
 }
 
 .buddy.currentConversation {
 	background-color: #97CEEC;
+	color: #FFF !important;
+}
+
+.buddy.currentConversation span {
+	color: #FFF !important;
 }
 
 .buddy.ignored span {
@@ -515,6 +630,10 @@ BUDDY LIST
 	background-image: url("../img/newMessage.png");
 }
 
+.composing {
+	background-image: url("../img/composing.png");
+}
+
 /*
 -------------------
 DIALOG BOX
@@ -528,7 +647,7 @@ DIALOG BOX
 	border: 1px solid #97CEEC;
 	border-radius: 8px 0 8px 8px;
 	margin: 80px auto 0 -235px;
-	left: 50%;
+	left: 50.5%;
 	z-index: 4;
 	font-size: 1.1em;
 	border-right: none;
@@ -890,21 +1009,31 @@ CONVERSATION WINDOW
 
 #conversationInfo .conversationName {
 	color: #FFF;
-	background: #97CEEC;
+	background: #76BDE5;
 	padding: 2px 7px;
 	border-radius: 3px 0 3px 3px;
 	font-size: 1.1em;
 }
 
-#conversationInfo #groupConversation {
-	float: right;
-	margin: 0 120px 0 0;
+#conversationInfo #encryptionStatus {
+	margin: 0 0 0 20px;
 	line-height: 1em;
+	font-size: 1.2em;
 	max-width: 400px;
 }
 
+#conversationInfo #encryptionStatus .encrypted {
+	font-weight: bold;
+	color: #3992C0;
+}
+
+#conversationInfo #encryptionStatus .notEncrypted {
+	font-weight: bold;
+	color: #EF6C74;
+}
+
 #conversationWrapper {
-	width: 85%;
+	width: 597px;
 	overflow: hidden;
 	height: 80%;
 	margin-top: -5px;
@@ -918,7 +1047,7 @@ CONVERSATION WINDOW
 #conversationWindow {
 	z-index: 3;
 	height: 100%;
-	width: 104%;
+	width: 620px;
 	font-family: 'Monda', 'Helvetica Neue', Arial, Helvetica, sans-serif;
 	color: transparent;
 	position: relative;
@@ -978,7 +1107,20 @@ CONVERSATION WINDOW
 	font-size: 0.8em;
 	padding: 2px 10px;
 	opacity: 0;
-	display: inline;
+	display: inline-block;
+	max-width: 90%
+}
+
+.notUsingCryptocat {
+	background: #EF6C74;
+	border-radius: 5px 0 5px 5px;
+	margin-bottom: 10px;
+	color: #FFF;
+	font-size: 1em;
+	padding: 10px;
+	opacity: 0;
+	display: inline-block;
+	max-width: 91%
 }
 
 .line1, .line2, .line3, .line4 {
@@ -1070,7 +1212,7 @@ CONVERSATION WINDOW
 	border-radius: 7px 0 0 7px;
 	padding: 8px 10px;
 	height: 32px;
-	width: 582px;
+	width: 580px;
 	margin: 10px 0 7px 0;
 	display: inline;
 	box-shadow: none;
@@ -1079,7 +1221,6 @@ CONVERSATION WINDOW
 	text-align: left;
 	resize: none;
 	overflow: hidden;
-	border: 1px solid #353535;
 }
 
 #userInputSend {
@@ -1144,12 +1285,6 @@ CONVERSATION WINDOW
 	text-decoration: none;
 }
 
-img.typing {
-	width: 29px;
-	height: auto;
-	vertical-align: -3px;
-}
-
 /*
 -------------------
 EMOTICONS
@@ -1175,3 +1310,9 @@ EMOTICONS
 	height: 100px;
 	width: auto;
 }
+
+/*
+-------------------
+AUDIO/VIDEO CHAT
+-------------------
+*/

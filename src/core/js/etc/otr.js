@@ -25,8 +25,18 @@ Cryptocat.otr.add = function(nickname) {
 
 // Handle incoming messages.
 var onIncoming = function(nickname, msg, encrypted) {
-	// drop unencrypted messages
-	if (encrypted) {
+	if (Cryptocat.me.login === 'cryptocat') {
+		// Drop unencrypted messages.
+		if (encrypted) {
+			Cryptocat.addToConversation(
+				msg, nickname, Cryptocat.buddies[nickname].id, 'message'
+			)
+			if (Cryptocat.me.currentBuddy !== Cryptocat.buddies[nickname].id) {
+				Cryptocat.messagePreview(msg, nickname)
+			}
+		}
+	}
+	if (Cryptocat.me.login === 'facebook') {
 		Cryptocat.addToConversation(
 			msg, nickname, Cryptocat.buddies[nickname].id, 'message'
 		)
@@ -36,14 +46,26 @@ var onIncoming = function(nickname, msg, encrypted) {
 	}
 }
 
-// Handle outgoing messages.
+// Handle outgoing messages depending on connection type.
 var onOutgoing = function(nickname, message) {
-	Cryptocat.xmpp.connection.muc.message(
-		Cryptocat.me.conversation
-			+ '@'
-			+ Cryptocat.xmpp.conferenceServer,
-		nickname, message, null, 'chat', 'active'
-	)
+	if (Cryptocat.me.login === 'cryptocat') {
+		Cryptocat.xmpp.connection.muc.message(
+			Cryptocat.me.conversation
+				+ '@'
+				+ Cryptocat.xmpp.conferenceServer,
+			nickname, message, null, 'chat', 'active'
+		)
+	}
+	if (Cryptocat.me.login === 'facebook') {
+		var to = '-' + Cryptocat.buddies[nickname].id + '@chat.facebook.com'
+		var reply = $msg({
+			to: to,
+			type: 'chat',
+			cryptocat: 'true',
+		}).cnode(Strophe.xmlElement('body', message))
+		Cryptocat.xmpp.connection.send(reply.tree())
+		console.log('Facebook sent ' + to + ': ' + message)
+	}
 }
 
 // Handle otr state changes.
