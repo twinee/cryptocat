@@ -353,8 +353,10 @@ Cryptocat.buddyStatus = function(nickname, status) {
 	if (status === 'away') {
 		placement = '#buddiesAway'
 	}
-	thisBuddy.attr('status', status)
-	thisBuddy.insertAfter(placement).slideDown(200)
+	if (thisBuddy.attr('status') !== status) {
+		thisBuddy.attr('status', status)
+		thisBuddy.insertAfter(placement).slideDown(200)
+	}
 }
 
 // Handle buddy going offline.
