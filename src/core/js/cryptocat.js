@@ -641,7 +641,7 @@ var initializeConversationBuffer = function(id) {
 		!Cryptocat.buddies[Cryptocat.getBuddyNicknameByID(id)].usingCryptocat
 		&& conversationBuffers[id] === ''
 	) {
-		conversationBuffers[id] += Mustache.render(Cryptocat.templates.missingRecipients, {
+		conversationBuffers[id] += Mustache.render(Cryptocat.templates.notUsingCryptocat, {
 			text: 'This conversation is not encrypted because this contact is not using Cryptocat. '
 				+ 'Ask your friend to download Cryptocat and enjoy encrypted chat!'
 		})

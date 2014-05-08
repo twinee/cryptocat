@@ -98,4 +98,6 @@ Cryptocat.templates = {
 
 	encryptionStatus: '{{conversationStatus}}: <strong class="{{styling}}">{{encryptionStatus}}</strong>',
 
+	notUsingCryptocat: '<div class="notUsingCryptocat" dir="{{dir}}">{{text}}</div>',
+
 }
