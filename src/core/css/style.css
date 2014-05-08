@@ -537,6 +537,11 @@ BUDDY LIST
 
 .buddy.currentConversation {
 	background-color: #97CEEC;
+	color: #FFF !important;
+}
+
+.buddy.currentConversation span {
+	color: #FFF !important;
 }
 
 .buddy.ignored span {
