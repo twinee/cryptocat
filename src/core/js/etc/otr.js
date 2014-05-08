@@ -27,16 +27,23 @@ Cryptocat.otr.add = function(nickname) {
 var onIncoming = function(nickname, msg, encrypted) {
 	if (Cryptocat.me.login === 'cryptocat') {
 		// Drop unencrypted messages.
-		if (encrypted) {
-			Cryptocat.addToConversation(
-				msg, nickname, Cryptocat.buddies[nickname].id, 'message'
-			)
-			if (Cryptocat.me.currentBuddy !== Cryptocat.buddies[nickname].id) {
-				Cryptocat.messagePreview(msg, nickname)
-			}
+		if (!encrypted) {
+			return
+		}
+		Cryptocat.addToConversation(
+			msg, nickname, Cryptocat.buddies[nickname].id, 'message'
+		)
+		if (Cryptocat.me.currentBuddy !== Cryptocat.buddies[nickname].id) {
+			Cryptocat.messagePreview(msg, nickname)
 		}
 	}
 	if (Cryptocat.me.login === 'facebook') {
+		// Drop unencrypted messages if buddy claims to use Cryptocat.
+		if (Cryptocat.buddies[nickname].usingCryptocat &&
+			!encrypted
+		) {
+			return
+		}
 		Cryptocat.addToConversation(
 			msg, nickname, Cryptocat.buddies[nickname].id, 'message'
 		)
