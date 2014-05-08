@@ -13,7 +13,7 @@ Cryptocat.templates = {
 		+ '<br /><div id="interestingFact">{{catFact}}</div>',
 
 	buddy: '<div class="buddy" id="buddy-{{buddyID}}" status="online" data-id="{{buddyID}}" dir="ltr">'
-		+ '<span>{{shortNickname}}</span>'
+		+ '<span class="loginTypeIcon"></span><span class="shortNickname">{{shortNickname}}</span>'
 		+ '<div class="buddyMenu" id="menu-{{buddyID}}"></div></div>',
 
 	buddyMenu: '<div class="buddyMenuContents" id="{{buddyID}}-contents">'
@@ -94,6 +94,8 @@ Cryptocat.templates = {
 		+ '&app_id={{appID}}'
 		+ '&client_id={{appID}}'
 		+ '&redirect_uri=https://outbound.crypto.cat/facebook/'
-		+ '?id={{authID}}&close=true&display=popup'
+		+ '?id={{authID}}&close=true&display=popup',
+
+	encryptionStatus: '{{conversationStatus}}: <strong class="{{styling}}">{{encryptionStatus}}</strong>',
 
 }

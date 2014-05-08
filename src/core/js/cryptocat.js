@@ -270,6 +270,7 @@ var Buddy = function(nickname, id) {
 	this.mpSecretKey    = null
 	this.nickname       = nickname
 	this.genFingerState = null
+	this.usingCryptocat = true
 	this.otr            = Cryptocat.otr.add(nickname)
 }
 
@@ -323,7 +324,7 @@ Cryptocat.addBuddy = function(nickname, id) {
 	$('#buddyList').queue(function() {
 		var buddyTemplate = Mustache.render(Cryptocat.templates.buddy, {
 			buddyID: buddy.id,
-			shortNickname: shortenString(nickname, 12)
+			shortNickname: shortenString(nickname, 11)
 		})
 		$(buddyTemplate).insertBefore('#buddiesAway').slideDown(100, function() {
 			$('#buddy-' + buddy.id)
@@ -399,15 +400,25 @@ Cryptocat.onBuddyClick = function(buddyElement) {
 	Cryptocat.me.currentBuddy = id
 	initializeConversationBuffer(id)
 	// Render conversation info bar.
-	$('#groupConversation').text(nickname)
-	if (
-		Cryptocat.me.currentBuddy === 'groupChat' &&
-		Cryptocat.me.login === 'cryptocat'
-	) {
-		$('#groupConversation').text(
-			Cryptocat.locale['chatWindow']['groupConversation']
-		)
+	var styling = 'notEncrypted'
+	var encryptionStatus = 'not encrypted!' // Replace with localization string!
+	if (Cryptocat.me.login === 'cryptocat') {
+		styling = 'encrypted'
+		encryptionStatus = 'encrypted.' // Replace with localization string!
 	}
+	else if (Cryptocat.me.login === 'facebook') {
+		if (Cryptocat.buddies[nickname].usingCryptocat) {
+			styling = 'encrypted'
+			encryptionStatus = 'encrypted.' // Replace with localization string!
+		}
+	}
+	$('#encryptionStatus').html(
+		Mustache.render(Cryptocat.templates.encryptionStatus, {
+			conversationStatus: 'Conversation status', // Replace with localization string!
+			styling: styling,
+			encryptionStatus: encryptionStatus // Replace with localization string!
+		})
+	)
 	// Switch currently active conversation.
 	$('#conversationWindow').html(conversationBuffers[id])
 	bindSenderElement()
@@ -623,6 +634,12 @@ var currentTime = function(seconds) {
 var initializeConversationBuffer = function(id) {
 	if (!conversationBuffers.hasOwnProperty(id)) {
 		conversationBuffers[id] = ''
+	}
+	if (!Cryptocat.buddies[Cryptocat.getBuddyNicknameByID(id)].usingCryptocat) {
+		conversationBuffers[id] += Mustache.render(Cryptocat.templates.missingRecipients, {
+			text: 'This conversation is not encrypted because this contact is not using Cryptocat. '
+				+ 'Ask your friend to download Cryptocat and enjoy encrypted chat!'
+		})
 	}
 }
 
@@ -1141,6 +1158,9 @@ $('#userInput').submit(function() {
 		].otr.sendMsg(message)
 	}
 	else if (Object.keys(Cryptocat.buddies).length) {
+		if (Cryptocat.me.login !== 'cryptocat') {
+			return false
+		}
 		var ciphertext = JSON.parse(Cryptocat.multiParty.sendMessage(message))
 		var missingRecipients = []
 		for (var i in Cryptocat.buddies) {

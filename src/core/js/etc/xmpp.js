@@ -138,10 +138,12 @@ Cryptocat.xmpp.onConnected = function() {
 		$('.logo').animate({'margin': '-11px 5px 0 0'})
 		$('#login').fadeOut(200, function() {
 			$('#conversationInfo').fadeIn()
-			$('#buddy-groupChat').click(function() {
-				Cryptocat.onBuddyClick($(this))
-			})
-			$('#buddy-groupChat').click()
+			if (Cryptocat.me.login === 'cryptocat') {
+				$('#buddy-groupChat').click(function() {
+					Cryptocat.onBuddyClick($(this))
+				})
+				$('#buddy-groupChat').click()
+			}
 			$('#conversationWrapper').fadeIn()
 			$('#optionButtons').fadeIn()
 			$('#footer').delay(200).animate({'height': 60}, function() {
