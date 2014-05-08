@@ -56,15 +56,17 @@ Cryptocat.FB.verifyLogin = function() {
 }
 
 Cryptocat.FB.onConnect = function(status) {
+	/*
 	if (status === Strophe.Status.CONNECTING) {
 	}
-	else if (status === Strophe.Status.CONNFAIL) {
+	if (status === Strophe.Status.CONNFAIL) {
 	}
-	else if (status === Strophe.Status.DISCONNECTING) {
+	if (status === Strophe.Status.DISCONNECTING) {
 	}
-	else if (status === Strophe.Status.DISCONNECTED) {
+	if (status === Strophe.Status.DISCONNECTED) {
 	}
-	else if (status === Strophe.Status.CONNECTED) {
+	*/
+	if (status === Strophe.Status.CONNECTED) {
 		console.log('Send a message to ' + Cryptocat.xmpp.connection.jid + ' to talk to me.')
 		Cryptocat.FB.onConnected()
 		Cryptocat.xmpp.connection.addHandler(
@@ -113,7 +115,7 @@ Cryptocat.FB.onMessage = function(message) {
 	return true
 }
 
-Cryptocat.FB.onPresence = function(presence) {
+Cryptocat.FB.onPresence = function() {
 	return true
 }
 
