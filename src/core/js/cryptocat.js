@@ -362,21 +362,23 @@ Cryptocat.buddyStatus = function(nickname, status) {
 // Handle buddy going offline.
 Cryptocat.removeBuddy = function(nickname) {
 	var buddyID = Cryptocat.buddies[nickname].id
-	var buddyElement = $('#buddy-' + buddyID)
+	var buddyElement = $('[data-id=' + buddyID + ']')
 	delete Cryptocat.buddies[nickname]
 	if (!buddyElement.length) {
 		return
 	}
-	buddyElement.attr('status', 'offline')
-	buddyNotification(nickname, false)
-	if (Cryptocat.me.currentBuddy === buddyID) {
-		return
-	}
-	if (!buddyElement.hasClass('newMessage')) {
-		buddyElement.slideUp(500, function() {
-			$(this).remove()
-		})
-	}
+	buddyElement.each(function() {
+		$(this).attr('status', 'offline')
+		buddyNotification(nickname, false)
+		if (Cryptocat.me.currentBuddy === buddyID) {
+			return
+		}
+		if (!$(this).hasClass('newMessage')) {
+			$(this).slideUp(500, function() {
+				$(this).remove()
+			})
+		}
+	})
 }
 
 // Get a buddy's nickname from their ID.
@@ -638,6 +640,7 @@ var initializeConversationBuffer = function(id) {
 		conversationBuffers[id] = ''
 	}
 	if (
+		id !== 'groupChat' &&
 		!Cryptocat.buddies[Cryptocat.getBuddyNicknameByID(id)].usingCryptocat
 		&& conversationBuffers[id] === ''
 	) {

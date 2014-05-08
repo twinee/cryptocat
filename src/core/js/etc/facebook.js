@@ -57,19 +57,14 @@ Cryptocat.FB.verifyLogin = function() {
 
 Cryptocat.FB.onConnect = function(status) {
 	if (status === Strophe.Status.CONNECTING) {
-		console.log('Strophe is connecting.')
 	}
 	else if (status === Strophe.Status.CONNFAIL) {
-		console.log('Strophe failed to connect.')
 	}
 	else if (status === Strophe.Status.DISCONNECTING) {
-		console.log('Strophe is disconnecting.')
 	}
 	else if (status === Strophe.Status.DISCONNECTED) {
-		console.log('Strophe is disconnected.')
 	}
 	else if (status === Strophe.Status.CONNECTED) {
-		console.log('Strophe is connected.')
 		console.log('Send a message to ' + Cryptocat.xmpp.connection.jid + ' to talk to me.')
 		Cryptocat.FB.onConnected()
 		Cryptocat.xmpp.connection.addHandler(
@@ -104,7 +99,6 @@ Cryptocat.FB.onConnected = function() {
 }
 
 Cryptocat.FB.onMessage = function(message) {
-	console.log(message)
 	var from     = message.getAttribute('from').match(/\d+/)[0]
 	var type     = message.getAttribute('type')
 	var elements = message.getElementsByTagName('body')
@@ -113,9 +107,6 @@ Cryptocat.FB.onMessage = function(message) {
 		(elements.length > 0)
 	) {
 		var body = elements[0]
-		console.log(
-			'I got a message from ' + from + ': ' + Strophe.getText(body)
-		)
 		var nickname = Cryptocat.getBuddyNicknameByID(from)
 		Cryptocat.buddies[nickname].otr.receiveMsg(Strophe.getText(body))
 	}
@@ -123,8 +114,6 @@ Cryptocat.FB.onMessage = function(message) {
 }
 
 Cryptocat.FB.onPresence = function(presence) {
-	console.log(presence)
-
 	return true
 }
 
@@ -170,14 +159,14 @@ Cryptocat.FB.handleStatus = function(status) {
 				if (data === 'true') {
 					Cryptocat.buddyStatus(status.name, 'online')
 					$('#buddy-' + status.uid).find('.loginTypeIcon')
-						.addClass('usingCryptocat')
+						.removeClass('notUsingCryptocat')
 					Cryptocat.buddies[status.name].usingCryptocat = true
 					Cryptocat.buddies[status.name].otr.REQUIRE_ENCRYPTION = true
 				}
 				else {
 					Cryptocat.buddyStatus(status.name, 'away')
 					$('#buddy-' + status.uid).find('.loginTypeIcon')
-						.removeClass('usingCryptocat')
+						.addClass('notUsingCryptocat')
 					Cryptocat.buddies[status.name].usingCryptocat = false
 					Cryptocat.buddies[status.name].otr.REQUIRE_ENCRYPTION = false
 				}

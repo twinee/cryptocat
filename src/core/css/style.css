@@ -507,18 +507,19 @@ BUDDY LIST
 	height: 16px;
 	background-repeat: no-repeat;
 	background-size: 16px 16px;
-	float: left;
 	position: absolute;
 	left: 4px;
+	padding: 0;
+	margin: 0;
 	border-radius: 3px 0 3px 3px;
 	bottom: 3px;
 	background-position: top left;
-	background-image: url('../img/facebook.png');
+	background-image: url('../img/icon-16.png');
 	opacity: 0.9;
 }
 
-.buddy span.usingCryptocat {
-	background-image: url('../img/icon-16.png');
+.buddy span.notUsingCryptocat {
+	background-image: url('../img/facebook.png');
 }
 
 .buddy span.shortNickname {
@@ -530,9 +531,8 @@ BUDDY LIST
 }
 
 .buddy[status=offline] span {
-	background-color: #222;
 	color: #BBB;
-	borderBottom: none;
+	border-bottom: none;
 }
 
 .buddy.currentConversation {
