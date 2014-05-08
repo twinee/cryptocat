@@ -100,7 +100,7 @@ Cryptocat.FB.onConnected = function() {
 	Cryptocat.FB.getStatuses()
 	Cryptocat.FB.statusInterval = setInterval(function() {
 		Cryptocat.FB.getStatuses()
-	}, 20000)
+	}, 15000)
 }
 
 Cryptocat.FB.onMessage = function(message) {
