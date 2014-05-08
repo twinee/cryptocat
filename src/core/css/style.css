@@ -182,7 +182,7 @@ div#bubble #login {
 }
 
 div#bubble #loginTabs {
-	float: right;
+	margin: 0 0 -9px 400px;
 	width: 300px;
 }
 
@@ -223,7 +223,7 @@ div#bubble #facebookLogin p {
 	background: #76BDE5;
 	color: #FFF;
 	padding: 10px;
-	margin: 1px 0 0 0;
+	margin: -12px 0 0 0;
 	border-radius: 5px 0 5px 5px;
 }
 
