@@ -99,7 +99,6 @@ Cryptocat.FB.onConnected = function() {
 	// Do the regular onConnected UI shabang...
 	Cryptocat.xmpp.onConnected()
 	// Then do some special shwaza for Facebook.
-	$('#buddy-groupChat,#status').hide()
 	Cryptocat.xmpp.connection.send($pres().tree())
 	Cryptocat.FB.getStatuses()
 	Cryptocat.FB.statusInterval = setInterval(function() {
