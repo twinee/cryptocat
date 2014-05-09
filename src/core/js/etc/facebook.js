@@ -147,37 +147,32 @@ Cryptocat.FB.handleStatus = function(status) {
 			Cryptocat.removeBuddy(status.name)
 		}
 	}
-	else if (presence.match(/(active)/)) {
+	else if (presence === 'active') {
 		$.get(
 			'https://outbound.crypto.cat/facebook/',
 			{
 				user: status.uid
 			},
 			function(data) {
-				if (data === 'true') {
-					if (!Cryptocat.buddies.hasOwnProperty(status.name)) {
-						Cryptocat.addBuddy(status.name, status.uid, 'online')
-					}
-					else {
-						Cryptocat.buddyStatus(status.name, 'online')
-					}
+				if (!data.match(/^(online)|(away)$/)) { return }
+				if (!Cryptocat.buddies.hasOwnProperty(status.name)) {
+					Cryptocat.addBuddy(status.name, status.uid, data)
+				}
+				else {
+					Cryptocat.buddyStatus(status.name, data)
+				}
+				if (data === 'online') {
 					$('#buddy-' + status.uid).find('.loginTypeIcon')
 						.removeClass('notUsingCryptocat')
-					Cryptocat.buddies[status.name].usingCryptocat = true
+					$('#buddy-' + status.uid).find('.buddyMenu').show()
+					Cryptocat.buddies[status.name].usingCryptocat         = true
 					Cryptocat.buddies[status.name].otr.REQUIRE_ENCRYPTION = true
 				}
 				else {
-					if (!Cryptocat.buddies.hasOwnProperty(status.name)) {
-						Cryptocat.addBuddy(status.name, status.uid, 'away')
-					}
-					else {
-						Cryptocat.buddyStatus(status.name, 'away')
-					}
 					$('#buddy-' + status.uid).find('.loginTypeIcon')
 						.addClass('notUsingCryptocat')
-					$('#buddy-' + status.uid).find('.buddyMenu')
-						.css({display: 'none'})
-					Cryptocat.buddies[status.name].usingCryptocat = false
+					$('#buddy-' + status.uid).find('.buddyMenu').hide()
+					Cryptocat.buddies[status.name].usingCryptocat         = false
 					Cryptocat.buddies[status.name].otr.REQUIRE_ENCRYPTION = false
 				}
 			}
