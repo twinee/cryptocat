@@ -71,7 +71,6 @@ var onOutgoing = function(nickname, message) {
 			cryptocat: 'true',
 		}).cnode(Strophe.xmlElement('body', message))
 		Cryptocat.xmpp.connection.send(reply.tree())
-		console.log('Facebook sent ' + to + ': ' + message)
 	}
 }
 
