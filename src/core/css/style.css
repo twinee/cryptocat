@@ -59,7 +59,7 @@ webview {
 
 [type=text], [type=password], [type=button], [type=submit], textarea {
 	display: block;
-	background: #151520;
+	background: #303040;
 	font-size: 1em;
 	padding: 3px;
 	color: #FFF;
@@ -97,8 +97,8 @@ MAIN WINDOW (BUBBLE)
 */
 
 div#bubbleWrapper {
-	margin: 2% auto 0 auto;
-	width: 716px;
+	margin: 0 auto;
+	width: 740px;
 	position: relative;
 }
 
@@ -109,15 +109,15 @@ div#bubble {
 	height: 540px;
 	background: #FFF;
 	border-radius: 15px 0 15px 15px;
-	box-shadow: 5px 5px #76BDE5;
-	border: 10px solid #151520;
+	box-shadow: 4px 4px #76BDE5;
+	border: 8px solid #303040;
 	padding: 0 0 50px 0;
 	display: none;
 	float: left;
 }
 
 div#av {
-	background: #151520;
+	background: #303040;
 	width: 0;
 	height: 0;
 	padding: 36px 0;
@@ -333,7 +333,7 @@ div#bubble h1 {
 }
 
 div#bubble #footer {
-	background: #151520;
+	background: #303040;
 	width: 100%;
 	height: 14px;
 	padding: 1px 0 2px 2px;
@@ -486,7 +486,7 @@ BUDDY LIST
 .buddy {
 	width: 110px;
 	height: 15px;
-	background: #151520;
+	background: #303040;
 	border-radius: 2px 0 0 2px;
 	margin-top: 2px;
 	background-position: 87% 3px;
@@ -567,7 +567,7 @@ BUDDY LIST
 }
 
 .buddyMenu:active {
-	background-color: #151520;
+	background-color: #303040;
 }
 
 .buddyMenuContents {
@@ -646,9 +646,9 @@ DIALOG BOX
 	height: 240px;
 	border: 1px solid #97CEEC;
 	border-radius: 8px 0 8px 8px;
-	margin: 80px auto 0 -235px;
-	left: 50.5%;
+	margin: 80px auto 0 -240px;
 	z-index: 4;
+	left: 50%;
 	font-size: 1.1em;
 	border-right: none;
 	border-bottom: none;
@@ -960,7 +960,7 @@ DIALOG BOX
 }
 
 #dialogBox #resetKeysOK {
-	background: #151520;
+	background: #303040;
 	border: 1px solid #97CEEC;
 	color: #97CEEC;
 	margin: 0 auto;
@@ -1208,7 +1208,7 @@ CONVERSATION WINDOW
 }
 
 #userInputText {
-	background: #0D0D17;
+	background: #202030;
 	border-radius: 7px 0 0 7px;
 	padding: 8px 10px;
 	height: 32px;

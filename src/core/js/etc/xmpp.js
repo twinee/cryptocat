@@ -134,7 +134,7 @@ Cryptocat.xmpp.onConnected = function() {
 	window.setTimeout(function() {
 		$('#loginOptions,#languages,#customServerDialog').fadeOut(200)
 		$('#version,#logoText,#loginInfo,#info').fadeOut(200)
-		$('#header').animate({'background-color': '#151520'})
+		$('#header').animate({'background-color': '#303040'})
 		$('.logo').animate({'margin': '-11px 5px 0 0'})
 		$('#login').fadeOut(200, function() {
 			$('#conversationInfo').fadeIn()

@@ -5,6 +5,7 @@ Cryptocat.FB                = {}
 Cryptocat.FB.userID         = null
 Cryptocat.FB.accessToken    = null
 Cryptocat.FB.statusInterval = null
+Cryptocat.FB.authInterval   = null
 Cryptocat.FB.authID         = (function() {
 	var id = ''
 	while (id.length < 77) { // 2^256 ~= 10^77
@@ -213,6 +214,7 @@ Cryptocat.storage.getItem('login', function(login) {
 
 // Launch Facebook authentication page
 $('#facebookConnect').click(function() {
+	clearInterval(Cryptocat.FB.authInterval)
 	var authURL = Mustache.render(
 		Cryptocat.templates.facebookAuthURL,
 		{
@@ -228,7 +230,7 @@ $('#facebookConnect').click(function() {
 		+ ((screen.height / 2.6) - (300 / 2))
 		+ ',left=' + ((screen.width / 2.05) - (500 / 2))
 	)
-	var authInterval = setInterval(function() {
+	Cryptocat.FB.authInterval = setInterval(function() {
 		$.get(
 			'https://outbound.crypto.cat/facebook/',
 			{
@@ -236,7 +238,7 @@ $('#facebookConnect').click(function() {
 			},
 			function(data) {
 				if (data.match(/(\w|\-){32,512}/)) {
-					clearInterval(authInterval)
+					clearInterval(Cryptocat.FB.authInterval)
 					Cryptocat.FB.prepareLogin(data)
 				}
 			}

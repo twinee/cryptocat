@@ -34,6 +34,8 @@
 	
 	// Set user agent to Chrome in order to load some Cryptocat features not available to Safari.
 	[_webView setCustomUserAgent:@"Chrome (Mac app)"];
+    [_webView setUIDelegate:self];
+    [_webView setGroupName:@"Cryptocat"];
 	
 	// Initialize localStorage.
 	WebPreferences* prefs = [WebPreferences standardPreferences];
@@ -68,7 +70,11 @@
 	return defaultMenuItemsFixed;
 }
 
-
+// Handle popups.
+- (WebView *)webView:(WebView *)sender createWebViewWithRequest:(NSURLRequest *)request {
+    [[sender mainFrame] loadRequest:request];
+    return sender;
+}
 
 // Handle links.
 - (void)webView:(WebView *)webView decidePolicyForNavigationAction:(NSDictionary *)actionInformation
