@@ -11,9 +11,9 @@ connect
 Enter a name for your conversation and share it with people you'd like to talk to, or join <strong>lobby</strong> to meet new people!
 Enter the name of a conversation to join.
 Please enter a conversation name.
-Conversation name must be alphanumeric.
+Conversation name can be letters or numbers only.
 Please enter a nickname.
-Nickname must be alphanumeric.
+Nickname can be letters or numbers only.
 Nickname in use.
 Authentication failure.
 Connection failed.
@@ -77,3 +77,11 @@ You can also contact them via a trusted channel, such as by phone, and ask them 
 Fingerprints are identifiers that allow you to authenticate persons. They can change between every Cryptocat conversation.
 Without authentication, someone could be impersonating or intercepting your communications.
 The authentication fingerprints for this contact have changed. This is not supposed to happen and could indicate suspicious behaviour. Please authenticate this contact before chatting with them.
+Group Chat
+Facebook
+Connect to Facebook Chat via Cryptocat. Set up end-to-end encrypted chats with Facebook friends who are also using Cryptocat.
+Chat via Facebook
+Conversation status
+encrypted.
+not encrypted!
+This conversation is not encrypted because this contact is not using Cryptocat. Ask your friend to download Cryptocat to enjoy encrypted chat.
