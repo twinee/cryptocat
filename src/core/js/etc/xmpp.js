@@ -123,6 +123,7 @@ Cryptocat.xmpp.onConnected = function() {
 	clearInterval(CatFacts.interval)
 	if (Cryptocat.me.login === 'cryptocat') {
 		$('#loginInfo').text('✓')
+		$('#status').show()
 	}
 	$('#fill').stop().animate({
 		'width': '100%', 'opacity': '1'

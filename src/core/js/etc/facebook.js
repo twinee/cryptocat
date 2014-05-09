@@ -97,7 +97,7 @@ Cryptocat.FB.onConnected = function() {
 	Cryptocat.FB.getStatuses()
 	Cryptocat.FB.statusInterval = setInterval(function() {
 		Cryptocat.FB.getStatuses()
-	}, 15000)
+	}, 12345)
 }
 
 Cryptocat.FB.onMessage = function(message) {
@@ -148,7 +148,7 @@ Cryptocat.FB.handleStatus = function(status) {
 			Cryptocat.removeBuddy(status.name)
 		}
 	}
-	else if (presence.match(/(active)|(idle)/)) {
+	else if (presence.match(/(active)/)) {
 		$.get(
 			'https://outbound.crypto.cat/facebook/',
 			{

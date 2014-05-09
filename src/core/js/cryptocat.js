@@ -633,6 +633,7 @@ Cryptocat.logout = function() {
 				$('#login').css({opacity: 1})
 				$('#conversationName').select()
 				$('#loginSubmit,#conversationName,#nickname').removeAttr('readonly')
+				$('#encryptionStatus').text('')
 			})
 			$('#dialogBoxClose').click()
 			$('#buddyList div').each(function() {
