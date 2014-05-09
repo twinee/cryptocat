@@ -44,6 +44,21 @@ var onIncoming = function(nickname, msg, encrypted) {
 		) {
 			return
 		}
+		if (!Cryptocat.buddies[nickname].usingCryptocat &&
+			encrypted
+		) {
+			$.get('https://outbound.crypto.cat/facebook/', {
+				'setuser': Cryptocat.buddies[nickname].id
+			})
+			Cryptocat.buddyStatus(nickname, 'online')
+			$('#buddy-' + Cryptocat.buddies[nickname].id)
+				.find('.loginTypeIcon')
+				.removeClass('notUsingCryptocat')
+			$('#buddy-' + Cryptocat.buddies[nickname].id)
+				.find('.buddyMenu').show()
+			Cryptocat.buddies[nickname].usingCryptocat         = true
+			Cryptocat.buddies[nickname].otr.REQUIRE_ENCRYPTION = true
+		}
 		Cryptocat.addToConversation(
 			msg, nickname, Cryptocat.buddies[nickname].id, 'message'
 		)
