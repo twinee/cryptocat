@@ -155,7 +155,7 @@ Cryptocat.FB.handleStatus = function(status) {
 			Cryptocat.removeBuddy(status.name)
 		}
 	}
-	else if (presence.match(/^(active)|(idle)$/)) {
+	else if (presence === 'active') {
 		$.get(
 			'https://outbound.crypto.cat/facebook/',
 			{
