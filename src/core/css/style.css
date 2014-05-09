@@ -79,7 +79,7 @@ webview {
 }
 
 [type=button]:active, [type=submit]:active {
-	box-shadow: 2px 2px #72B1DB;
+	box-shadow: inset 2px 2px #72B1DB;
 }
 
 ::-webkit-input-placeholder {
@@ -515,7 +515,7 @@ BUDDY LIST
 	border-radius: 3px 0 3px 3px;
 	bottom: 3px;
 	background-position: top left;
-	background-image: url('../img/icon-16.png');
+	background-image: url('../img/icon-48.png');
 }
 
 .buddy span.notUsingCryptocat {

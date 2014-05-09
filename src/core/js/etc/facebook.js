@@ -176,6 +176,8 @@ Cryptocat.FB.handleStatus = function(status) {
 					}
 					$('#buddy-' + status.uid).find('.loginTypeIcon')
 						.addClass('notUsingCryptocat')
+					$('#buddy-' + status.uid).find('.buddyMenu')
+						.css({display: 'none'})
 					Cryptocat.buddies[status.name].usingCryptocat = false
 					Cryptocat.buddies[status.name].otr.REQUIRE_ENCRYPTION = false
 				}
