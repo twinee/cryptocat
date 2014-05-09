@@ -223,13 +223,18 @@ $('#facebookConnect').click(function() {
 			authID: Cryptocat.FB.authID
 		}
 	)
-	window.open(
-		authURL,
-		'',
-		'width=500px,height=300,top='
-		+ ((screen.height / 2.6) - (300 / 2))
-		+ ',left=' + ((screen.width / 2.05) - (500 / 2))
-	)
+	if (navigator.userAgent === 'Chrome (Mac app)') {
+		window.open(authURL)
+	}
+	else {
+		window.open(
+			authURL,
+			'_blank',
+			'width=500px,height=300,top='
+			+ ((screen.height / 2.6) - (300 / 2))
+			+ ',left=' + ((screen.width / 2.05) - (500 / 2))
+		)
+	}
 	Cryptocat.FB.authInterval = setInterval(function() {
 		$.get(
 			'https://outbound.crypto.cat/facebook/',
