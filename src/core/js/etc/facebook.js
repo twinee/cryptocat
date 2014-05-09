@@ -67,7 +67,6 @@ Cryptocat.FB.onConnect = function(status) {
 	}
 	*/
 	if (status === Strophe.Status.CONNECTED) {
-		console.log('Send a message to ' + Cryptocat.xmpp.connection.jid + ' to talk to me.')
 		Cryptocat.FB.onConnected()
 		Cryptocat.xmpp.connection.addHandler(
 			Cryptocat.FB.onMessage,
