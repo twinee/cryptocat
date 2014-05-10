@@ -1016,6 +1016,7 @@ CONVERSATION WINDOW
 	padding: 2px 7px;
 	border-radius: 3px 0 3px 3px;
 	font-size: 1.1em;
+	margin-left: -5px;
 }
 
 #conversationInfo #encryptionStatus {
