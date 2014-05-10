@@ -6,7 +6,7 @@ GLOBAL VARIABLES
 -------------------
 */
 
-Cryptocat.version = '2.1.23' // Version number
+Cryptocat.version = '2.2' // Version number
 
 Cryptocat.me = {
 	login:         'cryptocat',
@@ -455,7 +455,7 @@ Cryptocat.onBuddyClick = function(buddyElement) {
 	initializeConversationBuffer(id)
 	// Render conversation info bar.
 	var styling = 'notEncrypted'
-	var encryptionStatus =  Cryptocat.locale.login.notEncrypted
+	var encryptionStatus = Cryptocat.locale.login.notEncrypted
 	if (Cryptocat.me.login === 'cryptocat') {
 		styling = 'encrypted'
 		encryptionStatus = Cryptocat.locale.login.encrypted
