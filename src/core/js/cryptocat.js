@@ -632,7 +632,8 @@ Cryptocat.logout = function() {
 			$('#login').fadeIn(200, function() {
 				$('#login').css({opacity: 1})
 				$('#conversationName').select()
-				$('#loginSubmit,#conversationName,#nickname').removeAttr('readonly')
+				$('#conversationName,#nickname').removeAttr('readonly')
+				$('#loginSubmit,#facebookConnect').removeAttr('readonly')
 				$('#encryptionStatus').text('')
 			})
 			$('#dialogBoxClose').click()
