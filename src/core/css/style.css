@@ -109,8 +109,8 @@ div#bubble {
 	height: 540px;
 	background: #FFF;
 	border-radius: 15px 0 15px 15px;
-	box-shadow: 4px 4px #76BDE5;
-	border: 8px solid #303040;
+	box-shadow: 3px 3px #76BDE5;
+	border: 6px solid #303040;
 	padding: 0 0 50px 0;
 	display: none;
 	float: left;
