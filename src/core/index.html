@@ -71,10 +71,10 @@
 					<img class="button" id="logout" src="img/logout.png" alt="" data-utip-gravity="sw" />
 				</div>
 			</div>
-			<div id="login">
-				<div id="loginTabs">
-					<span data-login="cryptocat">Group Chat</span>
-					<span data-login="facebook">Facebook</span>
+			<div id="login" dir="ltr">
+				<div id="loginTabs" dir="ltr">
+					<span data-login="cryptocat" dir="ltr"></span>
+					<span data-login="facebook" dir="ltr"></span>
 				</div>
 				<form id="cryptocatLogin" class="loginForm" dir="ltr">
 					<input type="text" id="conversationName" class="mousetrap" maxlength="20" autocomplete="off" dir="ltr" data-utip-gravity="ne" />
@@ -85,8 +85,7 @@
 				<form id="facebookLogin" class="loginForm">
 					<br />
 					<p>
-						Connect to Facebook Chat via Cryptocat.
-						Set up end-to-end encrypted chats with Facebook friends who are also using Cryptocat.<br />
+						<span class="facebookInfo"></span><br />
 						<input type="button" id="facebookConnect" value="Chat via Facebook" />
 						<br />
 					</p>

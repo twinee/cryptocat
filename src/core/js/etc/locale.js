@@ -145,6 +145,24 @@ Cryptocat.locale.buildObject = function(locale, language) {
 			                            || languageObject.auth.authSlide5,
 			AKEWarning:               language[i++]
 			                            || languageObject.auth.AKEWarning
+		},
+		login: {
+			groupChat:               language[i++]
+			|| languageObject.login.groupChat,
+			facebook:               language[i++]
+			|| languageObject.login.facebook,
+			facebookInfo:           language[i++]
+			|| languageObject.login.facebookInfo,
+			chatViaFacebook:        language[i++]
+			|| languageObject.login.chatViaFacebook,
+			conversationStatus:     language[i++]
+			|| languageObject.login.conversationStatus,
+			encrypted:              language[i++]
+			|| languageObject.login.encrypted,
+			notEncrypted:           language[i++]
+			|| languageObject.login.notEncrypted,
+			facebookWarning:        language[i++]
+			|| languageObject.login.facebookWarning,
 		}
 	}
 	var decodeFileSize = function (str) { return str.replace('(SIZE)', (Cryptocat.otr.maximumFileSize / 1024)) }
@@ -183,8 +201,13 @@ Cryptocat.locale.refresh = function(languageObject) {
 	$('#status').attr('data-utip', languageObject['chatWindow']['statusAvailable'])
 	$('#buddy-groupChat').find('span').text(languageObject['chatWindow']['conversation'])
 	$('#languageSelect').text($('[data-locale=' + languageObject['language'] + ']').text())
+	$('[data-login=cryptocat]').text(languageObject.login.groupChat)
+	$('[data-login=facebook]').text(languageObject.login.facebook)
+	$('.facebookInfo').text(languageObject.login.facebookInfo)
+	$('#facebookConnect').val(languageObject.login.chatViaFacebook)
 	$('[data-utip]').utip()
 	$('html').attr('dir', languageObject['direction'])
+	$('#encryptionStatus').attr('dir', languageObject['direction'])
 	if (languageObject['direction'] === 'ltr') {
 		$('div#bubble #info li').css('background-position', 'top left')
 	}

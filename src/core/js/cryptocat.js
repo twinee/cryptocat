@@ -455,22 +455,22 @@ Cryptocat.onBuddyClick = function(buddyElement) {
 	initializeConversationBuffer(id)
 	// Render conversation info bar.
 	var styling = 'notEncrypted'
-	var encryptionStatus = 'not encrypted!' // Replace with localization string!
+	var encryptionStatus =  Cryptocat.locale.login.notEncrypted
 	if (Cryptocat.me.login === 'cryptocat') {
 		styling = 'encrypted'
-		encryptionStatus = 'encrypted.' // Replace with localization string!
+		encryptionStatus = Cryptocat.locale.login.encrypted
 	}
 	else if (Cryptocat.me.login === 'facebook') {
 		if (Cryptocat.buddies[nickname].usingCryptocat) {
 			styling = 'encrypted'
-			encryptionStatus = 'encrypted.' // Replace with localization string!
+			encryptionStatus = Cryptocat.locale.login.encrypted
 		}
 	}
 	$('#encryptionStatus').html(
 		Mustache.render(Cryptocat.templates.encryptionStatus, {
-			conversationStatus: 'Conversation status', // Replace with localization string!
+			conversationStatus: Cryptocat.locale.login.conversationStatus,
 			styling: styling,
-			encryptionStatus: encryptionStatus // Replace with localization string!
+			encryptionStatus: encryptionStatus
 		})
 	)
 	// Switch currently active conversation.
@@ -696,10 +696,9 @@ var initializeConversationBuffer = function(id) {
 		!Cryptocat.buddies[Cryptocat.getBuddyNicknameByID(id)].usingCryptocat
 		&& conversationBuffers[id] === ''
 	) {
-		// Replace with localization string!
 		conversationBuffers[id] += Mustache.render(Cryptocat.templates.notUsingCryptocat, {
-			text: 'This conversation is not encrypted because this contact is not using Cryptocat. '
-				+ 'Ask your friend to download Cryptocat and enjoy encrypted chat!'
+			text: Cryptocat.locale.login.facebookWarning,
+			dir:  Cryptocat.locale.direction
 		})
 	}
 }
