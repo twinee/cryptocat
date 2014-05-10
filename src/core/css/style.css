@@ -516,7 +516,7 @@ BUDDY LIST
 	padding: 0;
 	margin: 0;
 	border-radius: 3px 0 3px 3px;
-	bottom: 3px;
+	bottom: 4px;
 	background-position: top left;
 	background-image: url('../img/icon-48.png');
 }
@@ -526,7 +526,7 @@ BUDDY LIST
 }
 
 .buddy span.shortNickname {
-	margin-left: 20px;
+	margin-left: 18px;
 }
 
 .buddy[status=away] span {
@@ -1063,7 +1063,7 @@ CONVERSATION WINDOW
 	width: 16px;
 	height: 16px;
 	display: inline-block;
-	margin: 0 10px -4px -2px;
+	margin: 0 7px -4px -2px;
 	border-radius: 4px;
 	background-color: #EF6C74;
 	background-image: url("../img/authStatusNo.png");
