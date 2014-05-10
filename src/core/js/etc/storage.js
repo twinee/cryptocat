@@ -62,8 +62,14 @@ Cryptocat.storage = (function() {
 				element.dispatchEvent(evt)
 				callback(element.getAttribute('firefoxStorageGet'))
 			},
-			removeItem: function() {
-				return false
+			removeItem: function(key) {
+				var element = document.createElement('cryptocatFirefoxElement')
+				document.documentElement.appendChild(element)
+				var evt = document.createEvent('HTMLEvents')
+				element.setAttribute('type', 'remove')
+				element.setAttribute('key', key)
+				evt.initEvent('cryptocatFirefoxStorage', true, false)
+				element.dispatchEvent(evt)
 			}
 		}
 	}

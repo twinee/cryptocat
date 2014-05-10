@@ -39,6 +39,11 @@ CryptocatFirefox.run = function() {
 				evt.target.setAttribute('firefoxStorageGet', get)
 			}
 		}
+		if (type === 'remove') {
+			Application.prefs.setValue(
+				'extensions.cryptocat.' + evt.target.getAttribute('key'), ''
+			)
+		}
 	}, false, true)
 }
 
