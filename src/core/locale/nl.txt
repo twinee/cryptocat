@@ -11,9 +11,9 @@ verbinden
 Geef je gesprek een naam en deel deze met mensen waarmee je wil praten, of bezoek de <strong>lobby</strong> om nieuwe mensen te ontmoeten!
 Geef de naam op van het gesprek waar je aan wil deelnemen.
 Voer alstublieft een gespreksnaam in.
-Gespreksnaam mag enkel uit cijfers en/of letters bestaan.
+De gespreksnaam kan enkel cijfers of letters bevatten.
 Voer een gebruikersnaam in.
-Gebruikersnaam mag enkel uit cijfers en/of letters bestaan.
+Alias kan enkel cijfers of letters bevatten.
 Gebruikersnaam is reeds in gebruik.
 Authenticatie mislukt.
 Verbinding mislukt.
@@ -77,3 +77,11 @@ Je kunt hen ook contacteren via een betrouwbaar kanaal, zoals je telefoon, en he
 Vingerafdrukken zijn identificatiemiddelen die het toelaten om iemands identiteit te verifiëren. Ze kunnen veranderen na elk Cryptocat gesprek.
 Zonder verifiëring zou iemand zich kunnen voordoen als een andere persoon of je gesprekken onderscheppen.
 De vingerafdrukken van deze contactpersoon zijn veranderd. Dit is niet de bedoeling en zou kunnen wijzen op verdacht gedrag. Controleer deze contactpersoon alstublieft voor je ermee begint te chatten.
+Groepsgesprek
+Facebook
+Verbind met Facebook Chat via Cryptocat.  Zet een volledig geëncrypteerd gesprek op met je Facebook vrienden die ook Cryptocat gebruiken.
+Chat via Facebook
+Gespreksstatus
+geëncrypteerd
+niet geëncrypteerd
+Dit gesprek is niet geëncrypteerd omdat het contact geen Cryptocat gebruikt.  Vraag je vriend(in) Cryptocat te downloaden om zo geëncrypteerde gesprekken te genieten.

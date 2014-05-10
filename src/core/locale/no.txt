@@ -11,9 +11,9 @@ koble til
 Gi samtalen din et navn og del navnet med de du ønsker å snakke med, eller gå til <strong>lobby</strong> for å treffe nye folk!
 Oppgi navnet på samtalen du ønsker å delta i.
 Vennligst angi et samtalenavn.
-Navnet på samtalen må være alfanumerisk.
+Samtalenavn kan kun bestå av bokstaver eller tall.
 Vennligst angi et kallenavn.
-Kallenavnet må være alfanumerisk.
+Kallenavn kan kun være bokstaver eller tall.
 Kallenavnet er i bruk.
 Autentisering feilet.
 Tilkobling feilet.
@@ -77,3 +77,11 @@ Du kan også kontakte dem gjennom en tiltrodd måte, for eksempel ved å få dem
 Fingeravtrykk er identifikatorer som lar deg bekrefte identiteten til folk. De kan endre seg mellom hver Cryptocat-samtale.
 Uten autentikering kan det hende noen gir seg ut for å være dem du snakker med eller overhører samtalen.
 Autentiserings-fingeravtrykkene til denne kontakten har blitt endret. Dette skal ikke skje, og kan indikere at noe ikke er helt rett. Vennligst reautentiser denne kontakten før du snakker med vedkommende.
+Gruppechat
+Facebook
+Koble deg til Facebook Chat via Cryptocat. Sett opp fullstendig krypterte chatter med Facebook venner som også bruker Cryptocat.
+Chat via Facebook
+Samtalestatus
+Kryptert.
+Ikke kryptert!
+Denne samtalen er ikke kryptert fordi denne kontakten ikke bruker Cryptocat. Be vennen din laste ned Cryptocat for å nyte kryptert chatting. 

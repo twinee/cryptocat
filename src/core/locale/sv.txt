@@ -11,9 +11,9 @@ ansluta
 Ange ett namn för konversationen och delge det till dem du önskar prata med.
 Skriv in namnet på det samtal du vill delta i.
 Vänligen skriv in ett konversationsnamn.
-Konversationsnamnet måste vara alfanumeriskt.
+Konversationsnamn kan endast bestå av bokstäver eller siffror.
 Vänligen skriv in ett smeknamn.
-Smeknamnet måste vara alfanumeriskt.
+Smeknamn kan endast bestå av bokstäver eller siffror.
 Smeknamnet användas redan.
 Autentiseringsfel.
 Anslutning misslyckades.
@@ -77,3 +77,11 @@ Du kan också kontakta dom via en pålitlig kanal, till exempel via telefon, och
 Fingeravtryck är identifierare som gör att du kan autentisera personer. Dom kan ändras mellan varje Cryptocat konversation.
 Utan autentisering skulle någon kunna utge sig för att vara du, eller avlyssna din kommunikation.
 Fingeravtrycken för autentisering av denna kontakt har ändrats. Det är inte meningen att det här ska hända och det kan indikera misstänkt beteende. Se till att autentisera denna kontakt innan du chattar med dem.
+Gruppchat
+Facebook
+Anslut till Facebook via Cryptocat. Ha helt krypterade chat med Facebook-vänner som också använder Cryptocat.
+Chatta via Facebook
+Konversationsstatus
+krypterat.
+inte krypterat!
+Denna konversation är inte krypterad för att denna kontakt använder inte  Cryptocat. Be din vän att ladda ner Cryptocat för att ha krypterat chat.

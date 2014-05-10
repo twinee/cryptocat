@@ -11,9 +11,9 @@ forbind
 Intast et navn på din samtale og del den med dem du gerne vil tale med, eller deltag <strong>lobby</strong> for at tale med nye mennesker
 Indtast navnet på en samtale du vil forbindes til
 Indtast samtalens navn
-Samtale navn skal være alfanumerisk.
+Samtale navn kan kun være bogstaver og tal.
 Indtast bruger navn
-Brugernavn skal være alfanumerisk.
+Brugernavn kan kun være bogstaver og tal.
 Brugernavn er i brug.
 Godkendelse fejlede.
 Forbindelse fejlede.
@@ -77,3 +77,11 @@ Du kan kontakte dem gennem sikker kanal som pr. telefon, og bede den læse deres
 Fingerprint er identifikatorer der tillader dig at godkende personen. Disse kan skifte mellem hver Cryptocat samtale.
 Uden godkendelse kan andre udgives sig for en person og opfange jeres samtaler.
 Godkendelselses fingerprint for denne kontakt er forandret. Dette skulle ikke ske og kan indikere mistanke.
+Gruppe samtale
+Facebook
+Forbind til Facebook Chat via Cryptocat. Opsæt end-to-end krypteret chats med Facebook venner der også bruger Cryptocat.
+Chat via Facebook
+Samtale status
+krypteret.
+ikke krypteret !
+Denne samtale er ikke krypteret fordi denne kontakt ikke bruger Cryptocat. Bed din ven om at downloade Cryptocat for at få glæde af krypteret chat.

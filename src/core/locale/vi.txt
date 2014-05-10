@@ -11,9 +11,9 @@ kết nối
 Nhập tên của cuộc đối thoại của bạn và chia sẽ nó cho những người mà bạn muốn nói chuyện, hay vào <strong>lobby</strong> để gặp người mới!
 Nhập vào tên của cuộc đối thoại để tham gia.
 Xin hãy nhập tên cuộc đối thoại.
-Tên cuộc đối thoại phải có dạng chữ số.
+Tên cuộc trò chuyện chỉ có thể là chữ cái hoặc số đếm.
 Đánh vào tên.
-Tên phải theo dạng chữ số.
+Tên biệt danh chỉ có thể là chữ cái hoặc số.
 Tên đang được sử dụng.
 Xác thực thất bại.
 Kết nối thất bại.
@@ -64,5 +64,24 @@ Nhân dạng đã được xác thực
 (NICKNAME) muốn xác thực nhân dạng của bạn. Vui lòng trả lời câu hỏi bí mật bên dưới để xác minh bạn:
 Câu trả lời của bạn phải khớp chính xác với (NICKNAME).
 Trả lời
-Cảnh báo: Bạn nhận được một tin nhắn không đọc được từ (NICKNAME). Điều này có thể biểu thị một người dùng không đáng tin cậy hoặc tin nhắn nhận hỏng
+Cảnh báo: Tin nhắn từ (NICKNAME) không thể đọc được. Đây có thể là tin nhắn từ một người dùng không đáng tin hoặc là tin nhắn không nhận được. Bạn cũng có thể đang dùng phiên bản hết hạn. Xin xem cập nhật mới.
 Cảnh báo: Phiên bản Cryptocat của bạn đã hết hạn. Chúng tôi nghiêm túc đề nghị bạn cấp nhận phiên bản mới nhất ! Đừng tiếp tục nếu chưa cập nhật mới nhất.
+Cảnh báo: tin nhắn này không thể gửi đến (NICKNAME)
+Đã xác minh
+Người dùng chưa được xác minh.
+Bấm vào để tìm hiểu thêm...
+Tìm hiểu thêm về quy trình xác minh
+Mỗi khi có cuộc chuyện trò qua Cryptocat, bạn cần xác minh người bạn muốn trò chuyện.
+Một cách để xác minh là dùng Cryptocat để hỏi người bạn một câu hỏi bí mật mà chỉ có họ biết câu trả lời.
+Bạn cũng có thể liên lạc với họ qua một kênh an toàn, thí dụ như điện thoại, và yêu cầu cung cấp dấu tay của họ.
+Dấu tay là ký hiệu nhận diện để giúp bạn xác minh người khác. Dấu tay có thể thay đổi sau mỗi lần trò chuyện qua Cryptocat.
+Nếu không có quy trình xác minh, ai đó có thể mạo nhận hoặc chận bắt các thông tin liên lạc của bạn.
+Dấu tay xác minh của người này đã thay đổi. Chuyện này đáng lẽ không xảy ra và vì vậy hành vi này rất khả nghi. Xin vui lòng xác minh người này trước khi trò chuyện.
+Trò chuyện nhóm
+Mạng xã hội Facebook
+Kết nối với đàm thoại Facebook qua Cryptocat. Thiết lập các cuộc hội thoại được mã hóa trực tiếp với những người bạn trên Facebook cũng đang sử dụng Cryptocat.
+Trò chuyện qua Facebook
+Trạng thái cuộc trò chuyện
+được mã hóa.
+Chưa được mã hóa!
+Cuộc trò chuyện này chưa được mã hóa vì người liên lạc này không sử dụng Cryptocat. Hãy yêu cầu bạn của bạn tải về Cryptocat để thưởng thức cuộc nói chuyện được mã hóa.

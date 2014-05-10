@@ -11,9 +11,9 @@ připojit
 Zadejte jméno vašeho chatu. Pak toto jméno dejte lidem, s kterými chcete chatovat.
 Zadejte jméno chatu ke kterému se chcete připojit.
 Zadejte jméno chatu.
-Jméno chatu musí být alfanumerické.
+Název konverzace může obsahovat pouze písmena nebo čísla.
 Zadejte přezdívku.
-Přezdívka musí být alfanumerická.
+Přezdívka může obsahovat pouze písmena nebo čísla.
 Přezdívka již není k dispozici.
 Ověření selhalo.
 Připojení selhalo.
@@ -77,3 +77,11 @@ Také je můžete kontaktovat pomocí důvěryhodného kanálu, například tele
 Otisky (Fingerprinty) jsou identifikátory které Vám umožní ověřit osoby. Mohou být měněny mezi každou Cryptocat konverzací.
 Bez ověření by se někdo mohl vydávat za někoho jiného, či zachycovat Vaši komunikaci.
 Ověřovací otisky (Fingerprinty) pro tento kontakt se změnily. Toto by se nemělo stávat a může to napovídat o podezdřelém chování. Prosím ověřte tento kontakt předtím, než s ním budete chatovat.
+Skupinový chat
+Facebook
+Připojte se k chatu na Facebooku prostřednictvím nástroje Cryptocat. Můžete nastavit obousměrně zašifrovaný chat s přáteli na Facebooku, kteří také používají doplněk Cryptocat.
+Chatovat prostřednictvím Facebooku
+Stav konverzace
+zašifrován.
+není šifrován.
+Tato konverzace není zašifrována, protože tento kontakt nepoužívá doplněk Cryptocat. Požádejte přítele, aby si stáhl doplněk Cryptocat, který umožní šifrovat chatování.

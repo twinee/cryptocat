@@ -11,9 +11,9 @@ conectar
 Introduza um nome para a sua conversa e compartilhe-o com as pessoas com quem gostaria de falar, ou entre na <strong>sala pública</strong> para conhecer novas pessoas!
 Digite o nome da conversa para participar.
 Por favor digite um nome de conversa.
-O nome da conversa deve ser alfanumérica.
+Nome pode conter apenas letras e números
 Por favor digite um apelido.
-O apelido deve ser alfanumérico.
+Seu nome pode contar apenas letras e números
 Apelido em uso.
 Falha na autenticação.
 Conexão falhou.
@@ -66,10 +66,10 @@ Sua resposta precisa coincidir de forma exata com a fornecida por (NICKNAME).
 Responder
 Aviso: Você recebeu uma mensagem ilegível do usuário (NICKNAME). Isto pode indicar um usuário não confiável ou mensagens que não foram recebidas corretamente. Você também pode estar executando uma versão desatualizada do Cryptocat. Por favor, verifique se há atualizações.
 Aviso: sua versão do Cryptocat está desatualizada. É altamente recomendado fazer a atualização para a última versão! Não prossiga sem atualizar para a última versão.
-Aviso: esta mensagem não pôde ser enviado para (NICKNAME)
+Aviso: esta mensagem não pôde ser enviada para (NICKNAME)
 Autenticado
 O usuário não está autenticado.
-Clique para aprender mais...
+Clique para saber mais...
 Aprenda mais sobre autenticação
 Toda vez que você participa de uma conversa Cryptocat, é preciso que as pessoas com quem você conversa estejam autenticadas.
 Uma maneira de autenticação é usar o Cryptocat para perguntar aos seus amigos uma questão secreta que apenas eles saberão responder.
@@ -77,3 +77,11 @@ Pode-se também usar um canal confiável para entrar em contato com eles, como v
 Chaves de identidade são identificadores que permitem autenticar pessoas. Elas podem mudar entre cada conversa Cryptocat.
 Sem autenticação, uma pessoa poderia estar se passando por outra ou interceptando suas comunicações.
 As chaves de identidade para este contato mudaram. Isto não deveria ocorrer e pode indicar comportamento suspeito. Favor autenticar este contato antes de conversar com ele.
+Conversa em grupo
+Facebook
+Conecte-se ao Facebook Chat via Cryptocat. Configure um chat criptografado de ponta a ponta com seus amigos do Facebook que também estão usando Cryptocat.
+Conversa pelo facebook
+Estado da conversa
+Criptografado
+Não criptografado
+Essa conversa não está criptografada porque o contato não está usando o Cryptocat. Fala para o seu amigo baixar o Cryptocat e curtir o chat criptografado

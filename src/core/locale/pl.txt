@@ -11,13 +11,13 @@ Połącz
 Wpisz tytuł konwersacji i udostępnij ją osobom, z którymi zamierzasz rozmawiać.
 Wpisz nazwę rozmowy, do której chcesz dołączyć.
 Proszę wpisać nazwę rozmowy.
-Nazwa rozmowy może być tylko alfanumeryczna.
+Nazwa rozmowy może zawierać jedynie litery i cyfry.
 Proszę o podanie pseudonimu.
-Pseudonim może być tylko alfanumeryczny.
+Pseudonim może zawierać jedynie litery i cyfry.
 Pseudonim jest w użyciu.
 Błąd uwierzytelniania.
 Połączenie nieudane.
-Dzięki, że  skorzystałeś z Cryptocat.
+Dzięki, że  skorzystałeś z Cryptocata.
 Rejestruję...
 Łączę...
 Połączony
@@ -37,7 +37,7 @@ Powiadomienia ekranowe wyłączone
 Powiadomienia dźwiękowe włączone
 Powiadomienia dźwiękowe wyłączone
 Pamiętaj mój pseudonim
-Nie zapamiętuj mojego pseudonimu
+Nie pamiętaj mojego pseudonimu
 Wyloguj
 Wyświetl informacje
 Wyślij zaszyfrowany plik
@@ -77,3 +77,11 @@ Możesz również skontaktować się z nimi za pośrednictwem zaufanego kanału,
 Klucze identyfikacyjne są identyfikatorami, które pozwalają na uwierzytelnienie osób. Mogą się zmieniać pomiędzy każdą rozmową w Cryptocat.
 Bez uwierzytelniania, ktoś może podać się za ciebie lub podsłuchiwać twoje komunikacje.
 Klucze identyfikacyjne uwierzytelniania dla tego kontaktu zostały zmienione. To nie powinno się zdarzyć i może wskazywać na podejrzane zachowania. Proszę uwierzytelnić ten kontakt przed rozpoczęciem z nim rozmowy.
+Rozmowa grupowa
+Facebook
+Połącz się z czatem Facebooka przez Cryptocat. Rozmawiaj bezpiecznie ze swoimi znajomymi z Facebooka, którzy też używają Cryptocat.
+Rozmawiaj przez Facebooka
+Status rozmowy
+zaszyfrowane.
+niezaszyfrowane!
+Ta rozmowa nie jest szyfrowana, ponieważ ten kontakt nie używa Cryptocat. Poproś swojego znajomego o ściągnięcie Cryptocat aby cieszyć się kodowaną rozmową.

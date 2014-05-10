@@ -11,9 +11,9 @@ conectar
 Introduzca un nombre para su conversación y compártalo con las personas con las que desea hablar, o únase al <strong>lobby</strong> para conocer nuevas personas.
 Introduzca el nombre de una conversación para unirse.
 Por favor, introduzca un nombre de conversación.
-El nombre de la conversación debe ser alfanumérico.
+El nombre de la conversación solo puede contener letras y números.
 Por favor, introduzca un nombre de usuario.
-El nombre de usuario debe ser alfanumérico.
+Su nombre de usuario solo puede contener letras o números.
 El nombre de usuario se encuentra en uso.
 Error de autenticación.
 Conexión fallida.
@@ -77,3 +77,11 @@ También puede contactarlos por medio de un canal confiable, como por teléfono,
 Las huellas digitales son identificadores que le permiten autenticar personas. Pueden cambiar entre cada conversación en Cryptocat.
 Sin autenticación, alguien puede suplantar o interceptar sus comunicaciones.
 Las huellas de autenticación para este contacto han cambiado. No se supone que eso suceda y pudiera indicar comportamiento sospechoso. Por favor, autentifique a este contacto antes de conversar con él.
+Charla grupal
+Facebook
+Conéctese a Facebook Chat a través de Cryptocat. Establezca charlas cifradas de extremo a extremo con amigos de Facebook que también estén usando Cryptocat.
+Charle a través de Facebook
+Estado de la conversación
+cifrado.
+¡sin cifrar!
+Esta conversación no está cifrada porque este contacto no está usando Cryptocat. Pídale a su amigo que descargue Cryptocat para poder disfrutar de una charla cifrada.

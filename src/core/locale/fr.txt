@@ -11,9 +11,9 @@ connexion
 Entrez un nom pour votre conversation et envoyez-le aux gens avec qui vous souhaitez parler, ou rejoignez <strong>lobby</strong> pour faire de nouvelles rencontres.
 Saisissez le nom d'une conversation à rejoindre.
 Entrez un nom de conversation s'il vous plaît.
-Le nom de la conversation doit être alphanumérique.
+Nom de conversation doit être des lettres ou des chiffres.
 Entrez un pseudonyme s'il vous plaît.
-Le pseudonyme doit être alphanumérique.
+Votre pseudonyme doit être des lettres ou des chiffres.
 Ce pseudonyme est déjà utilisé.
 Erreur d'authentification.
 La connexion a échoué.
@@ -77,3 +77,11 @@ Vous pouvez aussi les contacter via un canal de communication de confiance, comm
 Les empreintes digitales sont des identifiants qui vous permettent d'authentifier les personnes. Elles peuvent changer entre chaque conversation.
 Sans authentification, quelqu'un pourrait se faire passer pour vous ou intercepter vos communications.
 L'empreinte d'authentification pour ce contact a changée. Ce n'est pas censé se produire et pourrait indiquer un comportement suspect. S'il vous plaît, veuillez authentifier ce contact avant de discuter avec lui.
+Conversation de Groupe
+Facebook
+Connectez-vous à Facebook Chat via Cryptocat. Mettez en place des chats cryptés avec vos amis Facebook qui utilisent Cryptocat aussi.
+Discuter via Facebook
+État de la conversation
+cryptée.
+pas cryptée!
+Cette conversation n'est pas cryptée car ce contact  n'utilise pas Cryptocat. Demandez à votre ami de télécharger Cryptocat pour profiter d'une conversation cryptée.
