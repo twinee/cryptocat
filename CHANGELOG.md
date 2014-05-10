@@ -1,5 +1,22 @@
 #Changelog
 
+##Cryptocat 2.2
+**May 10 2014**
+
+Cryptocat 2.2 brings a major new feature: Encrypted Facebook Chat!
+Load your Facebook Chat contacts within Cryptocat. Cryptocat will detect other Facebook friends using Cryptocat and will allow you to immediately set up encrypted chat.
+
+You can still chat with regular Facebook contacts from within Cryptocat, but the conversations won't be encrypted. If a Facebook friend also logs in via Cryptocat, your chat will be immediately upgraded to an encrypted Cryptocat chat. Your encrypted chats cannot be viewed by Facebook or by Cryptocat since they are encrypted via the OTR protocol. 
+
+Both individuals must be using Cryptocat (or an OTR-enabled client) for this feature to work. A blog post will be published upon release clarifying this feature further.
+
+Cryptocat 2.2 also brings:
+- Typing notifications have been redesigned to be less intrusive, after complaints from users.  
+- Cryptocat's buddy list now maintains automatic alphabetic ordering.  
+- Fixed a bug that could render the authentication status inaccurately in rare circumstances.  
+- Updates to many of Cryptocat's translations.  
+- Tons of small fixes and improvements.  
+
 ##Cryptocat 2.1.23
 **Apr. 10 2014**
 
