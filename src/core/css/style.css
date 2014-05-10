@@ -182,8 +182,11 @@ div#bubble #login {
 }
 
 div#bubble #loginTabs {
-	margin: 0 0 -9px 130px;
+	margin: 0 0 0 132px;
+	font-weight: bold;
 	width: 300px;
+	z-index: 0;
+	position: relative;
 }
 
 div#bubble #loginTabs span {
@@ -208,6 +211,8 @@ div#bubble .loginForm {
 	height: 172px;
 	margin: 0 auto;
 	display: block;
+	z-index: 1;
+	position: relative;
 }
 
 div#bubble #cryptocatLogin {
@@ -217,19 +222,16 @@ div#bubble #facebookLogin {
 	display: none;
 	font-size: 1.3em;
 	text-align: center;
-	height: 181px;
-}
-
-div#bubble #facebookLogin p {
+	height: 172px;
+	padding: 0 10px;
+	width: 446px;
 	background: #76BDE5;
 	color: #FFF;
-	padding: 10px;
-	margin: -12px 0 0 0;
 	border-radius: 5px 0 5px 5px;
 }
 
 div#bubble #facebookLogin #facebookConnect {
-	margin: 10px auto -5px auto;
+	margin: 20px auto -5px auto;
 	font-size: 1.2em;
 	padding: 10px;
 }
@@ -252,8 +254,7 @@ div#bubble .loginForm #conversationName {
 	border-radius: 4px 0 0 0;
 	width: 450px;
 	font-size: 2.8em;
-	position: relative;
-	top: 1px;
+	margin: 0 auto 10px auto;
 	display: block;
 }
 
