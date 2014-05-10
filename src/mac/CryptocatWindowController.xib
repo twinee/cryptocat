@@ -16,14 +16,14 @@
         <customObject id="-3" userLabel="Application"/>
         <window title="Cryptocat" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="MainWindow" animationBehavior="default" id="3">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
-            <rect key="contentRect" x="335" y="121" width="731" height="605"/>
+            <rect key="contentRect" x="335" y="121" width="731" height="607"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
             <view key="contentView" id="4">
-                <rect key="frame" x="0.0" y="0.0" width="731" height="605"/>
+                <rect key="frame" x="0.0" y="0.0" width="731" height="607"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <webView maintainsBackForwardList="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5">
-                        <rect key="frame" x="0.0" y="0.0" width="731" height="605"/>
+                        <rect key="frame" x="0.0" y="0.0" width="731" height="607"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <webPreferences key="preferences" defaultFontSize="12" defaultFixedFontSize="12" plugInsEnabled="NO" javaEnabled="NO" allowsAnimatedImages="NO" allowsAnimatedImageLooping="NO">
                             <nil key="identifier"/>
