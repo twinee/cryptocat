@@ -235,6 +235,7 @@ div#bubble #facebookLogin #facebookConnect {
 	margin: 20px auto -5px auto;
 	font-size: 1.2em;
 	padding: 10px;
+	width: 300px;
 }
 
 div#bubble #facebookLogin #facebookWarning {
