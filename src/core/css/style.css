@@ -143,6 +143,7 @@ div#bubble img.logo {
 	padding: 1px 0 0 0;
 	float: left;
 	height: 34px;
+	border-radius: 5px 0 5px 5px;
 	margin: -5px 5px 0 5px;
 	direction: ltr;
 }
@@ -154,7 +155,7 @@ div#bubble #logoText {
 	color: #97CEEC;
 	font-family: 'Logotype';
 	-webkit-font-smoothing: none;
-	font-size: 32px;
+	font-size: 30px;
 	text-shadow: 2px 2px #45A7DD;
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
