@@ -56,6 +56,15 @@ var onIncoming = function(nickname, msg, encrypted) {
 				.removeClass('notUsingCryptocat')
 			$('#buddy-' + Cryptocat.buddies[nickname].id)
 				.find('.buddyMenu').show()
+			if (Cryptocat.me.currentBuddy === Cryptocat.buddies[nickname].id) {
+				$('#encryptionStatus').html(
+					Mustache.render(Cryptocat.templates.encryptionStatus, {
+						conversationStatus: Cryptocat.locale.login.conversationStatus,
+						styling: 'encrypted',
+						encryptionStatus: Cryptocat.locale.login.encrypted
+					})
+				)
+			}
 			Cryptocat.buddies[nickname].usingCryptocat         = true
 			Cryptocat.buddies[nickname].otr.REQUIRE_ENCRYPTION = true
 		}
