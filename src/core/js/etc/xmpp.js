@@ -174,10 +174,12 @@ Cryptocat.xmpp.reconnect = function() {
 		}
 		else if (status === Strophe.Status.CONNECTED) {
 			afterConnect()
-			Cryptocat.xmpp.connection.muc.join(
-				Cryptocat.me.conversation + '@' + Cryptocat.xmpp.conferenceServer,
-				Cryptocat.me.nickname
-			)
+			if (Cryptocat.me.login === 'cryptocat') {
+				Cryptocat.xmpp.connection.muc.join(
+					Cryptocat.me.conversation + '@' + Cryptocat.xmpp.conferenceServer,
+					Cryptocat.me.nickname
+				)
+			}
 		}
 		else if ((status === Strophe.Status.CONNFAIL) || (status === Strophe.Status.DISCONNECTED)) {
 			if (Cryptocat.loginError) {
