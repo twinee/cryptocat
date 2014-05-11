@@ -173,6 +173,15 @@ Cryptocat.FB.handleStatus = function(status) {
 					$('#buddy-' + status.uid).find('.loginTypeIcon')
 						.removeClass('notUsingCryptocat')
 					$('#buddy-' + status.uid).find('.buddyMenu').show()
+					if (Cryptocat.me.currentBuddy === Cryptocat.buddies[status.name].id) {
+						$('#encryptionStatus').html(
+							Mustache.render(Cryptocat.templates.encryptionStatus, {
+								conversationStatus: Cryptocat.locale.login.conversationStatus,
+								styling: 'encrypted',
+								encryptionStatus: Cryptocat.locale.login.encrypted
+							})
+						)
+					}
 					Cryptocat.buddies[status.name].usingCryptocat         = true
 					Cryptocat.buddies[status.name].otr.REQUIRE_ENCRYPTION = true
 				}
@@ -180,6 +189,15 @@ Cryptocat.FB.handleStatus = function(status) {
 					$('#buddy-' + status.uid).find('.loginTypeIcon')
 						.addClass('notUsingCryptocat')
 					$('#buddy-' + status.uid).find('.buddyMenu').hide()
+					if (Cryptocat.me.currentBuddy === Cryptocat.buddies[status.name].id) {
+						$('#encryptionStatus').html(
+							Mustache.render(Cryptocat.templates.encryptionStatus, {
+								conversationStatus: Cryptocat.locale.login.conversationStatus,
+								styling: 'notEncrypted',
+								encryptionStatus: Cryptocat.locale.login.notEncrypted
+							})
+						)
+					}
 					Cryptocat.buddies[status.name].usingCryptocat         = false
 					Cryptocat.buddies[status.name].otr.REQUIRE_ENCRYPTION = false
 				}
