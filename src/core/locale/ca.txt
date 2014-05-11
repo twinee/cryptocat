@@ -11,9 +11,9 @@ connecta
 Escriu un nom per a la teva conversa i comparteix-la amb gent amb qui t'agradaria parlar.
 Introdueix el nom de la conversa per a unir-te.
 Si us plau, introduïu el nom de la conversa.
-El nom de la conversa ha de ser alfanumèric.
+El nom de la conversa només pot contenir números i lletres.
 Si us plau, introduïu un nom d'usuari
-El nom d'usuari ha de ser alfanumèric.
+El nom d'usuari només es pot formar amb números i lletres.
 El nom d'usuari ja està en us.
 Error d'identificació.
 Ha fallat la connexió.
@@ -77,3 +77,11 @@ També els pots contactar a través d'un canal de confiança, com ara per telèf
 Les empremtes són identificadors que us permeten autenticar persones. Poden canviar entre cada conversació de Cryptocat.
 Sense autenticació, algú podria suplantar la vostra identitar i interceptar les vostres comunicacions.
 Les empremtes d'autenticació d'aquest contacte han canviat. Això no hauria de passar i podria indicar un comportament sospitós. Haurieu d'autenticar aquest contacte abans de parlar-hi.
+Conversa de grup
+Facebook
+Connecta al xat de Facebook mitjançant Cryptocat. Estableix converses xifrades extrem a extrem amb els teus amics de Facebook que també fan servir Cryptocat.
+Xatejar mitjançant Facebook
+Estat de la conversa
+xifrat
+no xifrat!
+Aquesta conversa no està xifrada perque el contacte no està fent servir Cryptocat. Demana-li al tru amic que es descarregui Cryptocat per gaudir d'una conversa xifrada.
