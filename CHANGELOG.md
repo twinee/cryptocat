@@ -1,5 +1,13 @@
 #Changelog
 
+##Cryptocat 2.2.1
+**May 13 2014**
+
+- The "Logout" button now makes Cryptocat forget Facebook login information by default.  
+- Fixed a bug that would cause single quotes and apostrophes to render inaccurately in Facebook conversations.  
+- User interface bug fixes and improvements.  
+- Updated Catalan and Slovak translations.  
+
 ##Cryptocat 2.2
 **May 10 2014**
 

@@ -6,7 +6,7 @@ GLOBAL VARIABLES
 -------------------
 */
 
-Cryptocat.version = '2.2' // Version number
+Cryptocat.version = '2.2.1' // Version number
 
 Cryptocat.me = {
 	login:         'cryptocat',
