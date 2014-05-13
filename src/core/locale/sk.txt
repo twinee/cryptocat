@@ -11,9 +11,9 @@ Pripojiť
 Vložte názov pre Vašu konverzáciu a oznámte ho ľuďom, s ktorými chcete hovoriť.
 Zadajte názov konverzácie pre pripojenie.
 Zadajte názov konverzácie.
-Názov konverzácie smie pozostávať len z písmen a číslic.
+Názov konverzácie môže pozostávať iba z písmen alebo číslic.
 Prosím zadajte prezývku.
-Prezývka smie pozostávať len z písmen a číslic.
+Prezývka môže pozostávať iba z písmen alebo číslic.
 Prezývka je už obsadená.
 Autentikácia neúspešná.
 Spojenie zlyhalo.
@@ -77,3 +77,11 @@ Môžete ich tiež kontaktovať pomocou dôveryhodného kanála, napríklad tele
 Odtlačky sú identifikátory, ktoré vám umožňujú overovať osoby. V každom rozhovore môžu byť iné.
 Bez overenia, hocikto by mohol zosobňovať alebo zachytávať vašu komunikáciu.
 Overovacie odtlačky pre tento kontakt sa zmenili. To by sa nemalo stávať a môže to označovať niečo podozrivé. Prosíme overte si tento kontakt predtým, než s ním začnete chatovať.
+Skupinový chat
+Facebook
+Pripojte sa k facebookovému chatu prostredníctvom Cryptocatu. Vytvorte si end-to-end konverzácie s facebookovými priateľmi tiež používajúcimi Cryptocat.
+Chatovať cez Facebook
+Stav konverzácie
+šifrované.
+nešifrované!
+Táto konverzácia nie je šifrovaná, pretože tento kontakt nepoužíva Cryptocat. Ak si chcete vychutnať šifrovaný chat, požiadajte vášho priateľa, nech si Cryptocat stiahne tiež.
