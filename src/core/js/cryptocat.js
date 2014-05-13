@@ -613,6 +613,9 @@ Cryptocat.logout = function() {
 	}
 	if (Cryptocat.me.login === 'facebook') {
 		clearInterval(Cryptocat.FB.statusInterval)
+		Cryptocat.FB.accessToken = null
+		Cryptocat.FB.userID = null
+		Cryptocat.storage.removeItem('fbAccessToken')
 	}
 	Cryptocat.xmpp.connection.disconnect()
 	Cryptocat.xmpp.connection = null
