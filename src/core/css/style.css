@@ -1105,7 +1105,7 @@ CONVERSATION WINDOW
 }
 
 .missingRecipients {
-	background: #EF6C74;
+	background: #3992C0;
 	border-radius: 4px 0 0 0;
 	margin-bottom: 1px;
 	color: #FFF;
@@ -1113,7 +1113,8 @@ CONVERSATION WINDOW
 	padding: 0px 10px;
 	opacity: 0;
 	display: inline-block;
-	max-width: 90%
+	max-width: 90%;
+	height: 20px;
 }
 
 .notUsingCryptocatWarning {
