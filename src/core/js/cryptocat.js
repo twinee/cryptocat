@@ -144,6 +144,9 @@ Cryptocat.addToConversation = function(message, nickname, conversation, type) {
 		message = Strophe.xmlescape(message)
 		message = Cryptocat.addLinks(message)
 		message = addEmoticons(message)
+		if (Cryptocat.me.login === 'facebook') {
+			message = message.replace(/\&amp\;apos\;/g, '&apos;')
+		}
 		if (message.match(Cryptocat.me.nickname)) { lineDecoration = 3 }
 	}
 	if (type === 'warning') {
