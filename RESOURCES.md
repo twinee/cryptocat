@@ -18,7 +18,7 @@ License: MIT, GPL-2+
 
 ##jQuery.basic-slider
 Origin: https://github.com/jcobb/basic-jquery-slider/
-License: ???
+License: GPL-3
 
 ##jQuery.color
 Origin: https://github.com/jquery/jquery-color/
