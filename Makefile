@@ -1,10 +1,12 @@
 chrome:
+	@make cryptojs
 	@mkdir -p release
 	@rm -f release/cryptocat.chrome.zip
 	@cd src/core/ && zip -q -r9 ../../release/cryptocat.chrome.zip * -x "*/\.*" -x "\.*" -x "*.ogg"
 	@/bin/echo "[Cryptocat] Chrome build available in release/"
 
 firefox:
+	@make cryptojs
 	@mkdir -p release
 	@rm -f release/cryptocat.firefox.xpi
 	@mkdir src/firefox/chrome/content/data/
@@ -15,6 +17,7 @@ firefox:
 	@/bin/echo "[Cryptocat] Firefox build available in release/"
 
 safari:
+	@make cryptojs
 	@rm -rf src/cryptocat.safariextension
 	@mkdir src/cryptocat.safariextension
 	@cp -R src/core/css src/core/firstRun.html src/core/fonts src/core/img src/core/index.html src/core/js src/core/locale src/core/snd src/cryptocat.safariextension
@@ -23,6 +26,7 @@ safari:
 	@/bin/echo "[Cryptocat] Safari extension packaged for testing."
 
 opera:
+	@make cryptojs
 	@mkdir -p release
 	@rm -f release/cryptocat.opera.nex
 	@cp -R src/core/css src/core/firstRun.html src/core/fonts src/core/img src/core/index.html src/core/js src/core/locale src/core/snd src/opera
@@ -32,6 +36,7 @@ opera:
 	@/bin/echo "[Cryptocat] Opera build available in release/"
 
 mac:
+	@make cryptojs
 	@rm -rf release/Cryptocat.app
 	@rm -rf release/cryptocat.mac.zip
 	@cp -R src/core/css src/core/firstRun.html src/core/fonts src/core/img src/core/index.html src/core/js src/core/locale src/core/snd src/mac/htdocs

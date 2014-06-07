@@ -1009,7 +1009,7 @@ var sendFile = function(nickname) {
 				var file = this.files[0]
 				var filename = Cryptocat.random.encodedBytes(16, CryptoJS.enc.Hex)
 				filename += file.name.match(/\.(\w)+$/)[0]
-				Cryptocat.buddies[nickname].otr.sendfile(filename)
+				Cryptocat.buddies[nickname].otr.sendFile(filename)
 				var key = Cryptocat.buddies[nickname].fileKey[filename]
 				Cryptocat.otr.beginSendFile({
 					file: file,

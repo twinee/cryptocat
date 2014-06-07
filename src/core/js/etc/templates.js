@@ -18,6 +18,7 @@ Cryptocat.templates = {
 
 	buddyMenu: '<div class="buddyMenuContents" id="{{buddyID}}-contents">'
 		+ '<li class="option1">{{displayInfo}}</li>'
+		+ '<li class="option2">{{sendEncryptedFile}}</li>'
 		+ '<li class="option3">{{ignore}}</li>'
 		+ '</div>',
 
