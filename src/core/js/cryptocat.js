@@ -1357,10 +1357,12 @@ $('#cryptocatLogin').submit(function() {
 		$('#nickname').select()
 	}
 	// Prepare keys and connect.
-	$('#loginSubmit,#conversationName,#nickname').attr('readonly', 'readonly')
-	Cryptocat.xmpp.showKeyPreparationDialog(function() {
-		Cryptocat.xmpp.connect()
-	})
+	else {
+		$('#loginSubmit,#conversationName,#nickname').attr('readonly', 'readonly')
+		Cryptocat.xmpp.showKeyPreparationDialog(function() {
+			Cryptocat.xmpp.connect()
+		})
+	}
 	return false
 })
 
