@@ -107,7 +107,7 @@ Cryptocat.otr.sendFileData = function(data) {
 		}
 		var aesctr = CryptoJS.AES.encrypt (
 			CryptoJS.enc.Base64.parse(msg),
-			CryptoJS.enc.Latin1.parse(files[sid].key[0]),
+			CryptoJS.enc.Latin1.parse(files[sid].key.encryptKey),
 			opts
 		)
 		msg = aesctr.toString()
@@ -116,7 +116,7 @@ Cryptocat.otr.sendFileData = function(data) {
 		prefix += OTR.HLP.packBytes(files[sid].total, 8)
 		var mac = CryptoJS.HmacSHA512(
 			CryptoJS.enc.Base64.parse(prefix + msg),
-			CryptoJS.enc.Latin1.parse(files[sid].key[1])
+			CryptoJS.enc.Latin1.parse(files[sid].key.macKey)
 		)
 		// Combine ciphertext and mac, then transfer chunk
 		msg += mac.toString(CryptoJS.enc.Base64)
@@ -164,7 +164,7 @@ Cryptocat.otr.ibbHandler = function(type, from, sid, data, seq) {
 			prefix += OTR.HLP.packBytes(rcvFile[from][sid].total, 8)
 			var cmac = CryptoJS.HmacSHA512(
 				CryptoJS.enc.Base64.parse(prefix + msg),
-				CryptoJS.enc.Latin1.parse(key[1])
+				CryptoJS.enc.Latin1.parse(key.macKey)
 			)
 			if (
 				!OTR.HLP.compare(mac, cmac.toString(CryptoJS.enc.Base64))
@@ -179,7 +179,7 @@ Cryptocat.otr.ibbHandler = function(type, from, sid, data, seq) {
 				iv: CryptoJS.enc.Latin1.parse(OTR.HLP.packCtr(rcvFile[from][sid].ctr)),
 				padding: CryptoJS.pad.NoPadding
 			}
-			msg = CryptoJS.AES.decrypt(msg, CryptoJS.enc.Latin1.parse(key[0]), opts)
+			msg = CryptoJS.AES.decrypt(msg, CryptoJS.enc.Latin1.parse(key.encryptKey), opts)
 			rcvFile[from][sid].data += (msg.toString(CryptoJS.enc.Latin1))
 			rcvFile[from][sid].ctr += 1
 			Cryptocat.updateFileProgressBar(sid, rcvFile[from][sid].ctr, rcvFile[from][sid].size, nick)

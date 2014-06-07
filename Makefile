@@ -65,4 +65,24 @@ lint:
 		Gruntfile.js
 	@/bin/echo ""
 
+vendor=src/core/js/lib
+cryptojs_path=$(vendor)/crypto-js
+cryptojs_js=$(vendor)/crypto-js.js
+cryptojs:  # order matters
+	@/bin/echo "[Cryptocat] Concatenating crypto-js files..."
+	@cat $(cryptojs_path)/header.js > $(cryptojs_js)
+	@cat $(cryptojs_path)/core.js >> $(cryptojs_js)
+	@cat $(cryptojs_path)/enc-base64.js >> $(cryptojs_js)
+	@cat $(cryptojs_path)/cipher-core.js >> $(cryptojs_js)
+	@cat $(cryptojs_path)/x64-core.js >> $(cryptojs_js)
+	@cat $(cryptojs_path)/aes.js >> $(cryptojs_js)
+	@cat $(cryptojs_path)/sha1.js >> $(cryptojs_js)
+	@cat $(cryptojs_path)/sha256.js >> $(cryptojs_js)
+	@cat $(cryptojs_path)/sha512.js >> $(cryptojs_js)
+	@cat $(cryptojs_path)/hmac.js >> $(cryptojs_js)
+	@cat $(cryptojs_path)/pbkdf2.js >> $(cryptojs_js)
+	@cat $(cryptojs_path)/pad-nopadding.js >> $(cryptojs_js)
+	@cat $(cryptojs_path)/mode-ctr.js >> $(cryptojs_js)
+	@cat $(cryptojs_path)/footer.js >> $(cryptojs_js)
+
 all: lint tests

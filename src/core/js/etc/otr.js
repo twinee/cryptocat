@@ -119,14 +119,18 @@ var onStatusChange = function(nickname, state) {
 // Store received filename.
 var onFile = function(nickname, type, key, filename) {
 	var buddy = Cryptocat.buddies[nickname]
-	key = CryptoJS.SHA512(CryptoJS.enc.Latin1.parse(key))
+	// filename is being relied on as diversifier
+	// and should continue to be generated uniquely
+	// as in sendFile()
+	key = CryptoJS.PBKDF2(key, filename, { keySize: 16 })
 	key = key.toString(CryptoJS.enc.Latin1)
 	if (!buddy.fileKey) {
 		buddy.fileKey = {}
 	}
-	buddy.fileKey[filename] = [
-		key.substring(0, 32), key.substring(32)
-	]
+	buddy.fileKey[filename] = {
+		encryptKey: key.substring(0, 32),
+		macKey: key.substring(32)
+	}
 }
 
 // Receive an SMP question

@@ -307,9 +307,9 @@ Cryptocat.xmpp.sendStatus = function() {
 // Executed (manually) after connection.
 var afterConnect = function() {
 	$('.conversationName').animate({'background-color': '#97CEEC'})
-	// Cryptocat.xmpp.connection.ibb.addIBBHandler(Cryptocat.otr.ibbHandler)
+	Cryptocat.xmpp.connection.ibb.addIBBHandler(Cryptocat.otr.ibbHandler)
 	/* jshint -W106 */
-	// Cryptocat.xmpp.connection.si_filetransfer.addFileHandler(Cryptocat.otr.fileHandler)
+	Cryptocat.xmpp.connection.si_filetransfer.addFileHandler(Cryptocat.otr.fileHandler)
 	/* jshint +W106 */
 	if (Cryptocat.audioNotifications) {
 		Cryptocat.sounds.keygenLoop.pause()
