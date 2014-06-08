@@ -300,8 +300,10 @@ Cryptocat.xmpp.sendStatus = function() {
 	if (Cryptocat.xmpp.currentStatus === 'away') {
                 status = 'away'
 	}
-        Cryptocat.xmpp.connection.muc.setStatus(Cryptocat.me.conversation + '@'
-        + Cryptocat.xmpp.conferenceServer, Cryptocat.me.nickname, status, status)
+	Cryptocat.xmpp.connection.muc.setStatus(
+		Cryptocat.me.conversation + '@' + Cryptocat.xmpp.conferenceServer,
+		Cryptocat.me.nickname, status, status
+	)
 }
 
 // Executed (manually) after connection.
