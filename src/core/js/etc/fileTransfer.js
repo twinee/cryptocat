@@ -59,7 +59,7 @@ Cryptocat.otr.beginSendFile = function(data) {
 				if (err) {
 					return console.log(err)
 				}
-				Cryptocat.addToConversation(sid, Cryptocat.me.nickname, data.to, 'file')
+				Cryptocat.addToConversation(sid, Cryptocat.me.nickname, Cryptocat.buddies[data.to].id, 'file')
 				Cryptocat.otr.sendFileData({
 					start: true,
 					to: data.to,
@@ -142,7 +142,7 @@ Cryptocat.otr.ibbHandler = function(type, from, sid, data, seq) {
 			var file = rcvFile[from][sid].filename
 			rcvFile[from][sid].key = Cryptocat.buddies[nick].fileKey[file]
 			if (sid.match(/^\w{1,64}$/) && rcvFile[from][sid].mime.match(fileMIME)) {
-				Cryptocat.addToConversation(sid, nick, nick, 'file')
+				Cryptocat.addToConversation(sid, nick, Cryptocat.buddies[nick].id, 'file')
 			}
 			delete Cryptocat.buddies[nick].fileKey[file]
 			break
