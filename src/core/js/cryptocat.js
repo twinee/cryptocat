@@ -76,11 +76,17 @@ GLOBAL INTERFACE FUNCTIONS
 
 // Update a file transfer progress bar.
 Cryptocat.updateFileProgressBar = function(file, chunk, size, recipient) {
+	var conversationBuffer = $(conversationBuffers[Cryptocat.buddies[recipient].id])
 	var progress = (chunk * 100) / (Math.ceil(size / Cryptocat.otr.chunkSize))
 	if (progress > 100) { progress = 100 }
-	$('[file=' + file + '] .fileProgressBarFill').animate({'width': progress + '%'})
-	var conversationBuffer = $(conversationBuffers[Cryptocat.buddies[recipient].id])
-	conversationBuffer.find('[file=' + file + '] .fileProgressBarFill').width(progress + '%')
+	$('.fileProgressBarFill')
+		.filterByData('file', file)
+		.filterByData('id', Cryptocat.buddies[recipient].id)
+		.animate({'width': progress + '%'})
+	conversationBuffer.find('.fileProgressBarFill')
+		.filterByData('file', file)
+		.filterByData('id', Cryptocat.buddies[recipient].id)
+		.width(progress + '%')
 	conversationBuffers[Cryptocat.buddies[recipient].id] = $('<div>').append($(conversationBuffer).clone()).html()
 }
 
@@ -96,17 +102,23 @@ Cryptocat.addFile = function(url, file, conversation, filename) {
 		filename: filename,
 		downloadFile: Cryptocat.locale['chatWindow']['downloadFile']
 	})
-	$('[file=' + file + ']').replaceWith(fileLink)
-	conversationBuffer.find('[file=' + file + ']').replaceWith(fileLink)
-	conversationBuffers[conversation] = $('<div>').append($(conversationBuffer).clone()).html()
+	$('.fileProgressBar')
+		.filterByData('file', file)
+		.filterByData('id', Cryptocat.buddies[conversation].id)
+		.replaceWith(fileLink)
+	conversationBuffer.find('.fileProgressBar')
+		.filterByData('file', file)
+		.filterByData('id', Cryptocat.buddies[conversation].id)
+		.replaceWith(fileLink)
+	conversationBuffers[Cryptocat.buddies[conversation].id] = $('<div>').append($(conversationBuffer).clone()).html()
 }
 
 // Signal a file transfer error in the UI.
 Cryptocat.fileTransferError = function(sid) {
-	$('[file=' + sid + ']').animate({
+	$('.fileProgressBar').filterByData('file', sid).animate({
 		'borderColor': '#F00'
 	})
-	$('[file=' + sid + ']').find('.fileProgressBarFill').animate({
+	$('.fileProgressBarFill').filterByData('file', sid).animate({
 		'background-color': '#F00'
 	})
 }
@@ -125,13 +137,20 @@ Cryptocat.addToConversation = function(message, nickname, conversation, type) {
 	initializeConversationBuffer(conversation)
 	if (type === 'file') {
 		if (!message.length) { return false }
+		var id = conversation
 		if (nickname !== Cryptocat.me.nickname) {
+			id = Cryptocat.buddies[nickname].id
 			if (Cryptocat.audioNotifications) { Cryptocat.sounds.msgGet.play() }
 			desktopNotification(
 				'img/keygen.gif', nickname + ' @ ' + Cryptocat.me.conversation, message, 0x1337
 			)
 		}
-		message = Mustache.render(Cryptocat.templates.file, { message: message })
+		message = Mustache.render(
+			Cryptocat.templates.file, {
+				message: message,
+				id: id
+			}
+		)
 	}
 	if (type === 'message') {
 		if (!message.length) { return false }
@@ -1065,7 +1084,6 @@ var openBuddyMenu = function(nickname) {
 		ignoreAction = chatWindow[buddy.ignored ? 'unignore' : 'ignore'],
 		$menu = $('#menu-' + buddy.id),
 		$buddy = $('#buddy-' + buddy.id)
-
 	if ($menu.attr('status') === 'active') {
 		$menu.attr('status', 'inactive')
 		$menu.css('background-image', 'url("img/down.png")')
@@ -1108,6 +1126,9 @@ var openBuddyMenu = function(nickname) {
 			buddy.ignored = !buddy.ignored
 			$menu.click()
 		})
+		if (Cryptocat.me.login === 'facebook') {
+			$contents.find('.option2').remove()
+		}
 	})
 }
 

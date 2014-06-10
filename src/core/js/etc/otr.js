@@ -122,14 +122,14 @@ var onFile = function(nickname, type, key, filename) {
 	// filename is being relied on as diversifier
 	// and should continue to be generated uniquely
 	// as in sendFile()
-	key = CryptoJS.PBKDF2(key, filename, { keySize: 16 })
-	key = key.toString(CryptoJS.enc.Latin1)
+	var derivedKey = CryptoJS.PBKDF2(key, filename, { keySize: 16 })
+	derivedKey = derivedKey.toString(CryptoJS.enc.Latin1)
 	if (!buddy.fileKey) {
 		buddy.fileKey = {}
 	}
 	buddy.fileKey[filename] = {
-		encryptKey: key.substring(0, 32),
-		macKey: key.substring(32)
+		encryptKey: derivedKey.substring(0, 32),
+		macKey:     derivedKey.substring(32)
 	}
 }
 
@@ -180,7 +180,7 @@ var onSMPAnswer = function(nickname, type, data, act) {
 		break
 	case 'trust':
 		if (act === 'asked') {
-			// set authentication result
+			// Set authentication result
 			buddy.updateAuth(data)
 			if ($('.authSMP').length) {
 				if (buddy.authenticated) {
