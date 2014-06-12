@@ -114,13 +114,15 @@ Cryptocat.addFile = function(url, file, conversation, filename) {
 }
 
 // Signal a file transfer error in the UI.
-Cryptocat.fileTransferError = function(sid) {
-	$('.fileProgressBar').filterByData('file', sid).animate({
-		'borderColor': '#F00'
-	})
-	$('.fileProgressBarFill').filterByData('file', sid).animate({
-		'background-color': '#F00'
-	})
+Cryptocat.fileTransferError = function(sid, nickname) {
+	$('.fileProgressBar')
+		.filterByData('file', sid)
+		.filterByData('id', Cryptocat.buddies[nickname].id)
+		.animate({'borderColor': '#F00'})
+	$('.fileProgressBarFill')
+		.filterByData('file', sid)
+		.filterByData('id', Cryptocat.buddies[nickname].id)
+		.animate({'background-color': '#F00'})
 }
 
 // Add a `message` from `nickname` to the `conversation` display and log.
