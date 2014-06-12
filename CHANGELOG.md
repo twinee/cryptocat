@@ -1,5 +1,12 @@
 #Changelog
 
+##Cryptocat 2.2.2
+**June 12 2014**
+
+- Encrypted file transfer is now back in Cryptocat after being temporarily disabled pending review. Note that encrypted file transfer is not available over the Encrypted Facebook Chat feature.  
+- Updated Ukrainian translation.  
+- Small bug fixes.  
+
 ##Cryptocat 2.2.1
 **May 13 2014**
 
