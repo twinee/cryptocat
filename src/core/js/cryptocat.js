@@ -147,7 +147,7 @@ Cryptocat.addToConversation = function(message, nickname, conversation, type) {
 		}
 		message = Mustache.render(
 			Cryptocat.templates.file, {
-				message: message,
+				file: message,
 				id: id
 			}
 		)
