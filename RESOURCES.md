@@ -32,7 +32,7 @@ License: MIT
 Origin: https://github.com/janl/mustache.js/
 License: MIT
 
-##Moustrap
+##Mousetrap
 Origin: https://github.com/ccampbell/mousetrap
 License: Apache 2.0
 
