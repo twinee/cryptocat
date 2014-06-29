@@ -26,7 +26,7 @@ Please **do not send pull requests for translations**. Instead, use [Transifex](
 
 ##License
 All contributed code will automatically be licensed under the [GNU Affero General Public License (AGPL3)](https://www.gnu.org/licenses/agpl-3.0.html).  
-The full license text is included in `LICENSE.md`.  
+The full license text is included in `LICENSE.txt`.  
 
 ##Discussion & Blog
 * [Issue tracker](https://github.com/cryptocat/cryptocat/issues)
