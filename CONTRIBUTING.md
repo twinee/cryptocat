@@ -12,6 +12,7 @@ All contributed code, written in JavaScript, must adhere to the following coding
 	6. Please comment your code sufficiently.  
 	7. Anonymous closures should be used wherever they are useful.  
 	8. Brackets are not on new lines.  
+	9. [Strict mode](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions_and_function_scope/Strict_mode) must be enforced at all times.
 
 ##Contributing or improving translations
 Please **do not send pull requests for translations**. Instead, use [Transifex](https://www.transifex.com/projects/p/Cryptocat/resource/cryptocat/). Notify a project manager for Cryptocat on Transifex in case you need assistance.  
@@ -25,7 +26,7 @@ Please **do not send pull requests for translations**. Instead, use [Transifex](
 
 ##License
 All contributed code will automatically be licensed under the [GNU Affero General Public License (AGPL3)](https://www.gnu.org/licenses/agpl-3.0.html).  
-The full license text is included in `LICENSE.txt`.  
+The full license text is included in `LICENSE.md`.  
 
 ##Discussion & Blog
 * [Issue tracker](https://github.com/cryptocat/cryptocat/issues)
