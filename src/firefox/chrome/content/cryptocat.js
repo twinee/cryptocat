@@ -7,9 +7,8 @@ var prefsService = Services.prefs
 var CryptocatFirefox = {}
 
 CryptocatFirefox.init = function() {
-	var firstRun = prefsService.getBoolPref('extensions.cryptocat.firstRun')
-	if (firstRun) {
-		Application.prefs.setValue('extensions.cryptocat.firstRun', false)
+	if (!Application.prefs.getValue('extensions.cryptocat.firstRunPref', false)) {
+		Application.prefs.setValue('extensions.cryptocat.firstRunPref', true)
 		var navBar = document.getElementById('nav-bar')
 		var newSet = navBar.currentSet + ',cryptocatToolbarButton'
 		navBar.currentSet = newSet
@@ -47,4 +46,4 @@ CryptocatFirefox.run = function() {
 	}, false, true)
 }
 
-window.addEventListener('load', CryptocatFirefox.init(), false)
+window.addEventListener('load', function() { CryptocatFirefox.init(); }, false)
