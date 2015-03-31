@@ -2,6 +2,7 @@ $(window).load(function() {
 'use strict';
 
 Cryptocat.FB                = {}
+Cryptocat.FB.appID	    = '1430498997197900'
 Cryptocat.FB.userID         = null
 Cryptocat.FB.accessToken    = null
 Cryptocat.FB.statusInterval = null
@@ -155,7 +156,7 @@ Cryptocat.FB.handleStatus = function(status) {
 			Cryptocat.removeBuddy(status.name)
 		}
 	}
-	else if (/^(active|idle)$/.test(presence)) {
+	else if (presence.match(/^(active)|(idle)$/)) {
 		$.get(
 			'https://outbound.crypto.cat/facebook/',
 			{
@@ -245,7 +246,7 @@ $('#facebookConnect').click(function() {
 			Cryptocat.templates.facebookAuthURL,
 			{
 				scope:  'xmpp_login,friends_online_presence',
-				appID:  '1430498997197900',
+				appID:  Cryptocat.FB.appID,
 				authID: Cryptocat.FB.authID
 			}
 		)
@@ -390,7 +391,7 @@ Strophe.Connection.prototype._sasl_challenge1_fb = function(elem) {
 	  }
 	}
 	var responseText = ''
-	responseText += 'api_key=' + this.apiKey
+	responseText += 'api_key=' + Cryptocat.FB.appID
 	responseText += '&call_id=' + (Math.floor(new Date().getTime()/1000))
 	responseText += '&method=' + method
 	responseText += '&nonce=' + nonce
